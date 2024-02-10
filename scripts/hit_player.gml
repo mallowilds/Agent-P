@@ -92,6 +92,7 @@ switch(my_hitboxID.attack) {
         //a
         break;
     case AT_DTILT:
+        sound_play(asset_get("sfx_syl_fspecial_bite"))
         //a
         break;
     case AT_UTILT:

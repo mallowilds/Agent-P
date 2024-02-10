@@ -17,7 +17,10 @@ switch(attack) {
         //a
         break;
     case AT_DTILT:
-        //a
+        if window_timer == 12 && window == 1 && !hitpause {
+            sound_play(asset_get("sfx_bite"))
+        }
+        down_down = true 
         break;
     case AT_UTILT:
         //a

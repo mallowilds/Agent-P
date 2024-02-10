@@ -311,7 +311,7 @@ walljump_time                   = 20;
 max_fall                        = 13;
 fast_fall                       = 16;
 gravity_speed                   = 0.7;
-hitstun_grav                    = 0.54;
+hitstun_grav                    = 0.51;
 
 
 //                    --character knockback adjustment--                      //
@@ -346,7 +346,7 @@ dodge_startup_frames            = 1;
 dodge_active_frames             = 1;
 dodge_recovery_frames           = 2;
 
-tech_active_frames              = 3;
+tech_active_frames              = 1;
 tech_recovery_frames            = 1;
 
 techroll_startup_frames         = 2;
