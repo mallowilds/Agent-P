@@ -295,7 +295,9 @@ moonwalk_accel                  = 1.4;
 jump_start_time                 = 5;
 jump_speed                      = 14;
 short_hop_speed                 = 8;
-djump_speed                     = 14;
+base_djump_speed                = 14;
+parachute_djump_speed           = 10;
+djump_speed                     = base_djump_speed;
 
 leave_ground_max                = 7;
 max_jump_hsp                    = 8;
