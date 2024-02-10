@@ -18,7 +18,7 @@ if (parachute_active) {
 	gravity_speed = parachute_gravity_speed;
 	djump_speed = parachute_djump_speed;
 	
-	vis_parachute_angle = hsp * 50 / air_max_speed
+	if (!hitpause) vis_parachute_angle = lerp(vis_parachute_angle, hsp * 50 / air_max_speed, 0.4);
 	
 }
 else {
