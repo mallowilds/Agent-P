@@ -30,7 +30,7 @@ switch state {
         }
         vsp -= 0.2;
         if (state_timer > 10) vis_alpha -= 0.1;
-        if (vis_frame < 2) vis_frame += 0.34;
+        if (vis_frame < 2) vis_frame += 0.25;
         if (vis_alpha <= 0) {
             instance_destroy();
             exit;

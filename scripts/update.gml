@@ -10,9 +10,16 @@ if (parachute_active) {
 		var despawn_parachute = instance_create(x+(1*spr_dir), y-15, "obj_article3");
 		despawn_parachute.state = 00;
 	}
-	if (fast_falling && !down_down) {
-		fast_falling = false;
-		if (vsp > base_parachute_fall) vsp = base_parachute_fall;
+	if (fast_falling) {
+		if (down_down) {
+			if (vis_parachute_frame >= 1) vis_parachute_frame -= 0.34;
+		} else {
+			fast_falling = false;
+			if (vsp > base_parachute_fall) vsp = base_parachute_fall;
+		}
+	}
+	else {
+		if (vis_parachute_frame < 2) vis_parachute_frame += 0.34;
 	}
 	
 	if (!parachute_stats) {

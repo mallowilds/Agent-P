@@ -298,7 +298,7 @@ jump_start_time                 = 5;
 jump_speed                      = 14;
 short_hop_speed                 = 8;
 base_djump_speed                = 14;
-parachute_djump_speed           = 10;
+parachute_djump_speed           = 9;
 djump_speed                     = base_djump_speed;
 
 leave_ground_max                = 7;
