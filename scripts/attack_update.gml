@@ -70,7 +70,7 @@ switch(attack) {
 			hsp = 3 * dir_held;
 			vsp = (dir_held == 0 ? -11 : -10);
 			parachute_active = true;
-			vis_parachute_angle = 90 - (30*dir_held);
+			vis_parachute_angle = hsp * 5 / air_max_speed;
     	}
         break;
     case AT_TAUNT: 

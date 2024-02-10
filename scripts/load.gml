@@ -52,6 +52,9 @@ sprite_change_offset("nspecial_proj", 64, 94);
 
 //                  --other sprite offsets (no small_sprites)--               //
 // includes projectiles, vfx, articles
+
+sprite_change_offset("parachute"                , 106, 113);
+
 sprite_change_offset("nspecial_proj"            , 68, 68);
 
 sprite_change_offset("fx_small_circle1"         , 174, 168);
