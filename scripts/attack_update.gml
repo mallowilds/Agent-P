@@ -63,7 +63,15 @@ switch(attack) {
         */
         break;
     case AT_USPECIAL:
-        //a
+    	if (window == 1) {
+    		dir_held = (left_down*-1) + (right_down);
+    	}
+    	else if (window == 2 && window_timer == 1) {
+			hsp = 3 * dir_held;
+			vsp = (dir_held == 0 ? -11 : -10);
+			parachute_active = true;
+			vis_parachute_angle = 90 - (30*dir_held);
+    	}
         break;
     case AT_TAUNT: 
     case AT_TAUNT_2:

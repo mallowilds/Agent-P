@@ -4,6 +4,11 @@ should_debug                    = true;
 
 //=-(                     ~~//** CUSTOM INDEXES **//~~                     )-=//
 
+// Parachute vars
+parachute_active = false;
+vis_parachute_angle = 0;
+// See also: parachute-labeled stats under "aerial movement stats"
+
 //                           ATTACK/WINDOW INDEXES                            //
 
 /*
@@ -308,9 +313,14 @@ walljump_hsp                    = 7;
 walljump_vsp                    = 8;
 walljump_time                   = 20;
 
-max_fall                        = 13;
-fast_fall                       = 16;
+base_max_fall                   = 13;
+base_fast_fall                  = 16;
+base_parachute_fall             = 4;
+max_fall                        = base_max_fall;
+fast_fall                       = base_fast_fall;
 gravity_speed                   = 0.7;
+base_gravity_speed              = gravity_speed;
+parachute_gravity_speed         = 0.3;
 hitstun_grav                    = 0.51;
 
 

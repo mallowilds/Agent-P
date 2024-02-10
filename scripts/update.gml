@@ -1,4 +1,29 @@
-//a
+
+
+
+// Parachute stuff
+if (parachute_active) {
+	
+	// Also reset in got_hit, got_parried, and death.gml
+	if (!free || state == PS_DOUBLE_JUMP || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
+		parachute_active = false;
+	}
+	if (fast_falling && !down_down) {
+		fast_falling = false;
+		if (vsp > base_parachute_fall) vsp = base_parachute_fall;
+	}
+	
+	max_fall = base_parachute_fall;
+	fast_fall = base_max_fall;
+	gravity_speed = parachute_gravity_speed;
+	
+}
+else {
+	max_fall = base_max_fall;
+	fast_fall = base_fast_fall;
+	gravity_speed = base_gravity_speed;
+}
+
 
 if state == PS_WAVELAND && state_timer == 1 && !hitpause {
     sound_play(asset_get("sfx_waveland_hod"), 0, noone, .8, 1.1)
