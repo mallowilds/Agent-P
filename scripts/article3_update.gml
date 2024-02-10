@@ -16,8 +16,6 @@
 
 
 switch state {
- 
-    //#region VFX Sentinels
     
     // Parachute
     case 00:
