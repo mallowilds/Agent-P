@@ -7,25 +7,38 @@ if (parachute_active) {
 	// Also reset in got_hit, got_parried, and death.gml
 	if (!free || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
 		parachute_active = false;
+		var despawn_parachute = instance_create(x+(1*spr_dir), y-15, "obj_article3");
+		despawn_parachute.state = 00;
 	}
 	if (fast_falling && !down_down) {
 		fast_falling = false;
 		if (vsp > base_parachute_fall) vsp = base_parachute_fall;
 	}
 	
-	max_fall = base_parachute_fall;
-	fast_fall = base_max_fall;
-	gravity_speed = parachute_gravity_speed;
-	djump_speed = parachute_djump_speed;
+	if (!parachute_stats) {
+		parachute_stats = true;
+		
+		max_fall = base_parachute_fall;
+		fast_fall = base_max_fall;
+		gravity_speed = parachute_gravity_speed;
+		djump_speed = parachute_djump_speed;
+		air_accel = parachute_air_accel;
+		
+	}
 	
-	if (!hitpause) vis_parachute_angle = lerp(vis_parachute_angle, hsp * 50 / air_max_speed, 0.4);
+	if (!hitpause) vis_parachute_angle = lerp(vis_parachute_angle, hsp * 40 / air_max_speed, 0.2);
 	
 }
-else {
+else if (parachute_stats) {
+	
+	parachute_stats = false;
+	
 	max_fall = base_max_fall;
 	fast_fall = base_fast_fall;
 	gravity_speed = base_gravity_speed;
 	djump_speed = base_djump_speed;
+	air_accel = base_air_accel;
+	
 }
 
 

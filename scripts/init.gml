@@ -6,7 +6,9 @@ should_debug                    = true;
 
 // Parachute vars
 parachute_active = false;
+parachute_stats = false;
 vis_parachute_angle = 0;
+vis_parachute_frame = 0;
 // See also: parachute-labeled stats under "aerial movement stats"
 
 //                           ATTACK/WINDOW INDEXES                            //
@@ -304,7 +306,9 @@ max_jump_hsp                    = 8;
 air_max_speed                   = 6;
 jump_change                     = 3;
 
-air_accel                       = 0.2;
+base_air_accel                  = 0.2;
+parachute_air_accel             = 0.3;
+air_accel                       = base_air_accel;
 prat_fall_accel                 = 0.85;
 air_friction                    = 0.02;
 

@@ -63,8 +63,11 @@ switch(attack) {
         */
         break;
     case AT_USPECIAL:
+    	can_wall_jump = (window > 1);
+    	can_shield = (window > 1);
     	if (window == 1) {
     		dir_held = (left_down*-1) + (right_down);
+    		vis_parachute_frame = 0;
     	}
     	else if (window == 2 && window_timer == 1) {
 			hsp = 3 * dir_held;
@@ -72,6 +75,7 @@ switch(attack) {
 			parachute_active = true;
 			vis_parachute_angle = hsp * 5 / air_max_speed;
     	}
+    	if (window >= 2 && vis_parachute_frame < 2) vis_parachute_frame += 0.34;
         break;
     case AT_TAUNT: 
     case AT_TAUNT_2:
