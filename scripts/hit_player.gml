@@ -93,6 +93,9 @@ switch(my_hitboxID.attack) {
         break;
     case AT_DTILT:
         sound_play(asset_get("sfx_syl_fspecial_bite"))
+        var _x = (my_hitboxID.x + hit_player_obj.x) / 2 + (get_hitbox_value(AT_DTILT, 1, HG_VISUAL_EFFECT_X_OFFSET) * spr_dir);
+        var _y = (my_hitboxID.y + hit_player_obj.y) / 2 + get_hitbox_value(AT_DTILT, 1, HG_VISUAL_EFFECT_Y_OFFSET);
+        var dir_fx = spawn_hit_fx(_x, _y, 303);
         //a
         break;
     case AT_UTILT:
