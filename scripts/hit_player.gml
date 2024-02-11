@@ -96,7 +96,6 @@ switch(my_hitboxID.attack) {
         var _x = (my_hitboxID.x + hit_player_obj.x) / 2 + (get_hitbox_value(AT_DTILT, 1, HG_VISUAL_EFFECT_X_OFFSET) * spr_dir);
         var _y = (my_hitboxID.y + hit_player_obj.y) / 2 + get_hitbox_value(AT_DTILT, 1, HG_VISUAL_EFFECT_Y_OFFSET);
         var dir_fx = spawn_hit_fx(_x, _y, 303);
-        //a
         break;
     case AT_UTILT:
         //a
@@ -109,7 +108,9 @@ switch(my_hitboxID.attack) {
         //a
         break;
     case AT_FAIR:
-        //a
+        var _x = (my_hitboxID.x + hit_player_obj.x) / 2 + (get_hitbox_value(AT_FAIR, 1, HG_VISUAL_EFFECT_X_OFFSET) * spr_dir);
+        var _y = (my_hitboxID.y + hit_player_obj.y) / 2 + get_hitbox_value(AT_FAIR, 1, HG_VISUAL_EFFECT_Y_OFFSET);
+        var dir_fx = spawn_hit_fx(_x, _y, 303);
         break;
     case AT_BAIR:
         sound_play(asset_get("sfx_pom_slap1"), 0, noone, 1.3, 1.1)
