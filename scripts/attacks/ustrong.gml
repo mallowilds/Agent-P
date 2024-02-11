@@ -28,7 +28,7 @@ set_window_value(atk, window_num                        , AG_WINDOW_SFX_FRAME, w
 window_num++;
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0); //active
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 3);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 2);
 set_window_value(atk, window_num                        , AG_WINDOW_VSPEED, -12);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 3);
