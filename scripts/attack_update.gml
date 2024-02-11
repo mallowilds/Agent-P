@@ -95,16 +95,16 @@ switch(attack) {
         can_move = false;
         
         if (window == 1) {
-            fall_loops = 0;
+            fall_timer = 0;
         }
-        else if (window == 5) {
-        	if (window_timer == 1) fall_loops++;
-        	if (fall_loops > 2) iasa_script();
+        else if (window == 4 || window == 5) {
+        	fall_timer++;
+        	if (fall_timer > 33) iasa_script();
         }
         
-        can_fast_fall = (window == 5 && fall_loops > 2);
+        can_fast_fall = (window == 5 && fall_timer > 33);
         can_wall_jump = (window == 5);
-        fall_through = (window == 4 || window == 5 && fall_loops <= 2);
+        fall_through = (window == 4 || window == 5 && fall_timer < 33);
 
     break;
     
