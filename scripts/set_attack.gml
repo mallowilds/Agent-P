@@ -21,7 +21,4 @@ grabbed_player_relative_x = 0;
 grabbed_player_relative_y = 0;
 
 
-if attack == AT_TAUNT && down_down {
-    attack = AT_TAUNT_2
-    print("wah")
-}
+if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;

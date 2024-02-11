@@ -5,6 +5,10 @@ var atk = my_hitboxID.attack
 var hbox = my_hitboxID.hbox_num
 
 
+hit_last_frame[num_hit_last_frame] = hit_player_obj;
+num_hit_last_frame++;
+
+
 // hitbox lerp code
 if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_HAS_LERP) == true) {
 	if (my_hitboxID.type == 1) { //if physical, pull relative to player
@@ -80,10 +84,6 @@ if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_PROJECTILE_MUL
 
 //                          --hit gamefeel--                                  //
 
-// this used to have vfx but it was a mess and I solved some of the initial
-// problems on pohaku
-
-// I'll redo it later with the improvements n new vfx
 switch(my_hitboxID.attack) {
     case AT_JAB:
         //a

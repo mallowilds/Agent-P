@@ -73,7 +73,7 @@ HG_PROJECTILE_MAX_HITS          = 72;   // max number of times the projectile
                                         // can hit before being destroyed
                                         // (individual per opponent)
                                         // put -1 for no limit
-taunt_loops = 0
+
 
 // if you're making custom indexes for your character, I recommend starting at
 // 80 or 90, as slots up to 79 may be filled in future updates
@@ -87,7 +87,12 @@ through enemies, otherwise it might just despawn on hit
 //=-(                    ~~//** CUSTOM VARIABLES **//~~                    )-=//
 //                              PUT YOURS HERE                                //
 
+taunt_loops = 0
 
+// Galaxy sfx
+hit_last_frame = array_create(noone, 20);
+num_hit_last_frame = 0;
+stinger_cooldown = 0;
 
 //                               PRE-SET STUFF                                //
 // attack/hitbox index variables
