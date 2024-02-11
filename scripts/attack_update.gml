@@ -71,7 +71,7 @@ switch(attack) {
     	}
     	else if (window == 2 && window_timer == 1) {
 			hsp = 3 * dir_held;
-			vsp = (dir_held == 0 ? -9 : -8.5);
+			vsp = (dir_held == 0 ? -9 : -8);
 			parachute_active = true;
 			vis_parachute_angle = hsp * 5 / air_max_speed;
     	}
@@ -91,6 +91,14 @@ switch(attack) {
 
         }
         break;
+    case AT_USTRONG: 
+        //can_move = false;
+        can_fast_fall = false; 
+        if window == 1 {
+            var falltimer = 0
+        }
+
+    break;
     
 }
 
