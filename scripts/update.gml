@@ -51,13 +51,20 @@ else if (parachute_stats) {
 // Galaxy stinger SFX
 for (var i = 0; i < num_hit_last_frame; i++) {
 	if (hit_last_frame[i].activated_kill_effect && hit_last_frame[i].should_make_shockwave && stinger_cooldown == 0) {
-		sound_play(sound_get("sfx_perry_stinger"), 0, 0, 1.7);
-		stinger_cooldown = 60;
+		sound_play(sound_get("sfx_perry_stinger_2"), 0, 0, 1);
+		stinger_cooldown = 90;
 	}
 	hit_last_frame[i] = noone;
 }
 num_hit_last_frame = 0;
-if (stinger_cooldown > 0) stinger_cooldown--;
+if (stinger_cooldown > 0) {
+	stinger_cooldown--;
+	if stinger_cooldown > 20 {
+		suppress_stage_music( .2, 1)
+	} else {
+		suppress_stage_music( 1, .1)
+	}
+}
 
 
 if state == PS_WAVELAND && state_timer == 1 && !hitpause {
