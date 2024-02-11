@@ -92,11 +92,19 @@ switch(attack) {
         }
         break;
     case AT_USTRONG: 
-        //can_move = false;
-        can_fast_fall = false; 
-        if window == 1 {
-            var falltimer = 0
+        can_move = false;
+        
+        if (window == 1) {
+            fall_loops = 0;
         }
+        else if (window == 5) {
+        	if (window_timer == 1) fall_loops++;
+        	if (fall_loops > 2) iasa_script();
+        }
+        
+        can_fast_fall = (window == 5 && fall_loops > 2);
+        can_wall_jump = (window == 5);
+        fall_through = (window == 4 || window == 5 && fall_loops <= 2);
 
     break;
     
