@@ -52,11 +52,11 @@ else if (parachute_stats) {
 for (var i = 0; i < num_hit_last_frame; i++) {
 	if (hit_last_frame[i].activated_kill_effect && hit_last_frame[i].should_make_shockwave && stinger_cooldown == 0) {
 		if (random_func(0, 1, false) < 0.7) {
-			sound_play(sound_get("sfx_perry_stinger"), 0, 0, 1.8);
-			stinger_cooldown = 70;
+			sound_play(sound_get("sfx_perry_stinger"), 0, 0, 1.5);
+			stinger_cooldown = 110;
 		} else {
-			sound_play(sound_get("sfx_perry_stinger_2"), 0, 0, 1);
-			stinger_cooldown = 90;
+			sound_play(sound_get("sfx_perry_stinger_2"), 0, 0, 1.3);
+			stinger_cooldown = 130;
 		}
 	}
 	hit_last_frame[i] = noone;
