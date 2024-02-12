@@ -93,13 +93,29 @@ switch(attack) {
         break;
     case AT_USTRONG: 
         can_move = false;
+        if (free) {
+        	if (left_down)  hsp = clamp(hsp-0.1, -5, hsp);
+        	if (right_down) hsp = clamp(hsp+0.1, hsp, 5);
+        }
         
         if (window == 1) {
             fall_timer = 0;
+            set_attack_value(AT_USTRONG, AG_CATEGORY, 2);
+        }
+        else if (window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
+        	ustrong_smear = spawn_hit_fx(x, y, fx_ustrong1);
+        	ustrong_smear.follow_id = self;
+        	ustrong_smear.follow_time = 7;
+        	spawn_hit_fx(x, y, fx_ustrong2);
         }
         else if (window == 4 || window == 5) {
         	fall_timer++;
         	if (fall_timer > 33) iasa_script();
+        }
+        
+        if (hitpause && instance_exists(ustrong_smear)) {
+        	ustrong_smear.step_timer--;
+        	print_debug(ustrong_smear.follow_time);
         }
         
         can_fast_fall = (window == 5 && fall_timer > 33);

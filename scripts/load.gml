@@ -57,6 +57,9 @@ sprite_change_offset("parachute"                , 106, 113);
 
 sprite_change_offset("nspecial_proj"            , 68, 68);
 
+sprite_change_offset("ustrong_vfx1"         , load_x, load_y);
+sprite_change_offset("ustrong_vfx2"         , load_x, load_y);
+
 sprite_change_offset("fx_small_circle1"         , 174, 168);
 sprite_change_offset("fx_small_circle2"         , 174, 168);
 sprite_change_offset("fx_small_circle3"         , 174, 168);

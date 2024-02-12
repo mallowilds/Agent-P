@@ -9,6 +9,9 @@ parachute_active = false;
 parachute_stats = false;
 vis_parachute_angle = 0;
 vis_parachute_frame = 0;
+
+ustrong_smear = noone;
+
 // See also: parachute-labeled stats under "aerial movement stats"
 
 //                           ATTACK/WINDOW INDEXES                            //
@@ -163,6 +166,9 @@ dash_moonwalks                  = false; // if the character has a moonwalk anim
 
 //                           --visual effects--                               //
 // full vfx
+
+fx_ustrong1                     = hit_fx_create(sprite_get("ustrong_vfx1"), 12);
+fx_ustrong2                     = hit_fx_create(sprite_get("ustrong_vfx2"), 12);
 
 // NOTE !!!
 // while the vfx tool is still a work in progress, I recommend keeping it simple
