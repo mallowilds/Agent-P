@@ -94,7 +94,7 @@ switch(attack) {
     case AT_USTRONG: 
         can_move = false;
         if (free) {
-        	if (left_down)  hsp = clamp(hsp-0.1, -5, hsp);
+        	if (left_down)  hsp = clamp(hsp-0.1, -12, hsp);
         	if (right_down) hsp = clamp(hsp+0.1, hsp, 5);
         }
         
@@ -103,9 +103,8 @@ switch(attack) {
             set_attack_value(AT_USTRONG, AG_CATEGORY, 2);
         }
         else if (window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
-        	ustrong_smear = spawn_hit_fx(x, y, fx_ustrong1);
-        	ustrong_smear.follow_id = self;
-        	ustrong_smear.follow_time = 7;
+        ustrong_smear = spawn_hit_fx(x, y - 12, fx_ustrong1);
+            ustrong_smear.depth = -40
         	spawn_hit_fx(x, y, fx_ustrong2);
         }
         else if (window == 4 || window == 5) {
