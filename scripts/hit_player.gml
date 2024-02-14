@@ -19,7 +19,8 @@ if (atk == AT_USTRONG && hbox == 2) {
 
 
 // hitbox lerp code
-if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_HAS_LERP) == true) {
+var is_forcing_flinch = get_hitbox_value(atk, hbox, HG_FORCE_FLINCH) && !hit_player_obj.free
+if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_HAS_LERP) == true && !is_forcing_flinch) {
 	if (my_hitboxID.type == 1) { //if physical, pull relative to player
 		hit_player_obj.x = lerp(hit_player_obj.x, x + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_X)*spr_dir, get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
 		hit_player_obj.y = lerp(hit_player_obj.y, y + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_Y), get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));

@@ -104,12 +104,13 @@ switch(attack) {
         }
         else if (window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
         ustrong_smear = spawn_hit_fx(x, y - 12, fx_ustrong1);
-            ustrong_smear.depth = -40
+            ustrong_smear.depth = depth-1;
         	spawn_hit_fx(x, y, fx_ustrong2);
         }
         else if (window == 4 || window == 5) {
         	fall_timer++;
         	if (fall_timer > 33) {
+        		strong_charge = 0;
         		iasa_script();
         		create_hitbox(attack, 2, x, y);
         	}
