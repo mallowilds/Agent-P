@@ -9,6 +9,15 @@ hit_last_frame[num_hit_last_frame] = hit_player_obj;
 num_hit_last_frame++;
 
 
+// Pop up on ustrong silly hit
+if (atk == AT_USTRONG && hbox == 2) {
+	window = 6;
+	window_timer = 0;
+	old_vsp = -6.5;
+}
+
+
+
 // hitbox lerp code
 if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_HAS_LERP) == true) {
 	if (my_hitboxID.type == 1) { //if physical, pull relative to player
@@ -127,7 +136,7 @@ switch(my_hitboxID.attack) {
     	//a
     	break;
     case AT_USTRONG:
-    	//a
+    	if (hbox == 2) sound_play(asset_get("sfx_blow_weak1"));
     	break;
     case AT_DSTRONG:
     	//a

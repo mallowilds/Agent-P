@@ -109,12 +109,14 @@ switch(attack) {
         }
         else if (window == 4 || window == 5) {
         	fall_timer++;
-        	if (fall_timer > 33) iasa_script();
+        	if (fall_timer > 33) {
+        		iasa_script();
+        		create_hitbox(attack, 2, x, y);
+        	}
         }
         
         if (hitpause && instance_exists(ustrong_smear)) {
         	ustrong_smear.step_timer--;
-        	print_debug(ustrong_smear.follow_time);
         }
         
         can_fast_fall = (window == 5 && fall_timer > 33);
