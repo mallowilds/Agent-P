@@ -1,15 +1,64 @@
-//a
+
+#macro AT_CRAWLTURN 49 // update also in attack_update.gml, animation.gml
+
 if state == PS_IDLE_AIR && djumps == 1 && prev_state == PS_DOUBLE_JUMP image_index = image_number-1;
 if state == PS_IDLE_AIR && prev_state == PS_AIR_DODGE image_index = image_number-1;
 if state == PS_CROUCH && prev_state == PS_ATTACK_GROUND && attack == AT_TAUNT_2 image_index = 3
 custom_crouch() // run the custom crouch code
 
 
+// Crawl
+if (state == PS_CROUCH && ccrouch_phase == 1) {
+	
+	if (spr_dir == 1) {
+		if (left_down) {
+			spr_dir *= -1;
+			set_state(PS_ATTACK_GROUND);
+			set_attack(AT_CRAWLTURN);
+			hsp = clamp(hsp-crawl_accel-ground_friction, crawl_speed*-1, hsp);
+		}
+		if (right_down) {
+			sprite_index = sprite_get("crawl");
+			image_index = (get_gameplay_time()/8)%4;
+			hsp = clamp(hsp+crawl_accel+ground_friction, hsp, crawl_speed);
+		}
+		else {
+			custom_crouch();
+		}
+	}
+	
+	else if (spr_dir == -1) {
+		if (right_down) {
+			spr_dir *= -1;
+			set_state(PS_ATTACK_GROUND);
+			set_attack(AT_CRAWLTURN);
+			hsp = clamp(hsp+crawl_accel+ground_friction, hsp, crawl_speed);
+		}
+		if (left_down) {
+			sprite_index = sprite_get("crawl");
+			image_index = (get_gameplay_time()/8)%4;
+			hsp = clamp(hsp-crawl_accel-ground_friction, crawl_speed*-1, hsp);
+		}
+		else {
+			custom_crouch();
+		}
+	}
+	
+} else custom_crouch();
+
+
+
+
+
+
+
+
+
 // Defines always go at the bottom of the file.
 #define custom_crouch()
 // Crouch Animation Start/End Customization by @SupersonicNK
 if state == PS_CROUCH {
-	crouch_spr = sprite_index; //this should technically account for skin handler in most cases lol
+	crouch_spr = sprite_get("crouch");
 	if !ccrouch_playing {
 		ccrouch_playing = true;
 		ccrouch_phase = 0;
@@ -20,6 +69,7 @@ if state == PS_CROUCH {
 	switch (attack) {
 		case AT_DTILT:
         case AT_TAUNT_2:
+        case AT_CRAWLTURN:
 			if down_down {
 				ccrouch_playing = true;
 				ccrouch_phase = 1;

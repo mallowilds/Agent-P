@@ -1,3 +1,5 @@
+#macro AT_CRAWLTURN 49 // update also in animation.gml, _crawlturn.gml
+
 // B Reverse for the specials
 if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || attack == AT_USPECIAL){
     trigger_b_reverse();
@@ -7,6 +9,17 @@ var window_length = get_window_value(attack, window, AG_WINDOW_LENGTH);
 
 // specific attack behaviour
 switch(attack) {
+	
+	case AT_CRAWLTURN:
+		can_attack = true;
+		can_special = true;
+		can_shield = true;
+		can_strong = true;
+		can_ustrong = true;
+		can_special = true;
+		break;
+	
+	
     case AT_JAB:
         // clear attack so jab2 doesn't automatically happen
     	if (window == 1 && window_timer == 1) {
@@ -135,12 +148,13 @@ switch(attack) {
     		take_damage(player, player, 1);
     		fall_timer = 0;
     	}
-    	 else if (window == 4 || window == 5 ) {
+		
+    	 else if (window == 3 || window == 4 && !hitpause) {
         	fall_timer++;
-            print(fall_timer)
-        	if (fall_timer >= 8) iasa_script();
-
+        	if (fall_timer >= (has_hit?8:12)) iasa_script();
         }
+        
+        break;
     	
     
 }

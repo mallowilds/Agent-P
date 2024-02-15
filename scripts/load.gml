@@ -12,6 +12,8 @@ sprite_change_offset("dash", load_x, load_y);
 sprite_change_offset("dashstart", load_x, load_y);
 sprite_change_offset("dashstop", load_x, load_y);
 sprite_change_offset("dashturn", load_x, load_y);
+sprite_change_offset("crawl", load_x, load_y);
+sprite_change_offset("crawlturn", load_x, load_y);
 
 sprite_change_offset("jumpstart", load_x, load_y);
 sprite_change_offset("jump", load_x, load_y);
