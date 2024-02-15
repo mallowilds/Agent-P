@@ -123,8 +123,25 @@ switch(attack) {
         can_fast_fall = (window == 5 && fall_timer > 33);
         can_wall_jump = (window == 5);
         fall_through = (window == 4 || window == 5 && fall_timer < 33);
-
     break;
+    
+    case AT_DSTRONG:
+    	can_move = false;
+    	
+    	if (window == 3 && window_timer == 1 && !hitpause) {
+    		hsp = 8*spr_dir;
+    		vsp = -10;
+    		dstrong_boom = spawn_hit_fx(x, y, fx_dstrong);
+    		take_damage(player, player, 1);
+    		fall_timer = 0;
+    	}
+    	
+    	
+    	 else if (window == 4) {
+        	fall_timer++;
+        	if (fall_timer >= 8*has_hit) iasa_script();
+        }
+    	
     
 }
 

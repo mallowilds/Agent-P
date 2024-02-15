@@ -11,6 +11,7 @@ vis_parachute_angle = 0;
 vis_parachute_frame = 0;
 
 ustrong_smear = noone;
+dstrong_boom = noone;
 
 // See also: parachute-labeled stats under "aerial movement stats"
 
@@ -169,6 +170,10 @@ dash_moonwalks                  = false; // if the character has a moonwalk anim
 
 fx_ustrong1                     = hit_fx_create(sprite_get("ustrong_vfx1"), 12);
 fx_ustrong2                     = hit_fx_create(sprite_get("ustrong_vfx2"), 12);
+
+fx_dstrong                      = hit_fx_create(sprite_get("dstrong_vfx"), 20);
+
+hfx_null                        = hit_fx_create(sprite_get("null"), 1);
 
 // NOTE !!!
 // while the vfx tool is still a work in progress, I recommend keeping it simple
