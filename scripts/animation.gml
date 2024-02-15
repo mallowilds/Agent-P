@@ -16,6 +16,8 @@ if (state == PS_CROUCH && ccrouch_phase == 1) {
 			set_state(PS_ATTACK_GROUND);
 			set_attack(AT_CRAWLTURN);
 			hsp = clamp(hsp-crawl_accel-ground_friction, crawl_speed*-1, hsp);
+			sprite_index = sprite_get("crawlturn");
+			image_index = 0;
 		}
 		if (right_down) {
 			sprite_index = sprite_get("crawl");
@@ -33,6 +35,8 @@ if (state == PS_CROUCH && ccrouch_phase == 1) {
 			set_state(PS_ATTACK_GROUND);
 			set_attack(AT_CRAWLTURN);
 			hsp = clamp(hsp+crawl_accel+ground_friction, hsp, crawl_speed);
+			sprite_index = sprite_get("crawlturn");
+			image_index = 0;
 		}
 		if (left_down) {
 			sprite_index = sprite_get("crawl");
