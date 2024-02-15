@@ -4,7 +4,7 @@ var window_length   = 0;
 
 //                        --attack windows--                                  //
 set_attack_value(atk, AG_SPRITE                         , sprite_get("uair"));
-set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("uair_hurt"));
+set_attack_value(atk, AG_HURTBOX_SPRITE                 , hurtbox_spr);
 set_attack_value(atk, AG_NUM_WINDOWS                    , 4);
 set_attack_value(atk, AG_CATEGORY                       , 1);
 set_attack_value(atk, AG_HAS_LANDING_LAG                , 1);
