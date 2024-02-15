@@ -135,11 +135,11 @@ switch(attack) {
     		take_damage(player, player, 1);
     		fall_timer = 0;
     	}
-    	
-    	
-    	 else if (window == 4) {
+    	 else if (window == 4 || window == 5 ) {
         	fall_timer++;
-        	if (fall_timer >= 8*has_hit) iasa_script();
+            print(fall_timer)
+        	if (fall_timer >= 8) iasa_script();
+
         }
     	
     

@@ -30,7 +30,7 @@ set_window_value(atk, window_num                        , AG_WINDOW_SFX_FRAME, w
 window_num++;
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 4);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 9);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
@@ -67,8 +67,8 @@ set_hitbox_value(atk, hbox_num, HG_HEIGHT                   , 36);
 set_hitbox_value(atk, hbox_num, HG_PRIORITY                 , 1);
 set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 8);
 set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 45);
-set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 7);
-set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 1.2);
+set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 8);
+set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , .7);
 set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 8);
 set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , 1);
 set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT            , 1);
