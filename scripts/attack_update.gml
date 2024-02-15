@@ -141,15 +141,16 @@ switch(attack) {
     case AT_DSTRONG:
     	can_move = false;
     	
+    	if (window == 2) fall_timer = 0;
+    	
     	if (window == 3 && window_timer == 1 && !hitpause) {
     		hsp = 8*spr_dir;
     		vsp = -10;
     		dstrong_boom = spawn_hit_fx(x, y, fx_dstrong);
     		take_damage(player, player, 1);
-    		fall_timer = 0;
     	}
 		
-    	 else if (window == 3 || window == 4 && !hitpause) {
+    	if ((window == 3 || window == 4) && !hitpause) {
         	fall_timer++;
         	if (fall_timer >= (has_hit?8:12)) iasa_script();
         }
