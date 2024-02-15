@@ -39,7 +39,7 @@ sprite_change_offset("uair", load_x, load_y);
 sprite_change_offset("dair",load_x, load_y);
 sprite_change_offset("fstrong", load_x, load_y);
 sprite_change_offset("ustrong", load_x, load_y);
-sprite_change_offset("dstrong", 64, 94);
+sprite_change_offset("dstrong", load_x, load_y);
 sprite_change_offset("nspecial", 64, 94);
 sprite_change_offset("fspecial", 64, 94);
 sprite_change_offset("uspecial", load_x, load_y);
@@ -58,8 +58,10 @@ sprite_change_offset("parachute"                , 106, 113);
 
 sprite_change_offset("nspecial_proj"            , 68, 68);
 
-sprite_change_offset("ustrong_vfx1"         , load_x, load_y);
-sprite_change_offset("ustrong_vfx2"         , load_x, load_y);
+sprite_change_offset("ustrong_vfx1"             , load_x, load_y);
+sprite_change_offset("ustrong_vfx2"             , load_x, load_y);
+
+sprite_change_offset("dstrong_vfx"              , load_x, load_y);
 
 sprite_change_offset("fx_small_circle1"         , 174, 168);
 sprite_change_offset("fx_small_circle2"         , 174, 168);

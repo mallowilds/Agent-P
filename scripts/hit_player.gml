@@ -16,6 +16,13 @@ if (atk == AT_USTRONG && hbox == 2) {
 	old_vsp = -6.5;
 }
 
+// DStrong hitpause handling
+if (atk == AT_DSTRONG && hbox == 1 && my_hitboxID.orig_player == player) {
+	hitpause = true;
+	if (hitstop_full < hit_player_obj.hitstop) hitstop_full = hit_player_obj.hitstop;
+	if (hitstop < hit_player_obj.hitstop) hitstop = hit_player_obj.hitstop;
+}
+
 
 
 // hitbox lerp code
