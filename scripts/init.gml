@@ -346,7 +346,7 @@ hitstun_grav                    = 0.51;
 - higher num = 'lighter' character; 
 - lower num = 'heavier' character 
 */
-knockback_adj                   = 1.2;
+knockback_adj                   = 1.15;
 
 //                           --landing stats--                                //
 land_time                       = 4; 
