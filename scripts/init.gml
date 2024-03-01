@@ -172,6 +172,7 @@ fx_ustrong1                     = hit_fx_create(sprite_get("ustrong_vfx1"), 12);
 fx_ustrong2                     = hit_fx_create(sprite_get("ustrong_vfx2"), 12);
 
 fx_dstrong                      = hit_fx_create(sprite_get("dstrong_vfx"), 20);
+fx_medium_circle1               = hit_fx_create(sprite_get("fx_medium_circle1"),12);
 
 hfx_null                        = hit_fx_create(sprite_get("null"), 1);
 
@@ -315,7 +316,7 @@ moonwalk_accel                  = 1.4;
 //                       --aerial movement stats--                            //
 jump_start_time                 = 5;
 jump_speed                      = 14;
-short_hop_speed                 = 8;
+short_hop_speed                 =7.5;
 base_djump_speed                = 14;
 parachute_djump_speed           = 9;
 djump_speed                     = base_djump_speed;
