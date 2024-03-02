@@ -103,9 +103,10 @@ switch(attack) {
             set_attack_value(AT_USTRONG, AG_CATEGORY, 2);
         }
         else if (window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
-        ustrong_smear = spawn_hit_fx(x, y - 12, fx_ustrong1);
+        	ustrong_smear = spawn_hit_fx(x, y - 12, fx_ustrong1);
             ustrong_smear.depth = depth-1;
         	spawn_hit_fx(x, y, fx_ustrong2);
+        	vsp = -12;
         }
         else if (window == 4 || window == 5) {
         	fall_timer++;
@@ -122,7 +123,7 @@ switch(attack) {
         
         can_fast_fall = (window == 5 && fall_timer > 33);
         can_wall_jump = (window == 5);
-        fall_through = (window == 4 || window == 5 && fall_timer < 33);
+        fall_through = (window == 4 || window == 5 && fall_timer < 33) && !was_parried;
     break;
     
     case AT_DSTRONG:
