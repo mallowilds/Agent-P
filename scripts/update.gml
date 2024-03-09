@@ -112,6 +112,22 @@ switch grapple_hook_state {
 		}
 		break;
 	
+	case GRAPPLE_PLAYER_MOUNTED:
+		
+		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		var mov_accel = 0.6;
+		
+		hsp = hsp + lengthdir_x(mov_accel, mov_angle);
+		vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+		
+	
+		if (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < point_distance(0, 0, hsp, vsp)) {
+			grapple_hook_state = GRAPPLE_DISABLED;
+			grapple_hook_timer = 0;
+		}
+		
+		break;
+	
 	case GRAPPLE_WALL_MOUNTED:
 		
 		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
@@ -128,7 +144,6 @@ switch grapple_hook_state {
 			stored_hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		}
-		stored_vsp += 0.2; // small gravity
 		
 	
 		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)

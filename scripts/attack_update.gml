@@ -69,7 +69,6 @@ switch(attack) {
     	switch window {
     		case 1:
     			if (window_timer == 1 && vsp > 0) vsp = 0;
-    			set_attack_value(attack, AG_NUM_WINDOWS, 4);
     			break;
     		
     		case 2:
@@ -110,6 +109,7 @@ switch(attack) {
 	        	can_wall_jump = true;
 		    	break;
 		    
+		    // wall grapple
 		    case 5:
 		    	can_attack = true;
 		    	can_special = true;
@@ -125,6 +125,22 @@ switch(attack) {
         		}
         		
         		break;
+        	
+        	case 6:
+        		can_move = false;
+        		can_fast_fall = false;
+        		if (grapple_hook_state == GRAPPLE_DISABLED) {
+        			if (!free) { // temp
+        				y -= 1;
+        				set_state(PS_ATTACK_AIR);
+        				free = true;
+        			}
+        			set_attack(AT_NAIR); // temp
+        			vsp = -6;
+        			hsp = 2 * spr_dir;
+        			attack_end();
+        		}
+        		break
 	        
     	}
         break;

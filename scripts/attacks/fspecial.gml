@@ -63,17 +63,29 @@ set_window_value(atk, window_num                        , AG_WINDOW_CAN_WALLJUMP
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, gravity_speed);
 window_num++;
 
-// getting pulled
+// getting pulled (wall)
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 9);
 set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 6);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 8);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_HAS_CUSTOM_FRICTION, 0);
+set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, 0.3);
+set_window_value(atk, window_num                        , AG_WINDOW_HAS_CUSTOM_FRICTION, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GROUND_FRICTION, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_CAN_WALLJUMP, true);
+window_num++;
 
+
+// getting pulled (player)
+set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 9);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 6);
+    var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 7);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
+set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, 0);
+set_window_value(atk, window_num                        , AG_WINDOW_HAS_CUSTOM_FRICTION, 1);
+set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GROUND_FRICTION, 0);
+set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_AIR_FRICTION, 0);
 window_num++;
 
 //                        --attack hitboxes--                                 //

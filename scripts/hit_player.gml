@@ -20,11 +20,20 @@ if (!hit_player_obj.clone) {
 
 
 // FSpec grapple
-if (atk == AT_FSPECIAL && hbox == 1) {
-	grapple_hook_state = GRAPPLE_WALL_MOUNTED; // temp
+if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR) && attack == AT_FSPECIAL) {
+	grapple_hook_state = GRAPPLE_PLAYER_MOUNTED;
+	grapple_hook_timer = 0;
 	grapple_hook_target = hit_player_obj;
+	
 	hit_player_obj.hitstop = 999; // temp
 	hit_player_obj.hitstop_full = 999; // temp
+	
+	set_attack_value(AT_FSPECIAL, AG_NUM_WINDOWS, 6);
+	window = 6;
+	window_timer = 6;
+	
+	hsp = 0;
+	vsp = 0;
 }
 
 
