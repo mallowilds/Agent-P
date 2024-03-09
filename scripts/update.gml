@@ -1,6 +1,10 @@
 
-
-
+#macro GRAPPLE_DISABLED 0
+#macro GRAPPLE_ACTIVE 1
+#macro GRAPPLE_RETURNING 2
+#macro GRAPPLE_PLAYER_MOUNTED 3
+#macro GRAPPLE_WALL_MOUNTED 4
+#macro GRAPPLE_ARTICLE_MOUNTED 5
 
 // Parachute stuff
 if (parachute_active) {
@@ -48,6 +52,35 @@ else if (parachute_stats) {
 	air_accel = base_air_accel;
 	
 }
+
+
+// Grapple handling
+switch grapple_hook_state {
+	
+	case GRAPPLE_ACTIVE:
+		grapple_hook_hsp -= (grapple_hook_timer / 12) * grapple_hook_dir;
+    	if (grapple_hook_hsp * grapple_hook_dir <= grapple_hook_end_hsp * grapple_hook_dir) {
+    		grapple_hook_state = GRAPPLE_RETURNING;
+    		grapple_hook_timer = 0;
+    	}
+    	
+    	grapple_hook_x += grapple_hook_hsp;
+		grapple_hook_y += grapple_hook_vsp;
+		
+    	break;
+    	
+	case GRAPPLE_RETURNING:
+		var gh_angle = point_direction(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin);
+		var gh_speed = min(grapple_hook_timer / 2, point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin));
+		grapple_hook_hsp = lengthdir_x(gh_speed, gh_angle);
+		grapple_hook_vsp = lengthdir_y(gh_speed, gh_angle);
+		
+		grapple_hook_x += grapple_hook_hsp;
+		grapple_hook_y += grapple_hook_vsp;
+		break;
+	
+}
+grapple_hook_timer++;
 
 
 // Galaxy stinger SFX

@@ -1,3 +1,12 @@
+
+#macro GRAPPLE_DISABLED 0
+#macro GRAPPLE_ACTIVE 1
+#macro GRAPPLE_RETURNING 2
+#macro GRAPPLE_PLAYER_MOUNTED 3
+#macro GRAPPLE_WALL_MOUNTED 4
+#macro GRAPPLE_ARTICLE_MOUNTED 5
+
+
 // B Reverse for the specials
 if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || attack == AT_USPECIAL){
     trigger_b_reverse();
@@ -51,7 +60,34 @@ switch(attack) {
         //a
         break;
     case AT_FSPECIAL:
-        //a
+    	switch window {
+    		case 1:
+    			if (window_timer == 1 && vsp > 0) vsp = 0;
+    			break;
+    		
+    		case 2:
+    			grapple_hook_state = GRAPPLE_ACTIVE;
+        		grapple_hook_timer = 0;
+        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir);
+        		grapple_hook_y = y + grapple_hook_y_origin;
+        		grapple_hook_dir = spr_dir;
+        		grapple_hook_hsp = 20 * spr_dir + hsp;
+        		grapple_hook_end_hsp = hsp;
+        		grapple_hook_vsp = 0;
+        		
+        		// spawn hitbox
+        		// no break
+        	
+        	case 3:
+        		
+        		if (grapple_hook_state = GRAPPLE_RETURNING && point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < 0.1) {
+        			window = 4;
+        			window_timer = 0;
+        			grapple_hook_state = GRAPPLE_DISABLED;
+        		}
+        		
+	        	break;
+    	}
         break;
     case AT_DSPECIAL:
         //spawns test article

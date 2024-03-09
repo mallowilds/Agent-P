@@ -59,6 +59,7 @@ sprite_change_offset("nspecial_proj", 64, 94);
 sprite_change_offset("parachute"                , 106, 113);
 
 sprite_change_offset("nspecial_proj"            , 68, 68);
+sprite_change_offset("fspec_proj"               , 6,  16);
 
 sprite_change_offset("ustrong_vfx1"             , load_x, load_y);
 sprite_change_offset("ustrong_vfx2"             , load_x, load_y);

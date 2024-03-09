@@ -1,3 +1,12 @@
+
+#macro GRAPPLE_DISABLED 0
+#macro GRAPPLE_ACTIVE 1
+#macro GRAPPLE_RETURNING 2
+#macro GRAPPLE_PLAYER_MOUNTED 3
+#macro GRAPPLE_WALL_MOUNTED 4
+#macro GRAPPLE_ARTICLE_MOUNTED 5
+
+
 //                                  debug                                     //
 should_debug                    = true;
 
@@ -9,6 +18,20 @@ parachute_active = false;
 parachute_stats = false;
 vis_parachute_angle = 0;
 vis_parachute_frame = 0;
+
+grapple_hook_x_origin = 28;
+grapple_hook_y_origin = -34;
+
+grapple_hook_state = GRAPPLE_DISABLED;
+grapple_hook_x = x;
+grapple_hook_y = y;
+grapple_hook_hitbox = noone;
+grapple_hook_target = noone;
+grapple_hook_hsp = 0;
+grapple_hook_vsp = 0;
+grapple_hook_end_hsp = 0;
+grapple_hook_dir = spr_dir;
+grapple_hook_timer = 0;
 
 ustrong_smear = noone;
 dstrong_boom = noone;
