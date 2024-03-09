@@ -135,7 +135,8 @@ switch grapple_hook_state {
 		
 		if (!free  && (mov_angle < 0 || 180 < mov_angle)) {
 			var ldx = lengthdir_x(mov_accel, mov_angle);
-			var hsp_change = sqrt(2*mov_accel*ldx - (mov_accel*mov_accel*ldx*ldx)) / mov_accel;
+			var hsp_dir = hsp / abs(hsp);
+			var hsp_change = hsp_dir * sqrt(abs(2*mov_accel*ldx - (mov_accel*mov_accel*ldx*ldx))) / mov_accel;
 			// above transformation: https://www.desmos.com/calculator/fwqemszs2x
 			stored_hsp = hsp + hsp_change;
 			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
