@@ -115,22 +115,27 @@ switch grapple_hook_state {
 	case GRAPPLE_WALL_MOUNTED:
 		
 		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
-		var mov_accel = 0.7;
+		var mov_accel = 0.6;
 		
-		if (!free) {
-			stored_hsp = stored_hsp + lengthdir_x(mov_accel, mov_angle);
-			stored_vsp = stored_vsp + lengthdir_y(mov_accel, mov_angle);
+		if (!free  && (mov_angle < 0 || 180 < mov_angle)) {
+			var ldx = lengthdir_x(mov_accel, mov_angle);
+			var hsp_change = sqrt(2*mov_accel*ldx - (mov_accel*mov_accel*ldx*ldx)) / mov_accel;
+			// above transformation: https://www.desmos.com/calculator/fwqemszs2x
+			stored_hsp = hsp + hsp_change;
+			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		}
 		else {
 			stored_hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		}
+		stored_vsp += 0.2; // small gravity
 		
 	
 		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
 			|| (attack != AT_FSPECIAL)
 			|| (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp))
-			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.15 && grapple_hook_timer > 5)
+			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.16 && grapple_hook_timer > 15)
+			|| (!free && hsp < grapple_hook_timer*0.08 && grapple_hook_timer > 30)
 		) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
@@ -139,7 +144,7 @@ switch grapple_hook_state {
 		else {
 			hsp = stored_hsp;
 			vsp = stored_vsp;
-			if (!free & vsp < 0) y -= 1;
+			if (!free && vsp < 0) y -= 1;
 		}
 		
 		//if (!free) print_debug("sliding");

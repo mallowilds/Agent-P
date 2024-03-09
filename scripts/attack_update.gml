@@ -111,7 +111,12 @@ switch(attack) {
 		    	break;
 		    
 		    case 5:
-		    	iasa_script();
+		    	can_attack = true;
+		    	can_special = true;
+		    	can_shield = true;
+		    	can_strong = true;
+		    	can_ustrong = true;
+		    	can_jump = true;
 		    	//fall_through = true;
 		    	if (grapple_hook_state = GRAPPLE_DISABLED) {
         			set_state(PS_IDLE_AIR);

@@ -1,3 +1,11 @@
+
+#macro GRAPPLE_DISABLED 0
+#macro GRAPPLE_ACTIVE 1
+#macro GRAPPLE_RETURNING 2
+#macro GRAPPLE_PLAYER_MOUNTED 3
+#macro GRAPPLE_WALL_MOUNTED 4
+#macro GRAPPLE_ARTICLE_MOUNTED 5
+
 //                           --hit stuff--                                    //
 
 
@@ -5,8 +13,19 @@ var atk = my_hitboxID.attack
 var hbox = my_hitboxID.hbox_num
 
 
-hit_last_frame[num_hit_last_frame] = hit_player_obj;
-num_hit_last_frame++;
+if (!hit_player_obj.clone) {
+	hit_last_frame[num_hit_last_frame] = hit_player_obj;
+	num_hit_last_frame++;
+}
+
+
+// FSpec grapple
+if (atk == AT_FSPECIAL && hbox == 1) {
+	grapple_hook_state = GRAPPLE_WALL_MOUNTED; // temp
+	grapple_hook_target = hit_player_obj;
+	hit_player_obj.hitstop = 999; // temp
+	hit_player_obj.hitstop_full = 999; // temp
+}
 
 
 // Pop up on ustrong silly hit

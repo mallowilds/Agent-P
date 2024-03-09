@@ -70,7 +70,10 @@ set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 6);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 8);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, 0);
+set_window_value(atk, window_num                        , AG_WINDOW_HAS_CUSTOM_FRICTION, 0);
+set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GROUND_FRICTION, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_CAN_WALLJUMP, true);
+
 window_num++;
 
 //                        --attack hitboxes--                                 //
