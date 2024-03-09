@@ -21,18 +21,21 @@ set_window_value(atk, window_num                        , AG_WINDOW_SFX_FRAME, w
 window_num++;
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 5);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 10);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_HSPEED_TYPE, 1);
-set_window_value(atk, window_num                        , AG_WINDOW_HSPEED, 10);
+set_window_value(atk, window_num                        , AG_WINDOW_HSPEED_TYPE, 2);
+set_window_value(atk, window_num                        , AG_WINDOW_HSPEED, 14);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 2);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 2);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 3);
+//set_window_value(atk, window_num                        , AG_WINDOW_HAS_CUSTOM_FRICTION, 1);
+set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GROUND_FRICTION, 2);
+
 window_num++;
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 10);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 4);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 5);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
 set_window_value(atk, window_num                        , AG_WINDOW_HAS_WHIFFLAG, 1);
 window_num++;
@@ -52,8 +55,9 @@ set_hitbox_value(atk, hbox_num, HG_WIDTH                    , 70);
 set_hitbox_value(atk, hbox_num, HG_HEIGHT                   , 20);
 set_hitbox_value(atk, hbox_num, HG_PRIORITY                 , 1);
 set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 6);
-set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 45);
+set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 70);
 set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 6);
+set_hitbox_value(atk, hbox_num, HG_FINAL_BASE_KNOCKBACK     , 4);
 set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0.4);
 set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 7);
 set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , 0.4);

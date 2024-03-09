@@ -26,7 +26,6 @@ switch(attack) {
         //a
         break;
     case AT_DATTACK:
-        //a
         break;
         
     case AT_NAIR:
