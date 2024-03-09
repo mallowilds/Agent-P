@@ -61,6 +61,7 @@ switch(attack) {
         break;
     case AT_FSPECIAL:
     	if (window < 4) {
+    		can_fast_fall = false;
     		if (vsp > 2.5) vsp = 2.5;
 		    if (hsp > 0.5) hsp = lerp(hsp, 0.5, 0.1);
 		    if (hsp < -0.5) hsp = lerp(hsp, -0.5, 0.1);

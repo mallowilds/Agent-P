@@ -117,13 +117,44 @@ switch grapple_hook_state {
 		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.6;
 		
+		// error state: not in fspecial
+		if  ((state != PS_ATTACK_AIR && state != PS_ATTACK_GROUND) || attack != AT_FSPECIAL) {
+			grapple_hook_state = GRAPPLE_DISABLED;
+			grapple_hook_timer = 0;
+			grapple_hook_target = noone;
+			break;
+		}
+		
+		// error state: unlinked
+		if (!instance_exists(grapple_hook_target) || grapple_hook_target.state_cat != SC_HITSTUN) {
+			if (vsp > -4) vsp = -4;
+			set_state(PS_IDLE_AIR);
+			attack_end();
+			grapple_hook_state = GRAPPLE_DISABLED;
+			grapple_hook_timer = 0;
+			grapple_hook_target = noone;
+			break;
+		}
+		
+		// error state: unmoving
+		if (grapple_hook_timer > 6 && abs(point_distance(0, 0, hsp, vsp)) < 2*mov_accel) {
+			// Simply proceeding to the attack followup seems to feel best for now. May revisit
+			grapple_hook_state = GRAPPLE_DISABLED;
+			grapple_hook_timer = 0;
+			grapple_hook_target = noone;
+			break;
+		}
+		
+		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
+		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+		
 		hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 		vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		
-	
 		if (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < point_distance(0, 0, hsp, vsp)) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
+			grapple_hook_target = noone;
 		}
 		
 		break;
@@ -136,8 +167,8 @@ switch grapple_hook_state {
 		if (!free  && (mov_angle < 0 || 180 < mov_angle)) {
 			var ldx = lengthdir_x(mov_accel, mov_angle);
 			var hsp_dir = hsp / abs(hsp);
-			var hsp_change = hsp_dir * sqrt(abs(2*mov_accel*ldx - (mov_accel*mov_accel*ldx*ldx))) / mov_accel;
-			// above transformation: https://www.desmos.com/calculator/fwqemszs2x
+			var hsp_change = mov_accel * hsp_dir * sqrt(abs(2*ldx/mov_accel - (ldx*ldx/mov_accel/mov_accel)));
+			// above transformation: https://www.desmos.com/calculator/qhpjd7mgxu
 			stored_hsp = hsp + hsp_change;
 			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		}
