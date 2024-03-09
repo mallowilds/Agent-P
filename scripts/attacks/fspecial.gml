@@ -2,8 +2,18 @@ var atk             = AT_FSPECIAL;
 var window_num      = 1;
 var window_length   = 0;
 
+/* Fspecial 1 - Grapple Gun 
+    (xF means anim frames, will change once sketch is finished, but just for ease of implimentation)
+    Without a neutral special Point out, this move is a simple forward aiming grappling gun attack.
+    After startup (0F), Perry will shoot out the hook (Fspec_proj), which travels forwards quickly before stopping when reaching a certain length. 
+    During this, perry will hold his hook out (1-3F), staying on the 4th frame until the hook returns or it hits), and cant move. 
+    If the hook misses, it will return back to perry somewhat slowly, and once it returns, perry will go into endlag (4-6F).
+    If the hook lands, perry will fly towards the opponent (8F), and once he makes contact, will do a followup that sends up and gives perry VSP so he can combo off of it (7-10f).
+*/
+
+
 //                        --attack windows--                                  //
-set_attack_value(atk, AG_SPRITE                         , sprite_get("fspecial"));
+set_attack_value(atk, AG_SPRITE                         , sprite_get("fspec_base"));
 set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("fspecial_hurt"));
 set_attack_value(atk, AG_NUM_WINDOWS                    , 4);
 set_attack_value(atk, AG_CATEGORY                       , 2);

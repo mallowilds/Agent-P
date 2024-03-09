@@ -42,8 +42,8 @@ sprite_change_offset("dair",load_x, load_y);
 sprite_change_offset("fstrong", load_x, load_y);
 sprite_change_offset("ustrong", load_x, load_y);
 sprite_change_offset("dstrong", load_x, load_y);
-sprite_change_offset("nspecial", 64, 94);
-sprite_change_offset("fspecial", 64, 94);
+sprite_change_offset("nspecial", load_x, load_y);
+sprite_change_offset("fspec_base", load_x, load_y);
 sprite_change_offset("uspecial", load_x, load_y);
 sprite_change_offset("dspecial", 64, 94);
 sprite_change_offset("taunt", load_x, load_y);
@@ -104,6 +104,3 @@ sprite_change_offset("fx_small_shine2"          , 174, 168);
 sprite_change_offset("fx_small_shine3"          , 174, 168);
 
 sprite_change_offset("fx_small_flashlight1"     , 174, 168);
-
-
-

@@ -9,7 +9,7 @@ var window_length = get_window_value(attack, window, AG_WINDOW_LENGTH);
 switch(attack) {
     case AT_JAB:
         // clear attack so jab2 doesn't automatically happen
-    	if (window == 1 && window_timer == 1) {
+    	if (window == 1 && window_timer == 1) { // WARN: Possible repetition during hitpause. Consider using window_time_is(frame) https://rivalslib.com/assistant/function_library/attacks/window_time_is.html
     		clear_button_buffer(PC_ATTACK_PRESSED);
     	}
         break;
@@ -57,7 +57,7 @@ switch(attack) {
     case AT_DSPECIAL:
         //spawns test article
         /*
-        if (window == 1 && window_timer == 1) {
+        if (window == 1 && window_timer == 1) { // WARN: Possible repetition during hitpause. Consider using window_time_is(frame) https://rivalslib.com/assistant/function_library/attacks/window_time_is.html
         	article_id = instance_create(x + 30 * spr_dir, y, "obj_article1");
         }
         */
@@ -80,7 +80,7 @@ switch(attack) {
     case AT_TAUNT: 
     case AT_TAUNT_2:
         if window == 2 {
-            if window_timer == 5 && taunt_loops < 15{
+            if window_timer == 5 && taunt_loops < 15{ // WARN: Possible repetition during hitpause. Consider using window_time_is(frame) https://rivalslib.com/assistant/function_library/attacks/window_time_is.html
                 window_timer = 0
                 taunt_loops++;
                 //print("loop)")
@@ -325,3 +325,12 @@ newdust.dust_color = dust_color; //set the dust color
 if dir != 0 newdust.spr_dir = dir; //set the spr_dir
 newdust.draw_angle = dfa;
 return newdust;
+
+// #region vvv LIBRARY DEFINES AND MACROS vvv
+// DANGER File below this point will be overwritten! Generated defines and macros below.
+// Write NO-INJECT in a comment above this area to disable injection.
+#define window_time_is(frame) // Version 0
+    // Returns if the current window_timer matches the frame AND the attack is not in hitpause
+    return window_timer == frame and !hitpause
+// DANGER: Write your code ABOVE the LIBRARY DEFINES AND MACROS header or it will be overwritten!
+// #endregion

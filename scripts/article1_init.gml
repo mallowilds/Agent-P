@@ -24,4 +24,3 @@ should_die = false; //if the article should be despawned
 
 // animation variables
 anim_speed = 0.15;
-
