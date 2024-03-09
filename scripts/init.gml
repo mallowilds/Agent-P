@@ -92,6 +92,7 @@ through enemies, otherwise it might just despawn on hit
 //                              PUT YOURS HERE                                //
 
 taunt_loops = 0
+disguised = 0;
 
 // Galaxy sfx
 hit_last_frame = array_create(noone, 20);

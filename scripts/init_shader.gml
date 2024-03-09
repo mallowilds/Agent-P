@@ -6,3 +6,10 @@ for (var i=0; i < num_base_colors; i++) {
 }
 }
 */
+
+ /* idk
+if disguised {
+    if (object_index == asset_get("draw_result_screen")) {
+        winner_name = "PERRY THE PLATYPUS WINS!";
+    }
+}
