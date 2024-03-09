@@ -33,6 +33,9 @@ grapple_hook_end_hsp = 0;
 grapple_hook_dir = spr_dir;
 grapple_hook_timer = 0;
 
+stored_hsp = 0;
+stored_vsp = 0;
+
 ustrong_smear = noone;
 dstrong_boom = noone;
 

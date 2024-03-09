@@ -10,7 +10,7 @@
 if (parachute_active) {
 	
 	// Also reset in got_hit, got_parried, and death.gml
-	if (!free || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
+	if ((!free && grapple_hook_state < GRAPPLE_PLAYER_MOUNTED) || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
 		parachute_active = false;
 		var despawn_parachute = instance_create(x+(1*spr_dir), y-15, "obj_article3");
 		despawn_parachute.state = 00;
@@ -67,6 +67,8 @@ switch grapple_hook_state {
 		if (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_block")) || position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_jumpthrough"))) {
 			grapple_hook_state = GRAPPLE_WALL_MOUNTED;
     		grapple_hook_timer = 0;
+    		stored_hsp = hsp;
+    		stored_vsp = vsp;
     		if (instance_exists(grapple_hook_hitbox)) {
     			grapple_hook_hitbox.destroyed = true;
     			grapple_hook_hitbox = noone;
@@ -115,25 +117,33 @@ switch grapple_hook_state {
 		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.7;
 		
-		var next_hsp = hsp + lengthdir_x(mov_accel, mov_angle);
-		var next_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+		if (!free) {
+			stored_hsp = stored_hsp + lengthdir_x(mov_accel, mov_angle);
+			stored_vsp = stored_vsp + lengthdir_y(mov_accel, mov_angle);
+		}
+		else {
+			stored_hsp = hsp + lengthdir_x(mov_accel, mov_angle);
+			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+		}
+		
 	
 		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
 			|| (attack != AT_FSPECIAL)
-			|| (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < point_distance(0, 0, next_hsp, next_vsp))
-			|| (point_distance(0, 0, hsp, vsp) < grapple_hook_timer * 0.15 && grapple_hook_timer > 5)
+			|| (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp))
+			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.15 && grapple_hook_timer > 5)
 		) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
 		}
 		
 		else {
-			hsp = next_hsp;
-			vsp = next_vsp;
-			fall_through = true;
+			hsp = stored_hsp;
+			vsp = stored_vsp;
+			if (!free & vsp < 0) y -= 1;
 		}
 		
-		print_debug(string(grapple_hook_timer) + " | " + string(point_distance(0, 0, next_hsp, next_vsp)));
+		//if (!free) print_debug("sliding");
+		//print_debug(string(grapple_hook_timer) + " | " + string(point_distance(0, 0, stored_hsp, stored_vsp)));
 		
 		break;
 	

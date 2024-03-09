@@ -18,7 +18,8 @@ set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("fspecial_h
 set_attack_value(atk, AG_NUM_WINDOWS                    , 4); // tampered with in attack_update
 set_attack_value(atk, AG_CATEGORY                       , 2);
 set_attack_value(atk, AG_ATTACK_AIR_LIMIT               , true);
-set_attack_value(atk, AG_USES_CUSTOM_GRAVITY             , true);
+set_attack_value(atk, AG_USES_CUSTOM_GRAVITY            , true);
+set_attack_value(atk, AG_OFF_LEDGE                      , true);
 
 // startup
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);

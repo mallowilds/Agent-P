@@ -112,7 +112,7 @@ switch(attack) {
 		    
 		    case 5:
 		    	iasa_script();
-		    	fall_through = true;
+		    	//fall_through = true;
 		    	if (grapple_hook_state = GRAPPLE_DISABLED) {
         			set_state(PS_IDLE_AIR);
         			if (vsp > -4 && free) vsp = -4;
