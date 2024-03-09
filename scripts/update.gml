@@ -191,7 +191,7 @@ switch grapple_hook_state {
 		else {
 			hsp = stored_hsp;
 			vsp = stored_vsp;
-			if (!free && vsp < 0) y -= 1;
+			//if (!free && vsp < 0) y -= 1;
 		}
 		
 		//if (!free) print_debug("sliding");

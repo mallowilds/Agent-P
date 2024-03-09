@@ -52,6 +52,25 @@ if (state == PS_CROUCH && ccrouch_phase == 1) {
 
 
 
+// FSpecial
+if (attack == AT_FSPECIAL && window == 5) {
+	if (state == PS_ATTACK_GROUND) {
+		sprite_index = sprite_get("swing");
+		image_index = 1;
+	}
+	if (state == PS_ATTACK_AIR) {
+		sprite_index = sprite_get("swing");
+		
+		var vis_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		if (spr_dir == -1) vis_angle = (vis_angle * -1 + 180) % 360;
+		
+		if (300 < vis_angle || vis_angle < 25) image_index = 0;
+		else if (vis_angle < 70) image_index = 2;
+		else if (vis_angle < 115) image_index = 3;
+		else image_index = 4;
+	}
+}
+
 
 
 

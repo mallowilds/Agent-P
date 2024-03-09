@@ -44,6 +44,7 @@ sprite_change_offset("ustrong", load_x, load_y);
 sprite_change_offset("dstrong", load_x, load_y);
 sprite_change_offset("nspecial", load_x, load_y);
 sprite_change_offset("fspec_base", load_x, load_y);
+sprite_change_offset("swing", load_x, load_y);
 sprite_change_offset("uspecial", load_x, load_y);
 sprite_change_offset("dspecial", 64, 94);
 sprite_change_offset("taunt", load_x, load_y);
