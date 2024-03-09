@@ -60,33 +60,67 @@ switch(attack) {
         //a
         break;
     case AT_FSPECIAL:
+    	if (window < 4) {
+    		if (vsp > 2.5) vsp = 2.5;
+		    if (hsp > 0.5) hsp = lerp(hsp, 0.5, 0.1);
+		    if (hsp < -0.5) hsp = lerp(hsp, -0.5, 0.1);
+    	}
+    	
     	switch window {
     		case 1:
     			if (window_timer == 1 && vsp > 0) vsp = 0;
+    			set_attack_value(attack, AG_NUM_WINDOWS, 4);
     			break;
     		
     		case 2:
-    			grapple_hook_state = GRAPPLE_ACTIVE;
-        		grapple_hook_timer = 0;
-        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir);
-        		grapple_hook_y = y + grapple_hook_y_origin;
-        		grapple_hook_dir = spr_dir;
-        		grapple_hook_hsp = 20 * spr_dir + hsp;
-        		grapple_hook_end_hsp = hsp;
-        		grapple_hook_vsp = 0;
-        		
-        		// spawn hitbox
+    			if (window_timer == 1) {
+    				grapple_hook_state = GRAPPLE_ACTIVE;
+	        		grapple_hook_timer = 0;
+	        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir);
+	        		grapple_hook_y = y + grapple_hook_y_origin;
+	        		grapple_hook_dir = spr_dir;
+	        		grapple_hook_hsp = 20 * spr_dir + hsp;
+	        		grapple_hook_end_hsp = hsp;
+	        		grapple_hook_vsp = vsp;
+	        		
+	        		grapple_hook_hitbox = create_hitbox(AT_FSPECIAL, 1, grapple_hook_x, grapple_hook_y);
+	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
+	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;
+    			}
+    			
         		// no break
         	
         	case 3:
+        	
+        		if (grapple_hook_state = GRAPPLE_WALL_MOUNTED) {
+        			set_attack_value(attack, AG_NUM_WINDOWS, 5);
+        			window = 5;
+        			window_timer = 0;
+        		}
         		
-        		if (grapple_hook_state = GRAPPLE_RETURNING && point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < 0.1) {
+        		else if (grapple_hook_state = GRAPPLE_DISABLED) {
         			window = 4;
         			window_timer = 0;
-        			grapple_hook_state = GRAPPLE_DISABLED;
         		}
         		
 	        	break;
+	        
+	        case 4:
+	        	set_attack_value(attack, AG_NUM_WINDOWS, 4);
+	        	can_wall_jump = true;
+		    	break;
+		    
+		    case 5:
+		    	iasa_script();
+		    	fall_through = true;
+		    	if (grapple_hook_state = GRAPPLE_DISABLED) {
+        			set_state(PS_IDLE_AIR);
+        			if (vsp > -4 && free) vsp = -4;
+        			attack_end();
+        		}
+        		
+        		break;
+	        
     	}
         break;
     case AT_DSPECIAL:

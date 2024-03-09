@@ -59,24 +59,82 @@ switch grapple_hook_state {
 	
 	case GRAPPLE_ACTIVE:
 		grapple_hook_hsp -= (grapple_hook_timer / 12) * grapple_hook_dir;
-    	if (grapple_hook_hsp * grapple_hook_dir <= grapple_hook_end_hsp * grapple_hook_dir) {
-    		grapple_hook_state = GRAPPLE_RETURNING;
-    		grapple_hook_timer = 0;
-    	}
+		grapple_hook_vsp = vsp; // approximately accurate lol
     	
     	grapple_hook_x += grapple_hook_hsp;
 		grapple_hook_y += grapple_hook_vsp;
 		
+		if (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_block")) || position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_jumpthrough"))) {
+			grapple_hook_state = GRAPPLE_WALL_MOUNTED;
+    		grapple_hook_timer = 0;
+    		if (instance_exists(grapple_hook_hitbox)) {
+    			grapple_hook_hitbox.destroyed = true;
+    			grapple_hook_hitbox = noone;
+    		}
+    		grapple_hook_hsp = 0;
+    		grapple_hook_vsp = 0;
+		}
+		
+		else if (!instance_exists(grapple_hook_hitbox)) {
+			grapple_hook_hitbox = noone;
+			grapple_hook_state = GRAPPLE_RETURNING;
+    		grapple_hook_timer = 0;
+    	}
+    	
+    	else if (grapple_hook_hsp * grapple_hook_dir <= grapple_hook_end_hsp * grapple_hook_dir) {
+    		grapple_hook_hitbox.destroyed = true;
+    		grapple_hook_hitbox = noone;
+    		grapple_hook_state = GRAPPLE_RETURNING;
+    		grapple_hook_timer = 0;
+		}
+		
+		else {
+			grapple_hook_hitbox.hsp = grapple_hook_hsp;
+			grapple_hook_hitbox.vsp = grapple_hook_vsp;
+		}
+		
     	break;
     	
 	case GRAPPLE_RETURNING:
-		var gh_angle = point_direction(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin);
-		var gh_speed = min(grapple_hook_timer / 2, point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin));
+		var gh_angle = point_direction(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin);
+		var gh_speed = min(grapple_hook_timer / 2, point_distance(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin));
 		grapple_hook_hsp = lengthdir_x(gh_speed, gh_angle);
 		grapple_hook_vsp = lengthdir_y(gh_speed, gh_angle);
 		
 		grapple_hook_x += grapple_hook_hsp;
 		grapple_hook_y += grapple_hook_vsp;
+		
+		if (point_distance(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin) < 0.1) {
+			grapple_hook_state = GRAPPLE_DISABLED;
+			grapple_hook_timer = 0;
+		}
+		break;
+	
+	case GRAPPLE_WALL_MOUNTED:
+		
+		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		var mov_accel = 0.7;
+		
+		var next_hsp = hsp + lengthdir_x(mov_accel, mov_angle);
+		var next_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+	
+		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
+			|| (attack != AT_FSPECIAL)
+			|| (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < point_distance(0, 0, next_hsp, next_vsp))
+			|| (point_distance(0, 0, hsp, vsp) < grapple_hook_timer * 0.15 && grapple_hook_timer > 5)
+		) {
+			grapple_hook_state = GRAPPLE_DISABLED;
+			grapple_hook_timer = 0;
+		}
+		
+		else {
+			hsp = next_hsp;
+			vsp = next_vsp;
+			fall_through = true;
+		}
+		
+		print_debug(string(grapple_hook_timer) + " | " + string(point_distance(0, 0, next_hsp, next_vsp)));
+		
 		break;
 	
 }
