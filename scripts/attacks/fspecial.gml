@@ -117,6 +117,6 @@ set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR , 0);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 0);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 0);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_UNBASHABLE    , true);
-set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , true);
+//set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , true); // needs to be handled manually
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DOES_NOT_REFLECT, true);
 hbox_num++;

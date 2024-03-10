@@ -64,7 +64,16 @@ switch grapple_hook_state {
     	grapple_hook_x += grapple_hook_hsp;
 		grapple_hook_y += grapple_hook_vsp;
 		
-		if (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_block")) || position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_jumpthrough"))) {
+		if (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("plasma_field_obj"))) {
+			grapple_hook_hitbox = noone;
+			grapple_hook_state = GRAPPLE_RETURNING;
+    		grapple_hook_timer = 0;
+    		
+    		spawn_hit_fx(grapple_hook_x, grapple_hook_y, (HFX_CLA_DSMASH_BREAK));
+    		sound_play(asset_get("sfx_clairen_hit_weak"));
+		}
+		
+		else if (!was_parried && (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_block")) || position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_jumpthrough")))) {
 			grapple_hook_state = GRAPPLE_WALL_MOUNTED;
     		grapple_hook_timer = 0;
     		stored_hsp = hsp;
@@ -77,20 +86,22 @@ switch grapple_hook_state {
     		grapple_hook_vsp = 0;
 		}
 		
-		else if (!instance_exists(grapple_hook_hitbox)) {
+		else if (!was_parried && !instance_exists(grapple_hook_hitbox)) {
 			grapple_hook_hitbox = noone;
 			grapple_hook_state = GRAPPLE_RETURNING;
     		grapple_hook_timer = 0;
     	}
     	
     	else if (grapple_hook_hsp * grapple_hook_dir <= grapple_hook_end_hsp * grapple_hook_dir) {
-    		grapple_hook_hitbox.destroyed = true;
-    		grapple_hook_hitbox = noone;
+    		if (!was_parried) {
+    			grapple_hook_hitbox.destroyed = true;
+    			grapple_hook_hitbox = noone;
+    		}
     		grapple_hook_state = GRAPPLE_RETURNING;
     		grapple_hook_timer = 0;
 		}
 		
-		else {
+		else if (!was_parried) {
 			grapple_hook_hitbox.hsp = grapple_hook_hsp;
 			grapple_hook_hitbox.vsp = grapple_hook_vsp;
 		}

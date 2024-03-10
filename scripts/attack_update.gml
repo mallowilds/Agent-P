@@ -60,6 +60,7 @@ switch(attack) {
         //a
         break;
     case AT_FSPECIAL:
+    
     	if (window < 4) {
     		can_fast_fall = false;
     		if (vsp > 2.5) vsp = 2.5;
