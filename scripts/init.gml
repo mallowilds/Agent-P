@@ -11,7 +11,7 @@
 should_debug                    = true;
 
 
-//=-(                     ~~//** CUSTOM INDEXES **//~~                     )-=//
+//=-(                     ~~//** CUSTOM VARIABLES **//~~                     )-=//
 
 // Parachute vars
 parachute_active = false;
@@ -39,6 +39,14 @@ anim_slide_buffer = 0;
 
 ustrong_smear = noone;
 dstrong_boom = noone;
+
+taunt_loops = 0
+
+// Galaxy sfx
+hit_last_frame = array_create(noone, 20);
+num_hit_last_frame = 0;
+stinger_cooldown = 0;
+
 
 // See also: parachute-labeled stats under "aerial movement stats"
 
@@ -116,15 +124,6 @@ through enemies, otherwise it might just despawn on hit
 
 
 //=-(                    ~~//** CUSTOM VARIABLES **//~~                    )-=//
-//                              PUT YOURS HERE                                //
-
-taunt_loops = 0
-disguised = 0;
-
-// Galaxy sfx
-hit_last_frame = array_create(noone, 20);
-num_hit_last_frame = 0;
-stinger_cooldown = 0;
 
 //                               PRE-SET STUFF                                //
 // attack/hitbox index variables

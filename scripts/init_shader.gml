@@ -7,8 +7,8 @@ for (var i=0; i < num_base_colors; i++) {
 }
 */
 
- /* idk
-if disguised {
+// i.e. if disguised (see unload.gml)
+if get_synced_var(player) {
     if (object_index == asset_get("draw_result_screen")) {
         winner_name = "PERRY THE PLATYPUS WINS!";
     }
