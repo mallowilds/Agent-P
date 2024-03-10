@@ -145,6 +145,8 @@ switch grapple_hook_state {
 			break;
 		}
 		
+		grapple_hook_target.hitstop++;
+		
 		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
 		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
 		
