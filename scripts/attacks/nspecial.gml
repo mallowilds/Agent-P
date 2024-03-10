@@ -10,6 +10,8 @@ Once its stopped, its just a stationary article that doesn't really do much. Mad
 
 //                        --attack windows--                                  //
 set_attack_value(atk, AG_SPRITE                         , sprite_get("nspecial"));
+set_attack_value(atk, AG_AIR_SPRITE                     , sprite_get("nspecial_air"));
+
 set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("nspecial_hurt"));
 set_attack_value(atk, AG_NUM_WINDOWS                    , 3);
 set_attack_value(atk, AG_CATEGORY                       , 2);
