@@ -174,7 +174,7 @@ switch grapple_hook_state {
 	
 	case GRAPPLE_WALL_MOUNTED:
 		
-		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		var mov_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.6;
 		
 		if (!free  && (mov_angle < 0 || 180 < mov_angle)) {
@@ -193,7 +193,7 @@ switch grapple_hook_state {
 	
 		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
 			|| (attack != AT_FSPECIAL)
-			|| (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp))
+			|| (point_distance(grapple_hook_x, grapple_hook_y, x, y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp))
 			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.16 && grapple_hook_timer > 15)
 			|| (!free && hsp < grapple_hook_timer*0.08 && grapple_hook_timer > 30)
 		) {

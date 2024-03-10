@@ -16,8 +16,10 @@ if (grapple_hook_state != GRAPPLE_DISABLED) {
         draw_angle = point_direction(x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
     }
     
-    if (grapple_hook_state == GRAPPLE_ACTIVE) draw_line_width_color(x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin, grapple_hook_x - lengthdir_x(4, draw_angle), grapple_hook_y - lengthdir_y(4, draw_angle), 8, c_white, c_white);
-    draw_line_width_color(x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin, grapple_hook_x - lengthdir_x(4, draw_angle), grapple_hook_y - lengthdir_y(4, draw_angle), 4, c_black, c_black);
+    var temp_x_origin = (grapple_hook_state == GRAPPLE_WALL_MOUNTED || grapple_hook_state == GRAPPLE_ARTICLE_MOUNTED) ? 0 : grapple_hook_x_origin
+    
+    if (grapple_hook_state == GRAPPLE_ACTIVE) draw_line_width_color(x + temp_x_origin*spr_dir, y + grapple_hook_y_origin, grapple_hook_x - lengthdir_x(4, draw_angle), grapple_hook_y - lengthdir_y(4, draw_angle), 8, c_white, c_white);
+    draw_line_width_color(x + temp_x_origin*spr_dir, y + grapple_hook_y_origin, grapple_hook_x - lengthdir_x(4, draw_angle), grapple_hook_y - lengthdir_y(4, draw_angle), 4, c_black, c_black);
     draw_sprite_ext(sprite_get("fspec_proj"), (grapple_hook_state != GRAPPLE_ACTIVE), grapple_hook_x, grapple_hook_y, 1, 1, draw_angle, c_white, 1);
     
 }

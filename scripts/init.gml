@@ -30,6 +30,8 @@ grapple_hook_target = noone;
 grapple_hook_hsp = 0;
 grapple_hook_vsp = 0;
 grapple_hook_end_hsp = 0;
+grapple_hook_stored_hsp = 0;
+grapple_hook_stored_vsp = 0;
 grapple_hook_dir = spr_dir;
 grapple_hook_timer = 0;
 
