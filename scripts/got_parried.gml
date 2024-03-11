@@ -15,3 +15,13 @@ if (atk == AT_FSPECIAL && hbox == 1 && my_hitboxID.orig_player == player) {
     my_hitboxID.destroyed = true;
     grapple_hook_hitbox = noone;
 }
+
+if (atk == AT_DSTRONG && my_hitboxID.orig_player == player) {
+    if (hit_player_obj == self) {
+        dstrong_cancel_parry_stun = (get_gameplay_time() != dstrong_parried_time);
+    }
+    else {
+        dstrong_parried_time = get_gameplay_time(); // resolves potential script order conflict
+        dstrong_cancel_parry_stun = false;
+    }
+}

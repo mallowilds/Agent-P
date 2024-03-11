@@ -36,6 +36,8 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 	
 	hsp = 0;
 	vsp = 0;
+	
+	// djumps = 0; // reset djumps
 }
 
 
@@ -45,14 +47,6 @@ if (atk == AT_USTRONG && hbox == 2) {
 	window_timer = 0;
 	old_vsp = -6.5;
 }
-
-// DStrong hitpause handling
-if (atk == AT_DSTRONG && hbox == 1 && my_hitboxID.orig_player == player) {
-	hitpause = true;
-	if (hitstop_full < hit_player_obj.hitstop) hitstop_full = hit_player_obj.hitstop;
-	if (hitstop < hit_player_obj.hitstop) hitstop = hit_player_obj.hitstop;
-}
-
 
 
 // hitbox lerp code

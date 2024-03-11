@@ -40,7 +40,10 @@ anim_slide_buffer = 0;
 ustrong_smear = noone;
 dstrong_boom = noone;
 
-taunt_loops = 0
+dstrong_parried_time = -1;
+dstrong_cancel_parry_stun = 0;
+
+taunt_loops = 0;
 
 // Galaxy sfx
 hit_last_frame = array_create(noone, 20);

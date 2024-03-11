@@ -53,7 +53,6 @@ else if (parachute_stats) {
 	
 }
 
-
 // Grapple handling
 switch grapple_hook_state {
 	

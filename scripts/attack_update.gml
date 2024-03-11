@@ -218,24 +218,31 @@ switch(attack) {
         fall_through = (window == 4 || window == 5 && fall_timer < 33) && !was_parried;
     break;
     
-    case AT_DSTRONG:
-    	can_move = false;
-    	
-    	if (window == 2) fall_timer = 0;
-    	
-    	if (window == 3 && window_timer == 1 && !hitpause) {
-    		hsp = 8*spr_dir;
-    		vsp = -10;
-    		dstrong_boom = spawn_hit_fx(x, y, fx_dstrong);
-    		take_damage(player, player, 1);
+    case AT_DSTRONG: // self-parry
+    
+    	if (window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH) && !hitpause) {
+	    	var hbox = create_hitbox(attack, 1, x, y);
+	    	hbox.can_hit_self = true;
+	    	perfect_dodging = 1;
     	}
-    	 else if (window == 4 || window == 5 && !hitpause) {
-        	fall_timer++;
-            print(fall_timer)
-        	if (fall_timer >= 13) iasa_script();
-
-        }
     	
+    	if (window == 4 && window_timer == 1) {
+    		if (dstrong_cancel_parry_stun) {
+    			was_parried = false;
+    			dstrong_cancel_parry_stun = false;
+    			invince_time = 10;
+    		} else {
+    			invincible = false;
+    		}
+    	}
+    	
+    	// necessary for obvious reasons
+    	// also bandaids a bug where when using the move twice in succession,
+    	// the hitbox would be unable to hit perry until late in the move,
+    	// thus killing him
+    	move_cooldown[AT_DSTRONG] = 20;
+    	
+    	break;
     
 }
 
