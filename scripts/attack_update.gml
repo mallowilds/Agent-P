@@ -229,6 +229,10 @@ switch(attack) {
     	
     	if (window == 3 && hitpause) {
     		dstrong_fx.step_timer--;
+    		if (dstrong_cancel_parry_stun && !has_hit && hitstop > 2) {
+	            hitstop = 2;
+	            hitstop_full = 2;
+	        }
     	}
     	
     	if (window == 4 && window_timer == 1) {
