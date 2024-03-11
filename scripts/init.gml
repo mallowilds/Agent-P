@@ -204,6 +204,8 @@ fx_ustrong2                     = hit_fx_create(sprite_get("ustrong_vfx2"), 12);
 fx_dstrong                      = hit_fx_create(sprite_get("dstrong_vfx"), 20);
 fx_medium_circle1               = hit_fx_create(sprite_get("fx_medium_circle1"),12);
 
+fx_parry_flash                  = hit_fx_create(asset_get("new_dodge_spr"), 26);
+
 hfx_null                        = hit_fx_create(sprite_get("null"), 1);
 
 // NOTE !!!

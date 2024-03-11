@@ -224,6 +224,11 @@ switch(attack) {
 	    	var hbox = create_hitbox(attack, 1, x, y);
 	    	hbox.can_hit_self = true;
 	    	perfect_dodging = 1;
+	    	dstrong_fx = spawn_hit_fx(x, y, fx_parry_flash);
+    	}
+    	
+    	if (window == 3 && hitpause) {
+    		dstrong_fx.step_timer--;
     	}
     	
     	if (window == 4 && window_timer == 1) {
