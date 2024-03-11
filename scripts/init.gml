@@ -363,7 +363,7 @@ max_djumps                      = 1;
 double_jump_time                = 31;
 
 walljump_hsp                    = 7;
-walljump_vsp                    = 8;
+walljump_vsp                    = 11;
 walljump_time                   = 20;
 
 base_max_fall                   = 13;
