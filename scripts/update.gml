@@ -63,6 +63,16 @@ switch grapple_hook_state {
     	grapple_hook_x += grapple_hook_hsp;
 		grapple_hook_y += grapple_hook_vsp;
 		
+		var collided_article = noone;
+		var article_collision_list = ds_list_create();
+		instance_position_list(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("obj_article_parent"), article_collision_list, false);
+		for (var i = 0; i < ds_list_size(article_collision_list); i++) {
+			if (instance_exists(article_collision_list[| i]) && "agent_p_grapplable" in article_collision_list[| i]) {
+				collided_article = article_collision_list[| i];
+				break;
+			}
+		}
+		
 		if (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("plasma_field_obj"))) {
 			grapple_hook_hitbox = noone;
 			grapple_hook_state = GRAPPLE_RETURNING;
@@ -85,6 +95,23 @@ switch grapple_hook_state {
     		grapple_hook_vsp = 0;
 		}
 		
+		else if (!was_parried && collided_article != noone) {
+			grapple_hook_state = GRAPPLE_ARTICLE_MOUNTED;
+    		grapple_hook_timer = 0;
+    		stored_hsp = hsp;
+    		stored_vsp = vsp;
+    		if (instance_exists(grapple_hook_hitbox)) {
+    			grapple_hook_hitbox.destroyed = true;
+    			grapple_hook_hitbox = noone;
+    		}
+    		grapple_hook_hsp = 0;
+    		grapple_hook_vsp = 0;
+    		
+    		grapple_hook_target = collided_article;
+			grapple_hook_target_x_offset = (grapple_hook_x - grapple_hook_target.x);
+			grapple_hook_target_y_offset = (grapple_hook_y - grapple_hook_target.y);
+		}
+		
 		else if (!was_parried && !instance_exists(grapple_hook_hitbox)) {
 			grapple_hook_hitbox = noone;
 			grapple_hook_state = GRAPPLE_RETURNING;
@@ -104,6 +131,8 @@ switch grapple_hook_state {
 			grapple_hook_hitbox.hsp = grapple_hook_hsp;
 			grapple_hook_hitbox.vsp = grapple_hook_vsp;
 		}
+		
+		ds_list_destroy(article_collision_list);
 		
     	break;
     	
@@ -210,11 +239,71 @@ switch grapple_hook_state {
 		//print_debug(string(grapple_hook_timer) + " | " + string(point_distance(0, 0, stored_hsp, stored_vsp)));
 		
 		break;
+		
+	case GRAPPLE_ARTICLE_MOUNTED:
+	
+		// error state: unlinked
+		if (!instance_exists(grapple_hook_target)) {
+			if (vsp > -4) vsp = -4;
+			if (attack == AT_FSPECIAL && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
+				set_state(PS_IDLE_AIR);
+				attack_end();
+				grapple_hook_state = GRAPPLE_DISABLED;
+				grapple_hook_timer = 0;
+				grapple_hook_target = noone;
+				break;
+			}
+		}
+		
+		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
+		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+		
+		var mov_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		var mov_accel = 0.6;
+		
+		if (!free  && (mov_angle < 0 || 180 < mov_angle)) {
+			var ldx = lengthdir_x(mov_accel, mov_angle);
+			var hsp_dir = hsp / abs(hsp);
+			var hsp_change = mov_accel * hsp_dir * sqrt(abs(2*ldx/mov_accel - (ldx*ldx/mov_accel/mov_accel)));
+			// above transformation: https://www.desmos.com/calculator/qhpjd7mgxu
+			stored_hsp = hsp + hsp_change;
+			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+		}
+		else {
+			stored_hsp = hsp + lengthdir_x(mov_accel, mov_angle);
+			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+		}
+		
+	
+		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
+			|| (attack != AT_FSPECIAL)
+			|| (point_distance(grapple_hook_x, grapple_hook_y, x, y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp))
+			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.12 && grapple_hook_timer > 15)
+			|| (!free && hsp < grapple_hook_timer*0.08 && grapple_hook_timer > 30)
+		) {
+			grapple_hook_state = GRAPPLE_DISABLED;
+			grapple_hook_timer = 0;
+		}
+		
+		else {
+			hsp = stored_hsp;
+			vsp = stored_vsp;
+			//if (!free && vsp < 0) y -= 1;
+		}
+		
+		if (grapple_hook_target.agent_p_pull_vel != 0) {
+			grapple_hook_target.x -= lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle);
+			grapple_hook_target.y -= lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
+		}
+		
+		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
+		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+		
+		break;
 	
 }
 grapple_hook_timer++;
 
-print_debug(hitstop)
 
 // Galaxy stinger SFX
 for (var i = 0; i < num_hit_last_frame; i++) {

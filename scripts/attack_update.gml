@@ -57,7 +57,11 @@ switch(attack) {
         break;
     
     case AT_NSPECIAL:
-        //a
+        
+        if (window == 2 && window_timer == 1) {
+        	nspec_drone = instance_create(x+(20*spr_dir), y-80, "obj_article1");
+        }
+        
         break;
     case AT_FSPECIAL:
     
@@ -87,19 +91,20 @@ switch(attack) {
 	        		grapple_hook_hitbox = create_hitbox(AT_FSPECIAL, 1, grapple_hook_x, grapple_hook_y);
 	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
 	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;
+	        		grapple_hook_hitbox.agent_p_grapple_hitbox = true; // for use by articles
     			}
     			
         		// no break
         	
         	case 3:
         	
-        		if (grapple_hook_state = GRAPPLE_WALL_MOUNTED) {
+        		if (grapple_hook_state == GRAPPLE_WALL_MOUNTED || grapple_hook_state == GRAPPLE_ARTICLE_MOUNTED) {
         			set_attack_value(attack, AG_NUM_WINDOWS, 5);
         			window = 5;
         			window_timer = 0;
         		}
         		
-        		else if (grapple_hook_state = GRAPPLE_DISABLED) {
+        		else if (grapple_hook_state == GRAPPLE_DISABLED) {
         			window = 4;
         			window_timer = 0;
         		}

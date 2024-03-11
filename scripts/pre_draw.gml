@@ -12,7 +12,7 @@ if (parachute_stats) {
 
 if (grapple_hook_state != GRAPPLE_DISABLED) {
     var draw_angle = 90 - (90 * grapple_hook_dir);
-    if (grapple_hook_state == GRAPPLE_PLAYER_MOUNTED || grapple_hook_state == GRAPPLE_ARTICLE_MOUNTED) {
+    if (grapple_hook_state == GRAPPLE_PLAYER_MOUNTED) {
         draw_angle = point_direction(x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
     }
     

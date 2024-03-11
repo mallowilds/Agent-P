@@ -8,7 +8,7 @@ switch(state) { // use this one for doing actual article behavior
         }
         break;
     case 1: // idle
-        if (state_timer == 50) { // go to dead state after 50 frames
+        if (state_timer == 10000000) { // go to dead state after 50 frames
             set_state(2);
         }
         break;
@@ -21,16 +21,13 @@ switch(state) { // use this one for doing actual article behavior
 
 switch(state) { // use this one for changing sprites and animating
     case 0: // spawn
-        sprite_index = sprite_get("nair");
-        image_index = state_timer * anim_speed;
+        image_index = (state_timer / 4) % 4;
         break;
     case 1: // idle
-        sprite_index = sprite_get("idle");
-        image_index = state_timer * anim_speed;
+        image_index = 4 + (state_timer / 4) % 12;
         break;
     case 2: //die
-        sprite_index = sprite_get("hurt");
-        image_index = state_timer * anim_speed;
+        image_index = (state_timer / 4) % 4;
         break;
 }
 // don't forget that articles aren't affected by small_sprites

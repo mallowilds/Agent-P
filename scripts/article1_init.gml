@@ -9,8 +9,8 @@
 */
 
 // sprite and mask indexes; + default article variables
-sprite_index = sprite_get("idle");
-mask_index = asset_get("ex_guy_hurt_box");
+sprite_index = sprite_get("drone");
+mask_index = asset_get("drone_mask");
 can_be_grounded = false;
 ignores_walls = true;
 spr_dir = player_id.spr_dir;
@@ -22,5 +22,8 @@ state = 0;
 state_timer = 0;
 should_die = false; //if the article should be despawned
 
-// animation variables
-anim_speed = 0.15;
+
+
+// grapple compat
+agent_p_grapplable = true;  // denotes grabbability by grappling hook
+agent_p_pull_vel = 0.5;     // how much grappling should move the article by (set to 0 to disable)

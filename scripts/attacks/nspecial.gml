@@ -45,7 +45,7 @@ set_num_hitboxes(atk, 1);
 var hbox_num = 1;
 
 set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE              , 2);
-set_hitbox_value(atk, hbox_num, HG_WINDOW                   , 2);
+set_hitbox_value(atk, hbox_num, HG_WINDOW                   , 0);
 set_hitbox_value(atk, hbox_num, HG_WINDOW_CREATION_FRAME    , 0);
 set_hitbox_value(atk, hbox_num, HG_LIFETIME                 , 60);
 set_hitbox_value(atk, hbox_num, HG_HITBOX_X                 , 32);

@@ -51,8 +51,8 @@ set_num_hitboxes(atk, 1);
 var hbox_num = 1;
 
 set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE              , 1);
-set_hitbox_value(atk, hbox_num, HG_WINDOW                   , 3);
-set_hitbox_value(atk, hbox_num, HG_WINDOW_CREATION_FRAME    , get_window_value(atk, get_hitbox_value(atk,hbox_num,HG_WINDOW), AG_WINDOW_LENGTH)+1); // manual spawn
+set_hitbox_value(atk, hbox_num, HG_WINDOW                   , 6); // manual spawn
+set_hitbox_value(atk, hbox_num, HG_WINDOW_CREATION_FRAME    , 1); 
 set_hitbox_value(atk, hbox_num, HG_LIFETIME                 , 2); // misleading, actually this value + 3
 set_hitbox_value(atk, hbox_num, HG_HITBOX_X                 , 0);
 set_hitbox_value(atk, hbox_num, HG_HITBOX_Y                 , -10);
