@@ -14,7 +14,7 @@ set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 8);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
-set_window_value(atk, window_num                        , AG_WINDOW_HSPEED_TYPE, 1);
+//set_window_value(atk, window_num                        , AG_WINDOW_HSPEED_TYPE, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_HSPEED, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_VSPEED_TYPE, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_VSPEED, -2);
