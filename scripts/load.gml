@@ -4,6 +4,11 @@ load_y = 124
 
 sprite_change_offset("idle", load_x, load_y);
 sprite_change_offset("hurt", load_x, load_y);
+sprite_change_offset("bighurt", load_x, load_y);
+sprite_change_offset("downhurt", load_x, load_y);
+sprite_change_offset("uphurt", load_x, load_y);
+sprite_change_offset("hurtground", load_x, load_y);
+sprite_change_offset("spinhurt", load_x, load_y);
 
 sprite_change_offset("crouch", load_x, load_y);
 sprite_change_offset("walk", load_x, load_y);
