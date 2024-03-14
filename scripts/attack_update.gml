@@ -257,12 +257,6 @@ switch(attack) {
     	move_cooldown[AT_DSTRONG] = 20;
     	
     	break;
-	case AT_FSTRONG: //charge hitboxes
-		print(window_timer)
-		if window == 1 && window_timer == 9 && strong_charge % 8 == 1 {
-			create_hitbox(attack, 1, x, y) 
-		}
-
     
 }
 
