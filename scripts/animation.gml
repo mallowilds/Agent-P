@@ -3,6 +3,8 @@
 
 if state == PS_IDLE_AIR && djumps == 1 && prev_state == PS_DOUBLE_JUMP image_index = image_number-1;
 if state == PS_IDLE_AIR && prev_state == PS_AIR_DODGE image_index = image_number-1;
+if state == PS_IDLE_AIR && prev_state == PS_ATTACK_AIR && attack == AT_USPECIAL image_index = image_number-1;
+
 if state == PS_CROUCH && prev_state == PS_ATTACK_GROUND && attack == AT_TAUNT_2 image_index = 3
 custom_crouch() // run the custom crouch code
 
