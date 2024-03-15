@@ -153,6 +153,9 @@ switch grapple_hook_state {
 	
 	case GRAPPLE_PLAYER_MOUNTED:
 		
+		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
+		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+		
 		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.6;
 		
@@ -186,16 +189,17 @@ switch grapple_hook_state {
 		
 		grapple_hook_target.hitstop++;
 		
-		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
-		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
-		
 		hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 		vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		
-		if (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin) < point_distance(0, 0, hsp, vsp)) {
+		if (abs(grapple_hook_x - x - (grapple_hook_x_origin * spr_dir)) < abs(hsp)) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
 			grapple_hook_target = noone;
+		}
+		
+		else {
+			wall_snap(spr_dir, 40, hsp); // predict for next step
 		}
 		
 		break;
@@ -359,6 +363,46 @@ if (attack_air_limit_ver) {
 // init_shader(); //unused for now
 // composite vfx update
 update_comp_hit_fx();
+
+#define wall_snap(dir, max_height, x_offset)
+
+	if (max_height > char_height) {
+		print_debug("ERROR: bad max_height for wall_snap()");
+		return false;
+	}
+	
+	if (wall_snap_collision(dir, max_height, x_offset)) {
+		
+		var snap_height = max_height / 2;
+		var itr = floor(log2(max_height)); // approx. pixel-level accuracy
+		
+		print_debug(snap_height);
+		
+		for (var p = 2; p < itr + 2; p++) { // binary search
+			
+			if (wall_snap_collision(dir, snap_height, x_offset)) {
+				snap_height -= (max_height / (power(2, p)));
+			} else {
+				snap_height += (max_height / (power(2, p)));
+			}
+			
+			print_debug(snap_height);
+			
+		}
+		
+		y -= snap_height;
+		return true;
+		
+	}
+	
+	return false;
+	
+#define wall_snap_collision(dir, max_height, x_offset)
+	var l_bound = 20 * dir + x_offset;
+	var r_bound = 24 * dir + x_offset;
+	
+	return collision_rectangle(x+l_bound, y-1, x+r_bound, y-max_height, asset_get("par_block"), false, false)
+		 && !collision_rectangle(x+l_bound, y-max_height, x+r_bound, y-char_height, asset_get("par_block"), false, false);
 
 #define update_comp_hit_fx
 //function updates comp_vfx_array

@@ -351,6 +351,7 @@ switch(attack) {
 }
 
 // Defines
+
 #define sound_window_play //basically a shortcut to avoid repeating if statements over and over
 /// sound_window_play(_window, _timer, _sound, _looping = false, _panning = noone, _volume = 1, _pitch = 1)
 var _window = argument[0], _timer = argument[1], _sound = argument[2];
