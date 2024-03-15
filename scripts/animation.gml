@@ -78,6 +78,24 @@ if (attack == AT_FSPECIAL && window == 5 && (state == PS_ATTACK_GROUND || state 
 
 
 
+// USpecial parachute
+if (parachute_active) {
+	
+	var _s = null;
+	
+	for (var i = 0; i < array_length(strap_anim_list); i++) {
+		if (sprite_index == sprite_get(strap_anim_list[i])) {
+			_s = strap_anim_list[i];
+		}
+	}
+	
+	if (_s != null) {
+	    _s = _s + "_strap";
+	    sprite_index = sprite_get(_s);
+	}
+	
+}
+
 
 
 

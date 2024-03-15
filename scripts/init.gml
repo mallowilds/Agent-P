@@ -50,8 +50,20 @@ hit_last_frame = array_create(noone, 20);
 num_hit_last_frame = 0;
 stinger_cooldown = 0;
 
-
 // See also: parachute-labeled stats under "aerial movement stats"
+
+// For USpec parachute:
+strap_anim_list = [
+    "bair",
+    "dair",
+    "doublejump",
+    "fair",
+    "jump",
+    "nair",
+    "nspecial_air",
+    "uair",
+    ];
+
 
 //                           ATTACK/WINDOW INDEXES                            //
 
