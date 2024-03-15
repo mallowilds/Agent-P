@@ -23,10 +23,10 @@ set_attack_value(atk, AG_OFF_LEDGE                      , true);
 
 // startup
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 7);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 14);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
 set_window_value(atk, window_num                        , AG_WINDOW_HAS_SFX, true);
 set_window_value(atk, window_num                        , AG_WINDOW_SFX, asset_get("sfx_may_arc_cointoss"));
 set_window_value(atk, window_num                        , AG_WINDOW_SFX_FRAME, window_length-1);
@@ -37,8 +37,8 @@ window_num++;
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 6);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 1);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 3);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 4);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 2);
 //set_window_value(atk, window_num                        , AG_WINDOW_CAN_WALLJUMP, true);
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, gravity_speed);
 window_num++;
@@ -47,7 +47,7 @@ window_num++;
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 9);
 set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 6);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 4);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 6);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
 //set_window_value(atk, window_num                        , AG_WINDOW_CAN_WALLJUMP, true);
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, gravity_speed);
@@ -55,19 +55,19 @@ window_num++;
 
 // endlag
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 10);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 30);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 4);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 3);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 7);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
 set_window_value(atk, window_num                        , AG_WINDOW_CAN_WALLJUMP, true);
-set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, gravity_speed);
+set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, .7);
 window_num++;
 
 // getting pulled (wall)
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 9);
 set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 6);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 8);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 11);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, 0.3);
 set_window_value(atk, window_num                        , AG_WINDOW_HAS_CUSTOM_FRICTION, 1);
@@ -80,7 +80,7 @@ window_num++;
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 9);
 set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 6);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 7);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 11);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_HAS_CUSTOM_FRICTION, 1);

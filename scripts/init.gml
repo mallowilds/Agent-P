@@ -377,7 +377,7 @@ prat_fall_accel                 = 0.85;
 air_friction                    = 0.02;
 
 max_djumps                      = 1;
-double_jump_time                = 31;
+double_jump_time                = 25;
 
 walljump_hsp                    = 7;
 walljump_vsp                    = 11;
