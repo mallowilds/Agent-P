@@ -187,7 +187,8 @@ switch(attack) {
             taunt_loops = 0
 
         }
-		down_down = true
+
+		if attack == AT_TAUNT_2 down_down = true
         break;
     case AT_USTRONG: 
         can_move = false;
