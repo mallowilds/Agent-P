@@ -24,7 +24,7 @@ set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_S
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_HSPEED_TYPE, 1);
 set_window_value(atk, window_num                        , AG_WINDOW_HAS_SFX, true);
-set_window_value(atk, window_num                        , AG_WINDOW_SFX, asset_get("sfx_swipe_heavy1"));
+set_window_value(atk, window_num                        , AG_WINDOW_SFX, asset_get("sfx_absa_singlezap2"));
 set_window_value(atk, window_num                        , AG_WINDOW_SFX_FRAME, window_length-1);
 window_num++;
 
