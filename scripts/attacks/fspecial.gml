@@ -28,7 +28,7 @@ set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 14);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
 set_window_value(atk, window_num                        , AG_WINDOW_HAS_SFX, true);
-set_window_value(atk, window_num                        , AG_WINDOW_SFX, asset_get("sfx_may_arc_cointoss"));
+set_window_value(atk, window_num                        , AG_WINDOW_SFX, sound_get("sfx_per_hookstart_2"));
 set_window_value(atk, window_num                        , AG_WINDOW_SFX_FRAME, window_length-1);
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, gravity_speed);
 window_num++;
@@ -61,6 +61,8 @@ set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_S
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
 set_window_value(atk, window_num                        , AG_WINDOW_CAN_WALLJUMP, true);
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GRAVITY, .7);
+set_window_value(atk, window_num                        , AG_WINDOW_HAS_SFX, true);
+set_window_value(atk, window_num                        , AG_WINDOW_SFX, sound_get("sfx_per_hookend"));
 window_num++;
 
 // getting pulled (wall)
@@ -109,7 +111,7 @@ set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0.3);
 set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 6);
 set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , 0.3);
 set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT            , 1);
-set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , asset_get("sfx_blow_weak2"));
+set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , sound_get("sfx_per_hookhit_2"));
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_SPRITE        , sprite_get("null"));
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK          , -1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DESTROY_EFFECT, hfx_null);
