@@ -14,7 +14,7 @@ var window_length   = 0;
 
 //                        --attack windows--                                  //
 set_attack_value(atk, AG_SPRITE                         , sprite_get("fspec_base"));
-set_attack_value(atk, AG_SPRITE                         , sprite_get("fspec_air"));
+set_attack_value(atk, AG_AIR_SPRITE                         , sprite_get("fspec_air"));
 
 set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("fspecial_hurt"));
 set_attack_value(atk, AG_NUM_WINDOWS                    , 4); // tampered with in attack_update
