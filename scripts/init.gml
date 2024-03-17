@@ -62,6 +62,7 @@ strap_anim_list = [
     "nair",
     "nspecial_air",
     "uair",
+    "fspec_air"
     ];
 
 
