@@ -23,5 +23,7 @@ grabbed_player_relative_y = 0;
 
 if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;
 
+if (attack == AT_DSPECIAL  && free) attack = AT_DSPECIAL_AIR
+
 // Prevent ustrong from flying off ledges (immediately is reset to 2)
 if (attack == AT_USTRONG) set_attack_value(AT_USTRONG, AG_CATEGORY, 0);

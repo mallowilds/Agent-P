@@ -159,6 +159,20 @@ switch(attack) {
         }
         */
         break;
+	case AT_DSPECIAL_AIR: 
+		can_fast_fall = false;
+
+		if parachute_active {
+			set_window_value(AT_DSPECIAL_AIR, 2                        , AG_WINDOW_VSPEED, -8);
+		} else {
+			set_window_value(AT_DSPECIAL_AIR, 2                        , AG_WINDOW_VSPEED, -7);
+		} 
+		//note for shear: if the move is on cooldown / if button is out, you should be able to use the move, but it should give you like. -4 vsp (with or without para) and have a 1 per air time limit (resets on wj).
+		//same thing for the ground vers but its just like a 30 or so frame cooldown.
+		//if you use dspecial in the air and the projectile goes into the blastzone, it should have like a 1.5 second cooldown that doesnt get refreshed on walljump or landing.
+
+		//also if you land during startup it should put you into the grounded version thanks :eggdog:
+		break;
     case AT_USPECIAL:
     	can_wall_jump = (window > 1);
     	can_shield = (window > 1);
@@ -314,7 +328,6 @@ if (instance_exists(grabbed_player_obj) && get_window_value(attack, window, AG_W
 if (get_window_value(attack,window,AG_WINDOW_CAN_WALLJUMP)) {
 	can_wall_jump = true;
 }
-
 // cosmetic attack fx
 switch(attack) {
     case AT_JAB:

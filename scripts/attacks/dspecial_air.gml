@@ -1,4 +1,4 @@
-var atk             = AT_DSPECIAL;
+var atk             = AT_DSPECIAL_AIR;
 var window_num      = 1;
 var window_length   = 0;
 
@@ -12,26 +12,29 @@ var window_length   = 0;
 //If its parried, it should go haywire and disable itself for a few seconds, like Lily. Might also make this disable the drone, but idk probably not it'd be pretty random.
 
 //                        --attack windows--                                  //
-set_attack_value(atk, AG_SPRITE                         , sprite_get("dspecial"));
+set_attack_value(atk, AG_SPRITE                         , sprite_get("dspecial_air"));
 set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("dspecial_hurt"));
 set_attack_value(atk, AG_NUM_WINDOWS                    , 2);
 set_attack_value(atk, AG_CATEGORY                       , 2);
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 15);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 13);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 3);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(atk, window_num                        , AG_WINDOW_HAS_SFX, true);
 set_window_value(atk, window_num                        , AG_WINDOW_SFX, asset_get("sfx_swipe_medium1"));
 set_window_value(atk, window_num                        , AG_WINDOW_SFX_FRAME, window_length-1);
 window_num++;
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 20);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 24);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 3);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 2);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 3);
+set_window_value(atk, window_num                        , AG_WINDOW_VSPEED_TYPE, 2);
+set_window_value(atk, window_num                        , AG_WINDOW_VSPEED, -8);
+
 window_num++;
 
 //                        --attack hitboxes--                                 //
