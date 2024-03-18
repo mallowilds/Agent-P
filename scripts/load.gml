@@ -99,6 +99,8 @@ sprite_change_offset("fx_small_circle2"         , 174, 168);
 sprite_change_offset("fx_small_circle3"         , 174, 168);
 sprite_change_offset("fx_small_circle4"         , 174, 168);
 sprite_change_offset("fx_small_circle_angled1"  , 174, 168);
+sprite_change_offset("fstrong_hfx1", 30, 30);
+sprite_change_offset("fstrong_hfx2", 30, 30);
 
 sprite_change_offset("fx_medium_circle1"        , 174, 168);
 sprite_change_offset("fx_medium_circle_angled1" , 174, 168);

@@ -220,12 +220,17 @@ dash_moonwalks                  = false; // if the character has a moonwalk anim
 fx_ustrong1                     = hit_fx_create(sprite_get("ustrong_vfx1"), 12);
 fx_ustrong2                     = hit_fx_create(sprite_get("ustrong_vfx2"), 12);
 
+
 fx_dstrong                      = hit_fx_create(sprite_get("dstrong_vfx"), 20);
 fx_medium_circle1               = hit_fx_create(sprite_get("fx_medium_circle1"),20);
 
 fx_parry_flash                  = hit_fx_create(asset_get("new_dodge_spr"), 26);
 
 hfx_null                        = hit_fx_create(sprite_get("null"), 1);
+
+hfx_fstrong1                    = hit_fx_create(sprite_get("fstrong_hfx1"), 16);
+hfx_fstrong2                    = hit_fx_create(sprite_get("fstrong_hfx2"), 16);
+
 
 // NOTE !!!
 // while the vfx tool is still a work in progress, I recommend keeping it simple
