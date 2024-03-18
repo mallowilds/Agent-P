@@ -9,6 +9,10 @@ switch state {
         draw_sprite_ext(sprite_get("parachute"), vis_frame, x, y, 1, 1, vis_angle, c_white, vis_alpha);
         break;
     
+    case 01:
+        draw_sprite_ext(sprite_get("plat"), 0, x, y, spr_dir, 1, 0, c_white, vis_alpha);
+        break;
+    
     //#endregion
     
 }

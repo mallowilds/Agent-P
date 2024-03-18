@@ -47,6 +47,8 @@ dstrong_cancel_parry_stun = 0;
 
 taunt_loops = 0;
 
+plat_active = 0;
+
 // Galaxy sfx
 hit_last_frame = array_create(noone, 20);
 num_hit_last_frame = 0;

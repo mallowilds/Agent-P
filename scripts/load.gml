@@ -1,5 +1,5 @@
-load_x = 105
-load_y = 124
+var load_x = 105
+var load_y = 124
 
 
 sprite_change_offset("idle", load_x, load_y);
@@ -71,7 +71,7 @@ sprite_change_offset("dspecial_air_strap", load_x, load_y);
 sprite_change_offset("taunt", load_x, load_y);
 sprite_change_offset("taunt_2", load_x, load_y);
 
-sprite_change_offset("plat", 64, 94);
+sprite_change_offset("plat", load_x, load_y);
 
 sprite_change_offset("nspecial_proj", 64, 94);
 

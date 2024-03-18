@@ -6,7 +6,18 @@
 #macro GRAPPLE_WALL_MOUNTED 4
 #macro GRAPPLE_ARTICLE_MOUNTED 5
 
-// Parachute stuff
+// Respawn platform
+var is_on_plat = (state == PS_RESPAWN || (state == PS_ATTACK_GROUND && respawn_taunt > 0));
+if (is_on_plat) plat_active = 1;
+
+else if (!is_on_plat && plat_active) {
+	plat_active = false;
+	var despawn_plat = instance_create(x, y, "obj_article3");
+	despawn_plat.state = 01;
+	despawn_plat.vis_alpha = 1;
+}
+
+// Parachute
 if (parachute_active) {
 	
 	// Also reset in got_hit, got_parried, and death.gml

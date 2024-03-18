@@ -7,7 +7,7 @@
 - Default (-1): Failed initialization
 
 - 00: Parachute
-
+- 01: Spawn platform
 
 
 
@@ -35,7 +35,20 @@ switch state {
         }
         break;
     
-    //#endregion
+    // Spawn platform
+    case 01:
+        if (state_timer == 0) {
+            hsp = 0.5*spr_dir;
+            vsp = 0;
+        }
+        if (abs(hsp) < 6) hsp += 1 * spr_dir;
+        vsp -= 0.2;
+        if (state_timer > 10) vis_alpha -= 0.1;
+        if (vis_alpha <= 0) {
+            instance_destroy();
+            exit;
+        }
+        break;
     
     //#region Failed initialization
     default:
