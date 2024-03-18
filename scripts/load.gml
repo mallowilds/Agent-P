@@ -3,6 +3,7 @@ var load_y = 124
 
 
 sprite_change_offset("idle", load_x, load_y);
+sprite_change_offset("idle_plat", load_x, load_y);
 sprite_change_offset("hurt", load_x, load_y);
 sprite_change_offset("bighurt", load_x, load_y);
 sprite_change_offset("downhurt", load_x, load_y);
@@ -72,6 +73,7 @@ sprite_change_offset("taunt", load_x, load_y);
 sprite_change_offset("taunt_2", load_x, load_y);
 
 sprite_change_offset("plat", load_x, load_y);
+sprite_change_offset("plat_fly", load_x, load_y);
 
 sprite_change_offset("nspecial_proj", 64, 94);
 

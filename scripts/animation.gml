@@ -10,6 +10,11 @@ if state == PS_CROUCH && prev_state == PS_ATTACK_GROUND && attack == AT_TAUNT_2 
 custom_crouch() // run the custom crouch code
 
 
+if (state == PS_RESPAWN) {
+	sprite_index = sprite_get("idle_plat");
+	image_index = state_timer / 5;
+}
+
 // Crawl
 if (state == PS_CROUCH && ccrouch_phase == 1) {
 	
