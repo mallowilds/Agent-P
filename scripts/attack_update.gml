@@ -88,6 +88,7 @@ switch(attack) {
 	        		grapple_hook_end_hsp = hsp;
 	        		grapple_hook_vsp = vsp;
 	        		
+	        		grapple_hook_hbless = false;
 	        		grapple_hook_hitbox = create_hitbox(AT_FSPECIAL, 1, grapple_hook_x, grapple_hook_y);
 	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
 	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;

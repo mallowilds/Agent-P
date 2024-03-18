@@ -76,13 +76,23 @@ switch grapple_hook_state {
 		
 		var collided_article = noone;
 		var article_collision_list = ds_list_create();
-		instance_position_list(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("obj_article_parent"), article_collision_list, false);
-		for (var i = 0; i < ds_list_size(article_collision_list); i++) {
-			if (instance_exists(article_collision_list[| i]) && "agent_p_grapplable" in article_collision_list[| i]) {
-				collided_article = article_collision_list[| i];
-				break;
+		
+		// non-solid base cast articles (so, just ranno)
+		collided_article = instance_position(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("frog_bubble_obj"));
+		
+		// ws articles
+		if (collided_article == noone) {
+			instance_position_list(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("obj_article_parent"), article_collision_list, false);
+			for (var i = 0; i < ds_list_size(article_collision_list); i++) {
+				if (instance_exists(article_collision_list[| i]) && "agent_p_grapplable" in article_collision_list[| i]) {
+					collided_article = article_collision_list[| i];
+					break;
+				}
 			}
 		}
+		
+		var collided_wall = instance_position(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("par_block"));
+		if (collided_wall == noone) collided_wall = instance_position(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("par_jumpthrough"));
 		
 		if (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("plasma_field_obj"))) {
 			grapple_hook_hitbox = noone;
@@ -93,7 +103,8 @@ switch grapple_hook_state {
     		sound_play(asset_get("sfx_clairen_hit_weak"));
 		}
 		
-		else if (!was_parried && (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_block")) || position_meeting(grapple_hook_x, grapple_hook_y, asset_get("par_jumpthrough")))) {
+		else if (!was_parried && collided_wall != noone) {
+			
 			grapple_hook_state = GRAPPLE_WALL_MOUNTED;
     		grapple_hook_timer = 0;
     		stored_hsp = hsp;
@@ -104,6 +115,10 @@ switch grapple_hook_state {
     		}
     		grapple_hook_hsp = 0;
     		grapple_hook_vsp = 0;
+    		
+    		grapple_hook_target = collided_wall;
+			grapple_hook_target_x_offset = (grapple_hook_x - get_instance_x(grapple_hook_target));
+			grapple_hook_target_y_offset = (grapple_hook_y - get_instance_y(grapple_hook_target));
 		}
 		
 		else if (!was_parried && collided_article != noone) {
@@ -119,18 +134,18 @@ switch grapple_hook_state {
     		grapple_hook_vsp = 0;
     		
     		grapple_hook_target = collided_article;
-			grapple_hook_target_x_offset = (grapple_hook_x - grapple_hook_target.x);
-			grapple_hook_target_y_offset = (grapple_hook_y - grapple_hook_target.y);
+			grapple_hook_target_x_offset = (grapple_hook_x - get_instance_x(grapple_hook_target));
+			grapple_hook_target_y_offset = (grapple_hook_y - get_instance_y(grapple_hook_target));
 		}
 		
-		else if (!was_parried && !instance_exists(grapple_hook_hitbox)) {
+		else if (!was_parried && !instance_exists(grapple_hook_hitbox) && !grapple_hook_hbless) {
 			grapple_hook_hitbox = noone;
 			grapple_hook_state = GRAPPLE_RETURNING;
     		grapple_hook_timer = 0;
     	}
     	
     	else if (grapple_hook_hsp * grapple_hook_dir <= grapple_hook_end_hsp * grapple_hook_dir) {
-    		if (!was_parried) {
+    		if (instance_exists(grapple_hook_hitbox)) {
     			grapple_hook_hitbox.destroyed = true;
     			grapple_hook_hitbox = noone;
     		}
@@ -138,9 +153,19 @@ switch grapple_hook_state {
     		grapple_hook_timer = 0;
 		}
 		
-		else if (!was_parried) {
+		else if (!was_parried && !grapple_hook_hbless) {
 			grapple_hook_hitbox.hsp = grapple_hook_hsp;
 			grapple_hook_hitbox.vsp = grapple_hook_vsp;
+			
+			// safety check for grappleable base cast articles
+			if (   position_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp), asset_get("pillar_obj"))
+				|| position_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp), asset_get("rock_obj"))
+				|| position_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp), asset_get("frog_bubble_obj"))
+			) {
+				grapple_hook_hitbox.destroyed = true;
+    			grapple_hook_hitbox = noone;
+    			grapple_hook_hbless = true;
+			}
 		}
 		
 		ds_list_destroy(article_collision_list);
@@ -217,6 +242,22 @@ switch grapple_hook_state {
 	
 	case GRAPPLE_WALL_MOUNTED:
 		
+		// error state: unlinked
+		if (!instance_exists(grapple_hook_target)) {
+			if (vsp > -4) vsp = -4;
+			if (attack == AT_FSPECIAL && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
+				set_state(PS_IDLE_AIR);
+				attack_end();
+				grapple_hook_state = GRAPPLE_DISABLED;
+				grapple_hook_timer = 0;
+				grapple_hook_target = noone;
+				break;
+			}
+		}
+		
+		grapple_hook_x = get_instance_x(grapple_hook_target) + grapple_hook_target_x_offset;
+		grapple_hook_y = get_instance_y(grapple_hook_target) + grapple_hook_target_y_offset;
+		
 		var mov_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.6;
 		
@@ -270,8 +311,8 @@ switch grapple_hook_state {
 			}
 		}
 		
-		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
-		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+		grapple_hook_x = get_instance_x(grapple_hook_target) + grapple_hook_target_x_offset;
+		grapple_hook_y = get_instance_y(grapple_hook_target) + grapple_hook_target_y_offset;
 		
 		var mov_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.6;
@@ -306,13 +347,13 @@ switch grapple_hook_state {
 			//if (!free && vsp < 0) y -= 1;
 		}
 		
-		if (grapple_hook_target.agent_p_pull_vel != 0) {
+		if ("agent_p_pull_vel" in grapple_hook_target && grapple_hook_target.agent_p_pull_vel != 0) {
 			grapple_hook_target.x -= lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle);
 			grapple_hook_target.y -= lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
+			
+			grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
+			grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
 		}
-		
-		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
-		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
 		
 		break;
 	
