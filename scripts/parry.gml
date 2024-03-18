@@ -3,7 +3,6 @@
 if (state == PS_ATTACK_GROUND && attack == AT_DSTRONG) {
     
     if (hit_player != player) {
-        print_debug(":3");
         sound_play(sound_get("sfx_perry_stinger"), 0, 0, 1.5);
 		stinger_cooldown = 110;
     }

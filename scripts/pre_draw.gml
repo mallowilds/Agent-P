@@ -12,10 +12,11 @@ if (parachute_stats) {
 
 if (grapple_hook_state != GRAPPLE_DISABLED) {
     
-    var temp_x_origin = (grapple_hook_state == GRAPPLE_WALL_MOUNTED || grapple_hook_state == GRAPPLE_ARTICLE_MOUNTED) ? 0 : grapple_hook_x_origin
+    var temp_x_origin = grapple_hook_x_origin + (grapple_hook_state < GRAPPLE_WALL_MOUNTED ? grapple_hook_x_offset : 0);
+    var temp_y_origin = grapple_hook_y_origin + (grapple_hook_state < GRAPPLE_PLAYER_MOUNTED ? grapple_hook_y_offset : 0);
     
-    var draw_angle = point_direction(x + temp_x_origin*spr_dir, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
-    var draw_length = point_distance(x + temp_x_origin*spr_dir, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+    var draw_angle = point_direction(x + temp_x_origin*spr_dir, y + temp_y_origin, grapple_hook_x, grapple_hook_y);
+    var draw_length = point_distance(x + temp_x_origin*spr_dir, y + temp_y_origin, grapple_hook_x, grapple_hook_y);
     
     draw_rope(sprite_get("rope"), 0, grapple_hook_x, grapple_hook_y, draw_length, draw_angle+180, c_white, 1)
 

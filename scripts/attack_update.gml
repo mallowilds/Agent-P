@@ -81,8 +81,8 @@ switch(attack) {
     			if (window_timer == 1) {
     				grapple_hook_state = GRAPPLE_ACTIVE;
 	        		grapple_hook_timer = 0;
-	        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir);
-	        		grapple_hook_y = y + grapple_hook_y_origin;
+	        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir) + (grapple_hook_x_offset * spr_dir);
+	        		grapple_hook_y = y + grapple_hook_y_origin + grapple_hook_y_offset;
 	        		grapple_hook_dir = spr_dir;
 	        		grapple_hook_hsp = 20 * spr_dir + hsp;
 	        		grapple_hook_end_hsp = hsp;

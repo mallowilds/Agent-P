@@ -19,8 +19,10 @@ parachute_stats = false;
 vis_parachute_angle = 0;
 vis_parachute_frame = 0;
 
-grapple_hook_x_origin = 28;
-grapple_hook_y_origin = -36;
+grapple_hook_x_origin = 0;
+grapple_hook_x_offset = 28; // offset for firing
+grapple_hook_y_origin = -32;
+grapple_hook_y_offset = -4; // offset for firing
 
 grapple_hook_state = GRAPPLE_DISABLED;
 grapple_hook_x = x;

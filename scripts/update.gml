@@ -137,15 +137,15 @@ switch grapple_hook_state {
     	break;
     	
 	case GRAPPLE_RETURNING:
-		var gh_angle = point_direction(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin);
-		var gh_speed = min(grapple_hook_timer / 1.5, point_distance(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin));
+		var gh_angle = point_direction(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin+grapple_hook_y_offset);
+		var gh_speed = min(grapple_hook_timer / 1.5, point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin+grapple_hook_y_offset));
 		grapple_hook_hsp = lengthdir_x(gh_speed, gh_angle);
 		grapple_hook_vsp = lengthdir_y(gh_speed, gh_angle);
 		
 		grapple_hook_x += grapple_hook_hsp;
 		grapple_hook_y += grapple_hook_vsp;
 		
-		if (point_distance(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin) < 0.1) {
+		if (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin+grapple_hook_y_offset) < 0.1) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
 		}
@@ -376,8 +376,6 @@ update_comp_hit_fx();
 		var snap_height = max_height / 2;
 		var itr = floor(log2(max_height)); // approx. pixel-level accuracy
 		
-		print_debug(snap_height);
-		
 		for (var p = 2; p < itr + 2; p++) { // binary search
 			
 			if (wall_snap_collision(dir, snap_height, x_offset)) {
@@ -386,7 +384,7 @@ update_comp_hit_fx();
 				snap_height += (max_height / (power(2, p)));
 			}
 			
-			print_debug(snap_height);
+			//print_debug(snap_height);
 			
 		}
 		
