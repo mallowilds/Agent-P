@@ -66,6 +66,8 @@ sprite_change_offset("fspec_swing_strap", load_x, load_y);
 sprite_change_offset("uspecial", load_x, load_y);
 sprite_change_offset("dspecial", load_x, load_y);
 sprite_change_offset("dspecial_air", load_x, load_y);
+sprite_change_offset("dspecial_air_strap", load_x, load_y);
+
 sprite_change_offset("taunt", load_x, load_y);
 sprite_change_offset("taunt_2", load_x, load_y);
 
