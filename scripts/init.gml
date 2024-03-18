@@ -20,7 +20,7 @@ vis_parachute_angle = 0;
 vis_parachute_frame = 0;
 
 grapple_hook_x_origin = 28;
-grapple_hook_y_origin = -37;
+grapple_hook_y_origin = -36;
 
 grapple_hook_state = GRAPPLE_DISABLED;
 grapple_hook_x = x;
