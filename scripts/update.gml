@@ -138,7 +138,7 @@ switch grapple_hook_state {
     	
 	case GRAPPLE_RETURNING:
 		var gh_angle = point_direction(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin);
-		var gh_speed = min(grapple_hook_timer / 2, point_distance(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin));
+		var gh_speed = min(grapple_hook_timer / 1.5, point_distance(grapple_hook_x, grapple_hook_y, x + grapple_hook_x_origin*spr_dir, y + grapple_hook_y_origin));
 		grapple_hook_hsp = lengthdir_x(gh_speed, gh_angle);
 		grapple_hook_vsp = lengthdir_y(gh_speed, gh_angle);
 		

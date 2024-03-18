@@ -102,6 +102,8 @@ switch(attack) {
         			set_attack_value(attack, AG_NUM_WINDOWS, 5);
         			window = 5;
         			window_timer = 0;
+        			
+        			sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
         		}
         		
         		else if (grapple_hook_state == GRAPPLE_DISABLED) {
@@ -129,6 +131,12 @@ switch(attack) {
         			set_state(PS_IDLE_AIR);
         			if (vsp > -4 && free) vsp = -4;
         			attack_end();
+        		}
+        		
+        		// slide behavior
+        		if (!free || anim_slide_buffer) {
+        			attack_air_limit[attack] = false; // refresh cooldown
+        			if (get_gameplay_time() % 3 == 0) spawn_base_dust(x, y, "dash");
         		}
         		
         		break;

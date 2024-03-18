@@ -57,19 +57,19 @@ if (state == PS_CROUCH && ccrouch_phase == 1) {
 
 // FSpecial
 if (attack == AT_FSPECIAL && window == 5 && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
-	sprite_index = sprite_get("fspec_swing");
+	sprite_index = sprite_get(parachute_active ? "fspec_swing_strap" : "fspec_swing");
+	
 	if (!free || anim_slide_buffer) {
 		image_index = 1;
 		anim_slide_buffer = !free;
 	}
 	
 	else {
-		sprite_index = sprite_get("fspec_swing");
-		
-		var vis_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		var vis_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		if (spr_dir == -1) vis_angle = (vis_angle * -1 + 180) % 360;
+		if (vis_angle < 0) vis_angle += 360;
 		
-		if (300 < vis_angle || vis_angle < 25) image_index = 0;
+		if (345 < vis_angle || vis_angle < 10) image_index = 0;
 		else if (vis_angle < 70) image_index = 2;
 		else if (vis_angle < 115) image_index = 3;
 		else image_index = 4;
