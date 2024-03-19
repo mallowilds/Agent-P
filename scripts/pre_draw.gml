@@ -7,10 +7,20 @@
 #macro GRAPPLE_ARTICLE_MOUNTED 5
 
 if (parachute_stats) {
-    draw_sprite_ext(sprite_get("parachute"), vis_parachute_frame, x+(1*spr_dir), y-15, 1, 1, vis_parachute_angle, c_white, 1);
+    if (get_player_color(player) == 0) {
+        draw_sprite_ext(sprite_get("parachute"), vis_parachute_frame, x+(1*spr_dir), y-15, 1, 1, vis_parachute_angle, c_white, 1);
+    }
+    else {
+        shader_start();
+        draw_sprite_ext(sprite_get("parachute_col"), vis_parachute_frame, x+(1*spr_dir), y-15, 1, 1, vis_parachute_angle, c_white, 1);
+        shader_end();
+    }
 }
 
+
 if (grapple_hook_state != GRAPPLE_DISABLED) {
+    
+    shader_start();
     
     var temp_x_origin = grapple_hook_x_origin + (grapple_hook_state < GRAPPLE_WALL_MOUNTED ? grapple_hook_x_offset : 0);
     var temp_y_origin = grapple_hook_y_origin + (grapple_hook_state < GRAPPLE_PLAYER_MOUNTED ? grapple_hook_y_offset : 0);
@@ -22,6 +32,8 @@ if (grapple_hook_state != GRAPPLE_DISABLED) {
 
     if (grapple_hook_state != GRAPPLE_PLAYER_MOUNTED) draw_angle = 90 - (90 * grapple_hook_dir);
     draw_sprite_ext(sprite_get("fspec_proj"), (grapple_hook_state != GRAPPLE_ACTIVE), grapple_hook_x, grapple_hook_y, 1, 1, draw_angle, c_white, 1);
+    
+    shader_end();
     
 }
 

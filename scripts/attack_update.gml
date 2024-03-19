@@ -112,6 +112,8 @@ switch(attack) {
 	        		
     			}
     			
+    			training_mode_alpha = 0.5;
+    			
         		// no break
         	
         	case 3:
@@ -128,6 +130,8 @@ switch(attack) {
         			window = 4;
         			window_timer = 0;
         		}
+        		
+        		if (window == 3 && training_mode_alpha > 0) training_mode_alpha -= 0.05
         		
 	        	break;
 	        
