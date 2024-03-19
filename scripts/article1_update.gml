@@ -9,7 +9,7 @@ switch(state) { // use this one for doing actual article behavior
         if (state_timer == 1) {
             hsp = (throw_dir == -1) ? 2 : 4 + (2 * throw_dir);
             hsp *= spr_dir;
-            vsp = -6 + (2.5 * throw_dir);
+            vsp = -6.5 + (3 * throw_dir);
             
             hbox = create_hitbox(AT_NSPECIAL, 1, x, y);
             hbox.agent_p_grapple_hitbox = true;
@@ -147,28 +147,20 @@ if hbox.type == 1 {
         }
     }
 }
-// This puts the ARTICLE in hitpause.
-// If your article does not already account for being in hitpause, either make it stop what it's doing in hitpause
-// or comment out the line below.
+
+// SK compat
+if (hbox.player_id.url == CH_SHOVEL_KNIGHT && hbox.attack == AT_DAIR && hbox.type == 1) {
+    if (hbox.player_id.vsp > -5) hbox.player_id.vsp = -5;
+    if (hbox.player_id.old_vsp > -5) hbox.player_id.old_vsp = -5;
+    if (hbox.hbox_num == 3) sound_play(asset_get("sfx_shovel_hit_light1")); // idk why this one doesn't have sfx lol
+}
+
+
 hitstop = floor(desired_hitstop); 
- 
- 
-//Hit Lockout
+
 if article_should_lockout hit_lockout = hbox.no_other_hit;
- 
-//Default Hitstun Calculation
-hitstun = (hbox.kb_value * 4 * ((kb_adj - 1) * 0.6 + 1) + hbox.damage * 0.12 * hbox.kb_scale * 4 * 0.65 * kb_adj) + 12;
-hitstun_full = hitstun;
-            
-//Default Knockback Calculation
- 
-// if other.force_flinch && !other.free orig_knock = 0; //uncomment this line for grounded articles.
-if hbox.force_flinch orig_knock = 0.3; //comment out this line for grounded articles.
-else orig_knock = hbox.kb_value + hbox.damage * hbox.kb_scale * 0.12 * kb_adj;
+
 kb_dir = get_hitbox_angle(hbox);
- 
-hsp = lengthdir_x(orig_knock, kb_dir);
-vsp = lengthdir_y(orig_knock, kb_dir);
  
 //Default hit stuff
 sound_play(hbox.sound_effect);
