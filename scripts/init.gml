@@ -238,6 +238,9 @@ hfx_null                        = hit_fx_create(sprite_get("null"), 1);
 hfx_fstrong1                    = hit_fx_create(sprite_get("fstrong_hfx1"), 16);
 hfx_fstrong2                    = hit_fx_create(sprite_get("fstrong_hfx2"), 16);
 
+//custom intro
+AT_INTRO_1 = 2; //the attack index the intro uses, 2 doesn't overwrite any other attack
+AT_INTRO_2 = 3; //the attack index the intro uses, 2 doesn't overwrite any other attack
 
 // NOTE !!!
 // while the vfx tool is still a work in progress, I recommend keeping it simple
@@ -486,3 +489,4 @@ set_victory_theme( sound_get("perry_victory") )
 //                       --ranno bubble visual offset--                       //
 bubble_x                        = 0;
 bubble_y                        = 8;
+

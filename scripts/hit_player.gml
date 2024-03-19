@@ -37,7 +37,7 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 	hsp = 0;
 	vsp = 0;
 	
-	// djumps = 0; // reset djumps
+	// djumps = 0; // reset djumps //you are fucked up and evil
 	sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
 }
 

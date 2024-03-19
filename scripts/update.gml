@@ -6,6 +6,20 @@
 #macro GRAPPLE_WALL_MOUNTED 4
 #macro GRAPPLE_ARTICLE_MOUNTED 5
 
+//intro
+if get_gameplay_time() == 1 {
+	if freemd == 1 {
+		set_state(PS_ATTACK_GROUND)
+		attack = AT_INTRO_1
+		print(ground_type)
+	} else {
+		set_state(PS_ATTACK_GROUND)
+		attack = AT_INTRO_2
+		print(ground_type)
+	}
+}
+
+
 // Respawn platform
 var is_on_plat = (state == PS_RESPAWN || (state == PS_ATTACK_GROUND && respawn_taunt > 0));
 if (is_on_plat) plat_active = 1;

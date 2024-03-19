@@ -391,7 +391,17 @@ switch(attack) {
     case AT_TAUNT:
 		//a
     	break;
-    
+    case 2: //intro
+		if window == 4 && window_timer == 1 {
+			sound_play(sound_get("sfx_perry_stinger"))
+		}
+		break;
+	case 3: //intro 2
+
+		if window == 4 && window_timer == 1 {
+			sound_play(sound_get("sfx_perry_stinger"))
+		}
+		break;
 }
 
 // Defines

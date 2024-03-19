@@ -1,6 +1,9 @@
 var load_x = 105
 var load_y = 124
 
+sprite_change_offset("intro1", 130*2, 193*2); //listen.
+
+sprite_change_offset("intro2", 130*2, 193*2); //listen.
 
 sprite_change_offset("idle", load_x, load_y);
 sprite_change_offset("idle_plat", load_x, load_y);
