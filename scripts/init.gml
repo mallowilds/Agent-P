@@ -27,6 +27,7 @@ grapple_hook_y_offset = -4; // offset for firing
 grapple_hook_state = GRAPPLE_DISABLED;
 grapple_hook_x = x;
 grapple_hook_y = y;
+grapple_hook_aim_obj = noone;
 grapple_hook_target = noone;
 grapple_hook_hsp = 0;
 grapple_hook_vsp = 0;

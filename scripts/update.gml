@@ -99,11 +99,21 @@ if (nspec_drone_cd > nspec_num_drones * nspec_drone_cd_max) nspec_drone_cd--;
 switch grapple_hook_state {
 	
 	case GRAPPLE_ACTIVE:
+		
 		grapple_hook_hsp -= (grapple_hook_timer / 12) * grapple_hook_dir;
-		grapple_hook_vsp = vsp; // approximately accurate lol
+		// grapple_hook_vsp = vsp; // not really used yet
     	
-    	grapple_hook_x += grapple_hook_hsp;
-		grapple_hook_y += grapple_hook_vsp;
+    	if (instance_exists(grapple_hook_aim_obj)) { // aim assist
+    		var dir = point_direction(grapple_hook_x, grapple_hook_y, grapple_hook_aim_obj.x, grapple_hook_aim_obj.y);
+    		grapple_hook_x += lengthdir_x(abs(grapple_hook_hsp), dir) + hsp;
+    		grapple_hook_y += lengthdir_y(abs(grapple_hook_hsp), dir) + vsp;
+		}
+		
+		else {
+			grapple_hook_aim_obj = noone;
+			grapple_hook_x += grapple_hook_hsp + hsp;
+			grapple_hook_y += vsp;
+		}
 		
 		var collided_article = noone;
 		var article_collision_list = ds_list_create();
@@ -185,13 +195,23 @@ switch grapple_hook_state {
 		}
 		
 		else if (!was_parried && !grapple_hook_hboxless) {
-			grapple_hook_hitbox.hsp = grapple_hook_hsp;
-			grapple_hook_hitbox.vsp = grapple_hook_vsp;
+			
+			if (instance_exists(grapple_hook_aim_obj)) {
+	    		var temp_hsp = lengthdir_x(abs(grapple_hook_hsp), dir) + hsp;
+	    		var temp_vsp = lengthdir_y(abs(grapple_hook_hsp), dir) + vsp;
+			}
+			else {
+				var temp_hsp = grapple_hook_hsp + hsp;
+				var temp_vsp = vsp;
+			}
+			
+			grapple_hook_hitbox.hsp = temp_hsp;
+			grapple_hook_hitbox.vsp = temp_vsp;
 			
 			// safety check for grappleable base cast articles
-			if (   centered_rect_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp+gravity_speed), 12, 28, asset_get("pillar_obj"), false)
-				|| centered_rect_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp+gravity_speed), 12, 28, asset_get("rock_obj"), false)
-				|| centered_rect_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp+gravity_speed), 12, 28, asset_get("frog_bubble_obj"), true)
+			if (   centered_rect_meeting(floor(grapple_hook_x+temp_hsp), floor(grapple_hook_y+temp_vsp), 12, 28, asset_get("pillar_obj"), false)
+				|| centered_rect_meeting(floor(grapple_hook_x+temp_hsp), floor(grapple_hook_y+temp_vsp), 12, 28, asset_get("rock_obj"), false)
+				|| centered_rect_meeting(floor(grapple_hook_x+temp_hsp), floor(grapple_hook_y+temp_vsp), 12, 28, asset_get("frog_bubble_obj"), true)
 			) {
 				grapple_hook_hitbox.destroyed = true;
     			grapple_hook_hitbox = noone;

@@ -88,7 +88,7 @@ switch(attack) {
 	        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir) + (grapple_hook_x_offset * spr_dir);
 	        		grapple_hook_y = y + grapple_hook_y_origin + grapple_hook_y_offset;
 	        		grapple_hook_dir = spr_dir;
-	        		grapple_hook_hsp = 20 * spr_dir + hsp;
+	        		grapple_hook_hsp = 20 * spr_dir;
 	        		grapple_hook_end_hsp = hsp;
 	        		grapple_hook_vsp = vsp;
 	        		
@@ -97,6 +97,19 @@ switch(attack) {
 	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
 	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;
 	        		grapple_hook_hitbox.agent_p_grapple_hitbox = true; // for use by articles
+	        		
+	        		// aim assist for drones
+	        		grapple_hook_aim_obj = noone;
+	        		var donor_article = instance_create(floor(x+(grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir), floor(y+grapple_hook_y_origin + grapple_hook_y_offset), "obj_article3");
+	        		donor_article.mask_index = sprite_get("grapple_assist_mask_" + string(spr_dir));
+	        		with obj_article1 {
+	        			if ("agent_p_grapplable" in self && agent_p_grapplable == 2 && place_meeting(x, y, donor_article)) {
+	        				other.grapple_hook_aim_obj = self;
+	        				//print_debug("found " + string(self));
+	        			}
+	        		}
+	        		instance_destroy(donor_article);
+	        		
     			}
     			
         		// no break

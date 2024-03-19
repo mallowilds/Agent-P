@@ -83,6 +83,9 @@ sprite_change_offset("nspecial_proj", 64, 94);
 //                  --other sprite offsets (no small_sprites)--               //
 // includes projectiles, vfx, articles
 
+sprite_change_offset("grapple_assist_mask_1"    , 0,  42);
+sprite_change_offset("grapple_assist_mask_-1"   , 290,  42);
+
 sprite_change_offset("parachute"                , 106, 113);
 
 sprite_change_offset("nspecial_proj"            , 68, 68);
