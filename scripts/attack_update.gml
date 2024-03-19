@@ -216,6 +216,8 @@ switch(attack) {
 		//if you use dspecial in the air and the projectile goes into the blastzone, it should have like a 1.5 second cooldown that doesnt get refreshed on walljump or landing.
 
 		//also if you land during startup it should put you into the grounded version thanks :eggdog:
+		move_cooldown[AT_DSPECIAL] = 90
+		move_cooldown[AT_DSPECIAL_AIR] = 90
 		break;
     case AT_USPECIAL:
     	can_wall_jump = (window > 1);
