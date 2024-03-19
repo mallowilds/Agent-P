@@ -133,7 +133,7 @@ switch(attack) {
 		    	can_jump = true;
 		    	//fall_through = true;
 		    	if (grapple_hook_state = GRAPPLE_DISABLED) {
-        			set_state(PS_IDLE_AIR);
+        			set_state(free ? PS_IDLE_AIR : PS_WAVELAND);
         			if (vsp > -4 && free) vsp = -4;
         			attack_end();
         		}

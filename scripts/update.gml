@@ -259,61 +259,6 @@ switch grapple_hook_state {
 		break;
 	
 	case GRAPPLE_WALL_MOUNTED:
-		
-		// error state: unlinked
-		if (!instance_exists(grapple_hook_target)) {
-			if (vsp > -6 && free) vsp = -6;
-			if (attack == AT_FSPECIAL && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
-				set_state(PS_IDLE_AIR);
-				attack_end();
-				grapple_hook_state = GRAPPLE_DISABLED;
-				grapple_hook_timer = 0;
-				grapple_hook_target = noone;
-				break;
-			}
-		}
-		
-		grapple_hook_x = get_instance_x(grapple_hook_target) + grapple_hook_target_x_offset;
-		grapple_hook_y = get_instance_y(grapple_hook_target) + grapple_hook_target_y_offset;
-		
-		var mov_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
-		var mov_accel = 0.6;
-		
-		if (!free && (mov_angle < 0 || 180 < mov_angle)) {
-			var ldx = lengthdir_x(mov_accel, mov_angle);
-			var hsp_dir = hsp / abs(hsp);
-			var hsp_change = mov_accel * hsp_dir * sqrt(abs(2*ldx/mov_accel - (ldx*ldx/mov_accel/mov_accel)));
-			// above transformation: https://www.desmos.com/calculator/qhpjd7mgxu
-			stored_hsp = hsp + hsp_change;
-			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
-		}
-		else {
-			stored_hsp = hsp + lengthdir_x(mov_accel, mov_angle);
-			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
-		}
-		
-	
-		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
-			|| (attack != AT_FSPECIAL)
-			|| (point_distance(grapple_hook_x, grapple_hook_y, x, y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp))
-			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.16 && grapple_hook_timer > 15)
-			|| (!free && hsp < grapple_hook_timer*0.08 && grapple_hook_timer > 30)
-		) {
-			grapple_hook_state = GRAPPLE_DISABLED;
-			grapple_hook_timer = 0;
-		}
-		
-		else {
-			hsp = stored_hsp;
-			vsp = stored_vsp;
-			//if (!free && vsp < 0) y -= 1;
-		}
-		
-		//if (!free) print_debug("sliding");
-		//print_debug(string(grapple_hook_timer) + " | " + string(point_distance(0, 0, stored_hsp, stored_vsp)));
-		
-		break;
-		
 	case GRAPPLE_ARTICLE_MOUNTED:
 	
 		// error state: unlinked
@@ -341,11 +286,16 @@ switch grapple_hook_state {
 			var hsp_change = mov_accel * hsp_dir * sqrt(abs(2*ldx/mov_accel - (ldx*ldx/mov_accel/mov_accel)));
 			// above transformation: https://www.desmos.com/calculator/qhpjd7mgxu
 			stored_hsp = hsp + hsp_change;
-			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+			if (!use_stored_vsp) { // begin storing vsp
+				stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+				use_stored_vsp = true;
+			}
+			else stored_vsp = stored_vsp + lengthdir_y(mov_accel, mov_angle);
 		}
 		else {
 			stored_hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 			stored_vsp = vsp + lengthdir_y(mov_accel, mov_angle);
+			use_stored_vsp = false;
 		}
 		
 	
@@ -353,7 +303,6 @@ switch grapple_hook_state {
 			|| (attack != AT_FSPECIAL)
 			|| (point_distance(grapple_hook_x, grapple_hook_y, x, y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp))
 			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.12 && grapple_hook_timer > 15)
-			|| (!free && hsp < grapple_hook_timer*0.08 && grapple_hook_timer > 30)
 		) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
@@ -361,11 +310,10 @@ switch grapple_hook_state {
 		
 		else {
 			hsp = stored_hsp;
-			vsp = stored_vsp;
-			//if (!free && vsp < 0) y -= 1;
+			if (free || stored_vsp < -0.5) vsp = stored_vsp; // ensure stored vsp is sufficient to counter gravity
 		}
 		
-		// safe zone (base cast articles won't run this)
+		// safe zone (walls and base cast articles won't run this)
 		if ("agent_p_grapplable" in grapple_hook_target) {
 			
 			grapple_hook_target.agent_p_grappling = 1;
