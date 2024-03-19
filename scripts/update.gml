@@ -7,15 +7,13 @@
 #macro GRAPPLE_ARTICLE_MOUNTED 5
 
 //intro
-if get_gameplay_time() == 1 {
+if get_gameplay_time() == 2 {
 	if freemd == 1 {
 		set_state(PS_ATTACK_GROUND)
 		attack = AT_INTRO_1
-		print(ground_type)
 	} else {
 		set_state(PS_ATTACK_GROUND)
 		attack = AT_INTRO_2
-		print(ground_type)
 	}
 }
 
@@ -264,7 +262,7 @@ switch grapple_hook_state {
 		
 		// error state: unlinked
 		if (!instance_exists(grapple_hook_target)) {
-			if (vsp > -4) vsp = -4;
+			if (vsp > -6 && free) vsp = -6;
 			if (attack == AT_FSPECIAL && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
 				set_state(PS_IDLE_AIR);
 				attack_end();
@@ -281,7 +279,7 @@ switch grapple_hook_state {
 		var mov_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.6;
 		
-		if (!free  && (mov_angle < 0 || 180 < mov_angle)) {
+		if (!free && (mov_angle < 0 || 180 < mov_angle)) {
 			var ldx = lengthdir_x(mov_accel, mov_angle);
 			var hsp_dir = hsp / abs(hsp);
 			var hsp_change = mov_accel * hsp_dir * sqrt(abs(2*ldx/mov_accel - (ldx*ldx/mov_accel/mov_accel)));
