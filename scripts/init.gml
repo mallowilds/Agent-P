@@ -39,6 +39,7 @@ grapple_hook_hitbox = noone;
 grapple_hook_hboxless = false; // used for safety on kragg/ranno articles
 
 anim_slide_buffer = 0;
+use_stored_vsp = false;
 
 // max drones hard-coded to 2 for now
 nspec_num_drones = 0;
