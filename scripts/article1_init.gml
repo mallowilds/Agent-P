@@ -4,7 +4,7 @@
 sprite_index = sprite_get("drone");
 mask_index = asset_get("drone_mask");
 can_be_grounded = false;
-ignores_walls = true;
+ignores_walls = false;
 spr_dir = player_id.spr_dir;
 
 uses_shader = true;

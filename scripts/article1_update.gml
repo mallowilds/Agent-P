@@ -15,11 +15,20 @@ switch(state) { // use this one for doing actual article behavior
             hbox.agent_p_grapple_hitbox = true;
         }
         
+        if (hit_wall) {
+            spr_dir *= -1;
+            hsp = (throw_dir == -1) ? 2 : 4 + (2 * throw_dir);
+            hsp *= spr_dir;
+        }
+        
         if (vsp < 6) vsp += 0.2;
         
         hit_detection();
         
+        if (state_timer == 23) sound_play(asset_get("sfx_ell_dspecial_drop"));
         if (state_timer == 25) {
+            var vfx = spawn_hit_fx(x, y, HFX_ELL_STEAM_HIT);
+            vfx.depth = depth+1;
             set_state(1);
             if (instance_exists(hbox)) hbox.destroyed = true;
         }
@@ -49,7 +58,6 @@ switch(state) { // use this one for doing actual article behavior
         break;
     
     case 3: // hit -> explode
-        can_be_grounded = false;
     
         if (state_timer == 1) {
             hsp = lengthdir_x(8, kb_dir);
