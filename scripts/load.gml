@@ -1,6 +1,9 @@
 var load_x = 105
 var load_y = 124
 
+var load_x_2 = 53*2
+var load_y_2 = 62*2
+
 sprite_change_offset("intro1", 130*2, 193*2); //listen.
 
 sprite_change_offset("intro2", 130*2, 193*2); //listen.
@@ -86,7 +89,8 @@ sprite_change_offset("nspecial_proj", 64, 94);
 sprite_change_offset("grapple_assist_mask_1"    , 0,  42);
 sprite_change_offset("grapple_assist_mask_-1"   , 290,  42);
 
-sprite_change_offset("parachute"                , 106, 113);
+sprite_change_offset("parachute"                , load_x_2, load_y_2);
+sprite_change_offset("parachute_col"                , load_x_2, load_y_2);
 
 sprite_change_offset("nspecial_proj"            , 68, 68);
 sprite_change_offset("fspec_proj"               , 6,  14);

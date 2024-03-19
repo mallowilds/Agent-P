@@ -180,7 +180,7 @@ switch(attack) {
         		break;
         	
         	case 7:
-        		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -8;
+        		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -10;
         		break;
         	
         	case 8:
