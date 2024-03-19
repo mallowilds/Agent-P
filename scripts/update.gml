@@ -32,8 +32,12 @@ else if (!is_on_plat && plat_active) {
 // Parachute
 if (parachute_active) {
 	
+	if (free) attack_air_limit[AT_USPECIAL] = true;
+	
+	var jump_out_of_grapple = (((state == PS_JUMPSQUAT && prev_state == PS_ATTACK_GROUND) || state == PS_FIRST_JUMP) && attack == AT_FSPECIAL);
+	
 	// Also reset in got_hit, got_parried, and death.gml
-	if ((!free && grapple_hook_state < GRAPPLE_PLAYER_MOUNTED) || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
+	if ((!free && grapple_hook_state < GRAPPLE_PLAYER_MOUNTED && !jump_out_of_grapple) || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
 		parachute_active = false;
 		var despawn_parachute = instance_create(x+(1*spr_dir), y-15, "obj_article3");
 		despawn_parachute.state = 00;
@@ -56,6 +60,8 @@ if (parachute_active) {
 		max_fall = base_parachute_fall;
 		fast_fall = base_max_fall;
 		gravity_speed = parachute_gravity_speed;
+		jump_speed = parachute_jump_speed;
+		short_hop_speed = parachute_sh_speed;
 		djump_speed = parachute_djump_speed;
 		air_accel = parachute_air_accel;
 		
@@ -71,6 +77,8 @@ else if (parachute_stats) {
 	max_fall = base_max_fall;
 	fast_fall = base_fast_fall;
 	gravity_speed = base_gravity_speed;
+	jump_speed = base_jump_speed;
+	short_hop_speed = base_sh_speed;
 	djump_speed = base_djump_speed;
 	air_accel = base_air_accel;
 	

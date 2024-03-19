@@ -381,8 +381,12 @@ moonwalk_accel                  = 1.4;
 
 //                       --aerial movement stats--                            //
 jump_start_time                 = 5;
-jump_speed                      = 14;
-short_hop_speed                 =7.5;
+base_jump_speed                 = 14;
+parachute_jump_speed            = 10;    // only comes into play on sliding fspec, so can be a little strong
+jump_speed                      = base_jump_speed;
+base_sh_speed                   = 7.5;
+parachute_sh_speed              = 4;
+short_hop_speed                 = base_sh_speed;
 base_djump_speed                = 14;
 parachute_djump_speed           = 9;
 djump_speed                     = base_djump_speed;
