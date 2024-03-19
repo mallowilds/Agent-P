@@ -38,7 +38,6 @@ grapple_hook_timer = 0;
 grapple_hook_hitbox = noone;
 grapple_hook_hboxless = false; // used for safety on kragg/ranno articles
 
-anim_slide_buffer = 0;
 use_stored_vsp = false;
 
 // max drones hard-coded to 2 for now
@@ -382,8 +381,12 @@ moonwalk_accel                  = 1.4;
 
 //                       --aerial movement stats--                            //
 jump_start_time                 = 5;
-jump_speed                      = 14;
-short_hop_speed                 =7.5;
+base_jump_speed                 = 14;
+parachute_jump_speed            = 10;    // only comes into play on sliding fspec, so can be a little strong
+jump_speed                      = base_jump_speed;
+base_sh_speed                   = 7.5;
+parachute_sh_speed              = 4;
+short_hop_speed                 = base_sh_speed;
 base_djump_speed                = 14;
 parachute_djump_speed           = 9;
 djump_speed                     = base_djump_speed;

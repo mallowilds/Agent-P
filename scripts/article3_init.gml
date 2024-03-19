@@ -18,8 +18,8 @@ hitstop = 0;
 //vsp = 0;
 
 //Terrain behavior
-can_be_grounded = true;
-ignores_walls = false;
+can_be_grounded = false;
+ignores_walls = true;
 free = true;
 hit_wall = false;
 

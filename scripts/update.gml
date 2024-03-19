@@ -30,10 +30,15 @@ else if (!is_on_plat && plat_active) {
 }
 
 // Parachute
+
 if (parachute_active) {
 	
+	if (free) attack_air_limit[AT_USPECIAL] = true;
+	
+	var jump_out_of_grapple = (((state == PS_JUMPSQUAT && prev_state == PS_ATTACK_GROUND) || state == PS_FIRST_JUMP) && attack == AT_FSPECIAL);
+	
 	// Also reset in got_hit, got_parried, and death.gml
-	if ((!free && grapple_hook_state < GRAPPLE_PLAYER_MOUNTED) || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
+	if ((!free && grapple_hook_state < GRAPPLE_PLAYER_MOUNTED && !jump_out_of_grapple) || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
 		parachute_active = false;
 		var despawn_parachute = instance_create(x+(1*spr_dir), y-15, "obj_article3");
 		despawn_parachute.state = 00;
@@ -56,6 +61,8 @@ if (parachute_active) {
 		max_fall = base_parachute_fall;
 		fast_fall = base_max_fall;
 		gravity_speed = parachute_gravity_speed;
+		jump_speed = parachute_jump_speed;
+		short_hop_speed = parachute_sh_speed;
 		djump_speed = parachute_djump_speed;
 		air_accel = parachute_air_accel;
 		
@@ -64,15 +71,21 @@ if (parachute_active) {
 	if (!hitpause) vis_parachute_angle = lerp(vis_parachute_angle, hsp * 40 / air_max_speed, 0.2);
 	
 }
-else if (parachute_stats) {
+else {
 	
-	parachute_stats = false;
+	if (!free) attack_air_limit[AT_USPECIAL] = false;
 	
-	max_fall = base_max_fall;
-	fast_fall = base_fast_fall;
-	gravity_speed = base_gravity_speed;
-	djump_speed = base_djump_speed;
-	air_accel = base_air_accel;
+	if (parachute_stats) {
+		parachute_stats = false;
+		
+		max_fall = base_max_fall;
+		fast_fall = base_fast_fall;
+		gravity_speed = base_gravity_speed;
+		jump_speed = base_jump_speed;
+		short_hop_speed = base_sh_speed;
+		djump_speed = base_djump_speed;
+		air_accel = base_air_accel;
+	}
 	
 }
 
@@ -210,7 +223,7 @@ switch grapple_hook_state {
 		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
 		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
 		
-		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		var mov_angle = point_direction(x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.6;
 		
 		// error state: not in fspecial
@@ -246,7 +259,7 @@ switch grapple_hook_state {
 		hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 		vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		
-		if (abs(grapple_hook_x - x - (grapple_hook_x_origin * spr_dir)) < abs(hsp)) {
+		if (abs(grapple_hook_x - x  - (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir) < abs(hsp)) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
 			grapple_hook_target = noone;

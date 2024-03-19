@@ -127,11 +127,12 @@ switch(attack) {
 		    case 5:
 		    	can_attack = true;
 		    	can_special = true;
-		    	can_shield = true;
+		    	can_shield = free; // so as to only permit air dodging
 		    	can_strong = true;
 		    	can_ustrong = true;
 		    	can_jump = true;
 		    	//fall_through = true;
+		    	
 		    	if (grapple_hook_state = GRAPPLE_DISABLED) {
         			set_state(free ? PS_IDLE_AIR : PS_WAVELAND);
         			if (vsp > -4 && free) vsp = -4;
@@ -139,9 +140,17 @@ switch(attack) {
         		}
         		
         		// slide behavior
-        		if (!free || anim_slide_buffer) {
+        		else if (!free) {
+        			
         			attack_air_limit[attack] = false; // refresh cooldown
         			if (get_gameplay_time() % 3 == 0) spawn_base_dust(x, y, "dash");
+        			
+        			// grounded air dodge (mainly for wavedashes)
+        			if (shield_pressed) {
+        				clear_button_buffer(PC_SHIELD_PRESSED);
+        				set_state(PS_AIR_DODGE);
+        			}
+        			
         		}
         		
         		break;
@@ -150,17 +159,22 @@ switch(attack) {
         		can_move = false;
         		can_fast_fall = false;
         		if (grapple_hook_state == GRAPPLE_DISABLED) {
-        			if (!free) { // temp
-        				y -= 1;
-        				set_state(PS_ATTACK_AIR);
-        				free = true;
-        			}
-        			set_attack(AT_NAIR); // temp
-        			vsp = -6;
+        			vsp = 0;
         			hsp = 2 * spr_dir;
-        			attack_end();
+        			window = 7;
+        			window_timer = 0;
         		}
-        		break
+        		break;
+        	
+        	case 7:
+        		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -8;
+        		break;
+        	
+        	case 8:
+        	case 9:
+        		// manual gravity (for parachute safety)
+        		vsp += gravity_speed;
+        		break;
 	        
     	}
         break;
