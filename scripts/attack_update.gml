@@ -58,8 +58,15 @@ switch(attack) {
     
     case AT_NSPECIAL:
         
-        if (window == 2 && window_timer == 1) {
-        	nspec_drone = instance_create(x+(20*spr_dir), y-80, "obj_article1");
+        if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
+        	var temp_drone = instance_create(x+(40*spr_dir), y-40, "obj_article1");
+        	temp_drone.throw_dir = clamp(down_down + down_stick_down - up_down - up_stick_down, -1, 1);
+        	if (nspec_drones[0] == noone) nspec_drones[0] = temp_drone;
+        	else nspec_drones[1] = temp_drone;
+        	
+        	nspec_num_drones++;
+        	nspec_drone_cd[0] = nspec_drone_cd[1]; // Maintains property that cd[0] <= cd[1] ~ see update.gml
+        	nspec_drone_cd[1] = nspec_drone_cd_max;
         }
         
         break;
@@ -88,7 +95,7 @@ switch(attack) {
 	        		grapple_hook_end_hsp = hsp;
 	        		grapple_hook_vsp = vsp;
 	        		
-	        		grapple_hook_hbless = false;
+	        		grapple_hook_hboxless = false;
 	        		grapple_hook_hitbox = create_hitbox(AT_FSPECIAL, 1, grapple_hook_x, grapple_hook_y);
 	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
 	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;

@@ -64,7 +64,33 @@ else if (parachute_stats) {
 	
 }
 
-// Grapple handling
+
+//#region NSpec cooldown management
+
+// Check for dead drones
+if (nspec_drones[1] != noone && !instance_exists(nspec_drones[1])) {
+	nspec_drones[1] = noone;
+	nspec_num_drones--;
+}
+
+if (nspec_drones[0] != noone && !instance_exists(nspec_drones[0])) {
+	nspec_drones[0] = nspec_drones[1];
+	nspec_drones[1] = noone;
+	nspec_num_drones--;
+}
+
+// Update cooldowns
+if (nspec_num_drones < 2 && nspec_drone_cd[0] > 0) nspec_drone_cd[0]--;
+if (nspec_num_drones < 1 && nspec_drone_cd[0] == 0 && nspec_drone_cd[1] > 0) nspec_drone_cd[1]--;
+
+// Required property of nspec_drone_cd: at all times, cd[0] <= cd[1].
+// This ensures that the more recently released cooldown will always finish first
+// within the cooldown update routine.
+
+//#endregion
+
+
+//#region Grapple handling
 switch grapple_hook_state {
 	
 	case GRAPPLE_ACTIVE:
@@ -138,7 +164,7 @@ switch grapple_hook_state {
 			grapple_hook_target_y_offset = (grapple_hook_y - get_instance_y(grapple_hook_target));
 		}
 		
-		else if (!was_parried && !instance_exists(grapple_hook_hitbox) && !grapple_hook_hbless) {
+		else if (!was_parried && !instance_exists(grapple_hook_hitbox) && !grapple_hook_hboxless) {
 			grapple_hook_hitbox = noone;
 			grapple_hook_state = GRAPPLE_RETURNING;
     		grapple_hook_timer = 0;
@@ -153,18 +179,18 @@ switch grapple_hook_state {
     		grapple_hook_timer = 0;
 		}
 		
-		else if (!was_parried && !grapple_hook_hbless) {
+		else if (!was_parried && !grapple_hook_hboxless) {
 			grapple_hook_hitbox.hsp = grapple_hook_hsp;
 			grapple_hook_hitbox.vsp = grapple_hook_vsp;
 			
 			// safety check for grappleable base cast articles
-			if (   position_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp), asset_get("pillar_obj"))
-				|| position_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp), asset_get("rock_obj"))
-				|| position_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp), asset_get("frog_bubble_obj"))
+			if (   centered_rect_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp+gravity_speed), 12, 28, asset_get("pillar_obj"), false)
+				|| centered_rect_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp+gravity_speed), 12, 28, asset_get("rock_obj"), false)
+				|| centered_rect_meeting(floor(grapple_hook_x+grapple_hook_hsp), floor(grapple_hook_y+grapple_hook_vsp+gravity_speed), 12, 28, asset_get("frog_bubble_obj"), true)
 			) {
 				grapple_hook_hitbox.destroyed = true;
     			grapple_hook_hitbox = noone;
-    			grapple_hook_hbless = true;
+    			grapple_hook_hboxless = true;
 			}
 		}
 		
@@ -347,18 +373,33 @@ switch grapple_hook_state {
 			//if (!free && vsp < 0) y -= 1;
 		}
 		
-		if ("agent_p_pull_vel" in grapple_hook_target && grapple_hook_target.agent_p_pull_vel != 0) {
-			grapple_hook_target.x -= lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle);
-			grapple_hook_target.y -= lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
+		// safe zone (base cast articles won't run this)
+		if ("agent_p_grapplable" in grapple_hook_target) {
 			
-			grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
-			grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+			grapple_hook_target.agent_p_grappling = 1;
+			
+			if (grapple_hook_target.agent_p_pull_vel != 0) {
+				grapple_hook_target.x -= lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle);
+				grapple_hook_target.y -= lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
+				
+				grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
+				grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+			}
+			
+			// While in this safe zone, apply the lifetime penalty to perry drones
+			if (grapple_hook_target.agent_p_grapplable == 2 && grapple_hook_target.last_decay_frame != get_gameplay_time()) {
+				grapple_hook_target.last_decay_frame = get_gameplay_time()
+				grapple_hook_target.lifetime_decayed += grapple_hook_target.lifetime_decay_step;
+			}
+			
 		}
 		
 		break;
 	
 }
 grapple_hook_timer++;
+
+//#endregion
 
 
 // Galaxy stinger SFX
@@ -453,6 +494,9 @@ update_comp_hit_fx();
 	
 	return collision_rectangle(x+l_bound, y-1, x+r_bound, y-max_height, asset_get("par_block"), false, false)
 		 && !collision_rectangle(x+l_bound, y-max_height, x+r_bound, y-char_height, asset_get("par_block"), false, false);
+
+#define centered_rect_meeting(_x, _y, _w, _h, obj, prec)
+    return collision_rectangle(_x-(_w/2), _y-(_h/2), _x+(_w/2), _y+(_h/2), obj, prec, false);
 
 #define update_comp_hit_fx
 //function updates comp_vfx_array
