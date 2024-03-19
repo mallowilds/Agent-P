@@ -1,6 +1,6 @@
 
 state_timer++;
-print_debug(string(state_timer) + " + " + string(lifetime_decayed) + " = " + string(state_timer+lifetime_decayed));
+
 
 switch(state) { // use this one for doing actual article behavior
 
@@ -60,6 +60,7 @@ switch(state) { // use this one for changing sprites and animating
 // don't forget that articles aren't affected by small_sprites
 
 if (should_die) { //despawn and exit script
+    player_id.nspec_num_drones--;
     instance_destroy();
     exit;
 }

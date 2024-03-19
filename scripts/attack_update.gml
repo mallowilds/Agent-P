@@ -59,14 +59,11 @@ switch(attack) {
     case AT_NSPECIAL:
         
         if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
-        	var temp_drone = instance_create(x+(40*spr_dir), y-40, "obj_article1");
-        	temp_drone.throw_dir = clamp(down_down + down_stick_down - up_down - up_stick_down, -1, 1);
-        	if (nspec_drones[0] == noone) nspec_drones[0] = temp_drone;
-        	else nspec_drones[1] = temp_drone;
+        	var nspec_drone = instance_create(x+(40*spr_dir), y-40, "obj_article1");
+        	nspec_drone.throw_dir = clamp(down_down + down_stick_down - up_down - up_stick_down, -1, 1);
         	
         	nspec_num_drones++;
-        	nspec_drone_cd[0] = nspec_drone_cd[1]; // Maintains property that cd[0] <= cd[1] ~ see update.gml
-        	nspec_drone_cd[1] = nspec_drone_cd_max;
+        	nspec_drone_cd += nspec_drone_cd_max;
         }
         
         break;

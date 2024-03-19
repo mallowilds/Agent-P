@@ -28,6 +28,7 @@ if (attack == AT_DSPECIAL  && free) attack = AT_DSPECIAL_AIR
 // Prevent ustrong from flying off ledges (immediately is reset to 2)
 if (attack == AT_USTRONG) set_attack_value(AT_USTRONG, AG_CATEGORY, 0);
 
-if (attack == AT_NSPECIAL && nspec_drone_cd[0] > 0) {
+// Block NSpec if all drone cds are active
+if (attack == AT_NSPECIAL && nspec_drone_cd >= nspec_max_drones*nspec_drone_cd_max) {
     move_cooldown[AT_NSPECIAL] = 2;
 }

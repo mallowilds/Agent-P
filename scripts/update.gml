@@ -65,29 +65,9 @@ else if (parachute_stats) {
 }
 
 
-//#region NSpec cooldown management
+// NSpec cooldown management
+if (nspec_drone_cd > nspec_num_drones * nspec_drone_cd_max) nspec_drone_cd--;
 
-// Check for dead drones
-if (nspec_drones[1] != noone && !instance_exists(nspec_drones[1])) {
-	nspec_drones[1] = noone;
-	nspec_num_drones--;
-}
-
-if (nspec_drones[0] != noone && !instance_exists(nspec_drones[0])) {
-	nspec_drones[0] = nspec_drones[1];
-	nspec_drones[1] = noone;
-	nspec_num_drones--;
-}
-
-// Update cooldowns
-if (nspec_num_drones < 2 && nspec_drone_cd[0] > 0) nspec_drone_cd[0]--;
-if (nspec_num_drones < 1 && nspec_drone_cd[0] == 0 && nspec_drone_cd[1] > 0) nspec_drone_cd[1]--;
-
-// Required property of nspec_drone_cd: at all times, cd[0] <= cd[1].
-// This ensures that the more recently released cooldown will always finish first
-// within the cooldown update routine.
-
-//#endregion
 
 
 //#region Grapple handling
