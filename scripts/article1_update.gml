@@ -43,7 +43,7 @@ switch(state) { // use this one for doing actual article behavior
         
     case 2: // naturally despawn
         should_die = true;
-        var despawn_obj = instance_create(x, y, "obj_article3");
+        var despawn_obj = instance_create(floor(x), floor(y), "obj_article3");
         despawn_obj.state = 02;
         despawn_obj.vis_frame = image_index;
         despawn_obj.vis_alpha = 1;
@@ -51,7 +51,7 @@ switch(state) { // use this one for doing actual article behavior
     
     case 3: // hit -> explode
         should_die = true;
-        var despawn_obj = instance_create(x, y, "obj_article3");
+        var despawn_obj = instance_create(floor(x), floor(y), "obj_article3");
         despawn_obj.state = 03;
         despawn_obj.vis_frame = image_index;
         despawn_obj.hit_angle = hit_angle;
