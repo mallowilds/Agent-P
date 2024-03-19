@@ -330,13 +330,20 @@ switch grapple_hook_state {
 		if ("agent_p_grapplable" in grapple_hook_target) {
 			
 			grapple_hook_target.agent_p_grappling = 1;
+			grapple_hook_target.agent_p_grapple_dir = 0;
 			
 			if (grapple_hook_target.agent_p_pull_vel != 0) {
-				grapple_hook_target.x -= lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle);
-				grapple_hook_target.y -= lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
+				var x_change = -1 * lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle); // inverted to pull article toward perry
+				var y_change = -1 * lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
+				
+				grapple_hook_target.x += x_change;
+				grapple_hook_target.y += y_change;
 				
 				grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
 				grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+				
+				if (x_change < (grapple_hook_target.agent_p_pull_vel/-6)) grapple_hook_target.agent_p_grapple_dir = -1;
+				else if (x_change > (grapple_hook_target.agent_p_pull_vel/6)) grapple_hook_target.agent_p_grapple_dir = 1;
 			}
 			
 			// While in this safe zone, apply the lifetime penalty to perry drones

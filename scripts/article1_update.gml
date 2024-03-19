@@ -1,7 +1,6 @@
 
-if (hitpause) exit;
+if (hitstop > 0) exit;
 state_timer++;
-
 
 switch(state) { // use this one for doing actual article behavior
 
@@ -18,14 +17,14 @@ switch(state) { // use this one for doing actual article behavior
         
         if (vsp < 6) vsp += 0.2;
         
-        if (lightweight_detect_hitboxes(mask_index, 50)) set_state(3);
+        hit_detection();
         
-        else if (state_timer == 25) {
+        if (state_timer == 25) {
             set_state(1);
             if (instance_exists(hbox)) hbox.destroyed = true;
         }
         
-        else if (instance_exists(hbox)) {
+        else if (state != 3 && instance_exists(hbox)) {
             hbox.x = x;
             hbox.y = y;
             hbox.hsp = hsp;
@@ -37,8 +36,8 @@ switch(state) { // use this one for doing actual article behavior
     case 1: // idle
         if (vsp < 6) vsp += 0.1
         do_air_friction(0.3);
-        if (lightweight_detect_hitboxes(mask_index, 50)) set_state(3);
-        else if (state_timer + lifetime_decayed >= max_lifetime && !agent_p_grappling) set_state(2);
+        if (state_timer + lifetime_decayed >= max_lifetime && !agent_p_grappling) set_state(2);
+        hit_detection();
         break;
         
     case 2: // naturally despawn
@@ -50,11 +49,22 @@ switch(state) { // use this one for doing actual article behavior
         break;
     
     case 3: // hit -> explode
-        should_die = true;
-        var despawn_obj = instance_create(floor(x), floor(y), "obj_article3");
-        despawn_obj.state = 03;
-        despawn_obj.vis_frame = image_index;
-        despawn_obj.hit_angle = hit_angle;
+        can_be_grounded = false;
+    
+        if (state_timer == 1) {
+            hsp = lengthdir_x(8, kb_dir);
+            vsp = lengthdir_y(8, kb_dir);
+        }
+        else do_air_friction(0.2);
+        
+        hit_detection();
+        
+        vis_frame = 4 + (state_timer / 4) % 12;
+        if (state_timer > 15) {
+            sound_play(asset_get("sfx_ell_small_missile_ground"));
+            spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
+            should_die = true;
+        }
         break;
         
 }
@@ -64,10 +74,20 @@ switch(state) { // use this one for changing sprites and animating
         image_index = (state_timer / 4) % 4;
         break;
     case 1: // idle
-        image_index = 4 + (state_timer / 4) % 12;
+        if (agent_p_grappling && agent_p_grapple_dir != 0) {
+            if (agent_p_grapple_dir < 0) image_index = 14 + (state_timer / 5) % 2;
+            else image_index = 12 + (state_timer / 5) % 2;
+        }
+        else image_index = 4 + (state_timer / 5) % 8;
+        break;
+    case 3: // exploding
+        if (hsp*spr_dir < 0) image_index = 14 + (state_timer / 5) % 2;
+        else image_index = 12 + (state_timer / 5) % 2;
         break;
 }
 // don't forget that articles aren't affected by small_sprites
+
+mask_index = asset_get("drone_mask");
 
 if (should_die) { //despawn and exit script
     player_id.nspec_num_drones--;
@@ -92,61 +112,166 @@ state_timer = 0;
     hsp = (abs(hsp_dec) < abs(hsp)) ? (hsp + hsp_dec) : 0;
     vsp = (abs(vsp_dec) < abs(vsp)) ? (vsp + vsp_dec) : 0;
 
-// Adapted from Desperado signpost.
-#define lightweight_detect_hitboxes(hitbox_mask, sim_percent)
     
-    var old_mask = mask_index;
-    mask_index = hitbox_mask;
 
-    var hbox = noone;
-    with pHitBox {
-        if (place_meeting(x, y, other) && (hit_priority > 0) && "agent_p_grapple_hitbox" not in self) {
-            if (hbox == noone || type == 1 && hbox.type == 2 || hit_priority > hbox.hit_priority) {
-                hbox = self;
-            }
+// Supersonic Hit Detection Template
+
+#define on_hit(hbox)
+// This is the code the article should run on hit.
+// Edit this to have the desired functions when your article is hit by a hitbox.
+// hbox refers to the pHitBox object that hit the article.
+// hit_player_obj (usually) refers to the player that hit the article.
+// hit_player_num refers to the player's number that hit the article.
+ 
+hit_player_obj = hbox.player_id;
+hit_player_num = hbox.player;
+
+//State management
+if (state != 3) state = 3;
+state_timer = 0;
+
+//Default Hitpause Calculation
+//You probably want this stuff because it makes the hit feel good.
+if hbox.type == 1 {
+    var desired_hitstop = clamp(hbox.hitpause + hbox.damage * hbox.hitpause_growth * 0.05, 0, 20);
+    with hit_player_obj {
+        if !hitpause {
+            old_vsp = vsp;
+            old_hsp = hsp;
+        }
+        hitpause = true;
+        has_hit = true;
+        if hitstop < desired_hitstop {
+            hitstop = desired_hitstop;
+            hitstop_full = desired_hitstop;
         }
     }
-    
-    if (hbox != noone) {
-        var sim_kb = ceil(get_kb_formula(sim_percent, 1, get_match_setting(SET_SCALING), hbox.damage, hbox.kb_value, hbox.kb_scale));
-        sim_percent *= 0.1;
-        
-        // store hit_angle
-        hit_angle = hbox.kb_angle;
-        if (hit_angle == 361) hit_angle = free ? 45 : 40;
-        if (hbox.hit_flipper == 5) hit_angle = 180 - hit_angle;
-        if (spr_dir == -1) hit_angle = 180 - hit_angle;
-        // deliberately neglecting most angle flippers for now since it's visual-only anyway
-        
-        if (get_local_setting(SET_HUD_SHAKE)) shake_camera(sim_kb, ceil(sim_kb/1.5 < 2 ? 2 : sim_kb/1.5));
-        
-        hitstop = floor(hbox.hitpause + hbox.extra_hitpause + (hbox.hitpause_growth*sim_percent));
-        if (hbox.type == 1) with (hbox.player_id) {
-            if (!hitpause) {
-                old_hsp = hsp;
-                old_vsp = vsp;
-            }
-            hitpause = true;
-            has_hit = true;
-            if (hitstop < hbox.hitpause + (hbox.hitpause_growth*sim_percent)) {
-                hitstop = hbox.hitpause + (hbox.hitpause_growth*sim_percent);
-                hitstop_full = hbox.hitpause + (hbox.hitpause_growth*sim_percent);
-            }
+}
+// This puts the ARTICLE in hitpause.
+// If your article does not already account for being in hitpause, either make it stop what it's doing in hitpause
+// or comment out the line below.
+hitstop = floor(desired_hitstop); 
+ 
+ 
+//Hit Lockout
+if article_should_lockout hit_lockout = hbox.no_other_hit;
+ 
+//Default Hitstun Calculation
+hitstun = (hbox.kb_value * 4 * ((kb_adj - 1) * 0.6 + 1) + hbox.damage * 0.12 * hbox.kb_scale * 4 * 0.65 * kb_adj) + 12;
+hitstun_full = hitstun;
             
-        }
-        sound_play(hbox.sound_effect);
-        with hbox spawn_hit_fx((x+other.x)/2+(spr_dir*hit_effect_x), (y+other.y-50)/2+(hit_effect_y), hit_effect);
-        
-        // SK bounce for fun~
-        if (hbox.player_id.url == CH_SHOVEL_KNIGHT && hbox.attack == AT_DAIR && hbox.type == 1) {
-            if (hbox.player_id.vsp > -5) hbox.player_id.vsp = -5;
-            if (hbox.player_id.old_vsp > -5) hbox.player_id.old_vsp = -5;
-            if (hbox.hbox_num == 3) sound_play(asset_get("sfx_shovel_hit_light1")); // idk why this one doesn't have sfx lol
-        }
-        
-        mask_index = old_mask;
-        return true;
+//Default Knockback Calculation
+ 
+// if other.force_flinch && !other.free orig_knock = 0; //uncomment this line for grounded articles.
+if hbox.force_flinch orig_knock = 0.3; //comment out this line for grounded articles.
+else orig_knock = hbox.kb_value + hbox.damage * hbox.kb_scale * 0.12 * kb_adj;
+kb_dir = get_hitbox_angle(hbox);
+ 
+hsp = lengthdir_x(orig_knock, kb_dir);
+vsp = lengthdir_y(orig_knock, kb_dir);
+ 
+//Default hit stuff
+sound_play(hbox.sound_effect);
+//ty nart :p
+var fx_x = lerp(hbox.x, x, 0.5) + hbox.hit_effect_x*hbox.spr_dir;
+var fx_y = lerp(hbox.y, y, 0.5) + hbox.hit_effect_y;
+with hit_player_obj { // use a with so that it's shaded correctly
+    var temp_fx = spawn_hit_fx(fx_x, fx_y, hbox.hit_effect);
+    temp_fx.hit_angle = other.kb_dir;
+    temp_fx.kb_speed = other.orig_knock;
+}
+ 
+#define filters(hbox)
+//These are the filters that check whether a hitbox should be able to hit the article.
+//Feel free to tweak this as necessary.
+with hbox {
+    var player_equal = player == other.player_id.player;
+    var team_equal = get_player_team(player) == get_player_team(other.player_id.player);
+    return ("owner" not in self || owner != other) //check if the hitbox was created by this article
+        && hit_priority != 0 && hit_priority <= 10
+        && (groundedness == 0 || groundedness == 1+other.free)
+        && "agent_p_grapple_hitbox" not in self
+        //&& (!player_equal) //uncomment to prevent the article from being hit by its owner.
+        //&& ( (get_match_setting(SET_TEAMS) && (get_match_setting(SET_TEAMATTACK) || !team_equal) ) || player_equal) //uncomment to prevent the article from being hit by its owner's team.
+}
+ 
+#define hit_detection
+//Code by Supersonic#9999
+//DO NOT modify this function unless you know what you're doing. This does the actual detection, while
+//the other functions determine how and what the hit detection interacts with.
+//hbox group management
+with (oPlayer)
+    if state == clamp(state, 5, 6) && window == 1 && window_timer == 1 {
+        other.hbox_group[@ player-1][@ attack] = array_create(10,0);
     }
-    
-    mask_index = old_mask;
-    return false;
+ 
+//hit lockout stuff
+if hit_lockout > 0 {
+    hit_lockout--;
+    return;
+}
+//get colliding hitboxes
+var hitbox_list = ds_list_create();
+ 
+var num = instance_place_list(floor(x), floor(y), pHitBox, hitbox_list, false);
+var final_hbox = noone;
+var hit_variable = `hit_article_${id}`;
+if num == 0 {
+    ds_list_destroy(hitbox_list);
+    return;
+}
+if num == 1 {
+    //no priority checks if only one hitbox is found
+    var hbox = hitbox_list[|0]
+    var group = hbox.hbox_group
+    if hit_variable not in hbox 
+        if (group == -1 || ( group != -1 && hbox_group[@ hbox.orig_player-1][@ hbox.attack][@ group] == 0)) {
+            if filters(hbox) {
+                final_hbox = hbox;
+            } else {
+                //hitbox doesn't meet collision criteria. since this usually doesn't change, omit it.
+                variable_instance_set(hbox, hit_variable, true);
+            }
+        } else {
+            //fake hit if group has already hit; optimization thing
+            variable_instance_set(hbox, hit_variable, true);
+        }
+} else {
+    var highest_priority = 0;
+    var highest_priority_owner = -1;
+    var highest_priority_hbox = noone;
+    for (var i = 0; i < ds_list_size(hitbox_list); i++) {
+        var hbox = hitbox_list[|i]
+        var group = hbox.hbox_group
+        if hit_variable not in hbox 
+            //group check
+            if (group == -1 || ( group != -1 && hbox_group[@ hbox.orig_player-1][@ hbox.attack][@ group] == 0)) {
+                if filters(hbox) {
+                    if hbox.hit_priority > highest_priority {
+                        highest_priority = hbox.hit_priority;
+                        highest_priority_owner = hbox.player;
+                        highest_priority_hbox = hbox;
+                    }
+                } else {
+                    //hitbox doesn't meet collision criteria. since this usually doesn't change, omit it.
+                    variable_instance_set(hbox, hit_variable, true);
+                }
+            } else {
+                //fake hit if group has already hit; optimization thing
+                variable_instance_set(hbox, hit_variable, true);
+            }
+    }
+    if highest_priority != 0 {
+        final_hbox = highest_priority_hbox;
+    }
+}
+ 
+if final_hbox != noone {
+    on_hit(final_hbox);
+    variable_instance_set(final_hbox, hit_variable, true);
+    if final_hbox.hbox_group != -1 hbox_group[@ final_hbox.orig_player-1][@ final_hbox.attack][@ final_hbox.hbox_group] = 1;
+}
+ 
+//clear hitbox list
+//ds_list_clear(hitbox_list)
+ds_list_destroy(hitbox_list);
