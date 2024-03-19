@@ -29,6 +29,7 @@ lifetime_decay_step = 9; // applied per frame while grappled, in addition to the
 lifetime_decayed = 0;
 last_decay_frame = get_gameplay_time(); // ensures only one decay step per frame
 
+hit_angle = 0;
 
 // grapple compat
 agent_p_grapplable = 2;     // denotes grabbability by grappling hook. 

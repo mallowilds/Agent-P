@@ -18,7 +18,7 @@ switch(state) { // use this one for doing actual article behavior
         
         if (vsp < 6) vsp += 0.2;
         
-        if (lightweight_detect_hitboxes(mask_index, 50)) set_state(2);
+        if (lightweight_detect_hitboxes(mask_index, 50)) set_state(3);
         
         else if (state_timer == 25) {
             set_state(1);
@@ -37,16 +37,24 @@ switch(state) { // use this one for doing actual article behavior
     case 1: // idle
         if (vsp < 6) vsp += 0.1
         do_air_friction(0.3);
-        if (state_timer + lifetime_decayed >= max_lifetime && !agent_p_grappling) {
-            set_state(2);
-        }
-        if (lightweight_detect_hitboxes(mask_index, 50)) set_state(2);
+        if (lightweight_detect_hitboxes(mask_index, 50)) set_state(3);
+        else if (state_timer + lifetime_decayed >= max_lifetime && !agent_p_grappling) set_state(2);
         break;
         
-    case 2: //die
-        if (state_timer == 20) { // die after 20 frames
-            should_die = true;
-        }
+    case 2: // naturally despawn
+        should_die = true;
+        var despawn_obj = instance_create(x, y, "obj_article3");
+        despawn_obj.state = 02;
+        despawn_obj.vis_frame = image_index;
+        despawn_obj.vis_alpha = 1;
+        break;
+    
+    case 3: // hit -> explode
+        should_die = true;
+        var despawn_obj = instance_create(x, y, "obj_article3");
+        despawn_obj.state = 03;
+        despawn_obj.vis_frame = image_index;
+        despawn_obj.hit_angle = hit_angle;
         break;
         
 }
@@ -57,9 +65,6 @@ switch(state) { // use this one for changing sprites and animating
         break;
     case 1: // idle
         image_index = 4 + (state_timer / 4) % 12;
-        break;
-    case 2: //die
-        image_index = (state_timer / 4) % 4;
         break;
 }
 // don't forget that articles aren't affected by small_sprites
@@ -105,6 +110,13 @@ state_timer = 0;
     if (hbox != noone) {
         var sim_kb = ceil(get_kb_formula(sim_percent, 1, get_match_setting(SET_SCALING), hbox.damage, hbox.kb_value, hbox.kb_scale));
         sim_percent *= 0.1;
+        
+        // store hit_angle
+        hit_angle = hbox.kb_angle;
+        if (hit_angle == 361) hit_angle = free ? 45 : 40;
+        if (hbox.hit_flipper == 5) hit_angle = 180 - hit_angle;
+        if (spr_dir == -1) hit_angle = 180 - hit_angle;
+        // deliberately neglecting most angle flippers for now since it's visual-only anyway
         
         if (get_local_setting(SET_HUD_SHAKE)) shake_camera(sim_kb, ceil(sim_kb/1.5 < 2 ? 2 : sim_kb/1.5));
         
