@@ -92,8 +92,34 @@ set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_GROUN
 set_window_value(atk, window_num                        , AG_WINDOW_CUSTOM_AIR_FRICTION, 0);
 window_num++;
 
+// followup attack ~ startup
+set_window_value(atk, window_num, AG_WINDOW_TYPE, 1);
+set_window_value(atk, window_num, AG_WINDOW_LENGTH, 3);
+set_window_value(atk, window_num, AG_WINDOW_ANIM_FRAMES, 2);
+set_window_value(atk, window_num, AG_WINDOW_ANIM_FRAME_START, 12);
+set_window_value(atk, window_num, AG_WINDOW_HAS_SFX, 1);
+set_window_value(atk, window_num, AG_WINDOW_SFX, asset_get("sfx_swipe_medium1"));
+set_window_value(atk, window_num, AG_WINDOW_SFX_FRAME, 2);
+// gravity handled manually in attack_update.gml in the interest of parachute safety
+window_num++;
+
+// followup attack ~ active
+set_window_value(atk, window_num, AG_WINDOW_TYPE, 1);
+set_window_value(atk, window_num, AG_WINDOW_LENGTH, 4);
+set_window_value(atk, window_num, AG_WINDOW_ANIM_FRAMES, 2);
+set_window_value(atk, window_num, AG_WINDOW_ANIM_FRAME_START, 14);
+window_num++;
+
+// followup attack ~ endlag
+set_window_value(atk, window_num, AG_WINDOW_TYPE, 1);
+set_window_value(atk, window_num, AG_WINDOW_LENGTH, 8);
+set_window_value(atk, window_num, AG_WINDOW_ANIM_FRAMES, 3);
+set_window_value(atk, window_num, AG_WINDOW_ANIM_FRAME_START, 16);
+window_num++;
+
+
 //                        --attack hitboxes--                                 //
-set_num_hitboxes(atk, 1);
+set_num_hitboxes(atk, 2);
 var hbox_num = 1;
 
 set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE              , 2);
@@ -106,7 +132,7 @@ set_hitbox_value(atk, hbox_num, HG_SHAPE                    , 2);
 set_hitbox_value(atk, hbox_num, HG_WIDTH                    , 12);
 set_hitbox_value(atk, hbox_num, HG_HEIGHT                   , 28);
 set_hitbox_value(atk, hbox_num, HG_PRIORITY                 , 1);
-set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 4);
+set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 2);
 set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 90);
 set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 6);
 set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0.3);
@@ -123,4 +149,23 @@ set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 0);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_UNBASHABLE    , true);
 //set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , true); // needs to be handled manually
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DOES_NOT_REFLECT, true);
+hbox_num++;
+
+set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE, 1);
+set_hitbox_value(atk, hbox_num, HG_WINDOW, 8);
+set_hitbox_value(atk, hbox_num, HG_LIFETIME, 3);
+set_hitbox_value(atk, hbox_num, HG_HITBOX_Y, -25);
+set_hitbox_value(atk, hbox_num, HG_HITBOX_X, 20);
+set_hitbox_value(atk, hbox_num, HG_WIDTH, 60);
+set_hitbox_value(atk, hbox_num, HG_HEIGHT, 50);
+set_hitbox_value(atk, hbox_num, HG_PRIORITY, 3);
+set_hitbox_value(atk, hbox_num, HG_DAMAGE, 5);
+set_hitbox_value(atk, hbox_num, HG_ANGLE, 70);
+set_hitbox_value(atk, hbox_num, HG_HITSTUN_MULTIPLIER, .8);
+set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK, 7);
+set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING, .4);
+set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE, 6);
+set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING, .4);
+set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT, fx_medium_circle1);
+set_hitbox_value(atk, hbox_num, HG_HIT_SFX, asset_get("sfx_blow_medium3"));
 hbox_num++;

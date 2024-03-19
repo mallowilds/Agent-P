@@ -223,7 +223,7 @@ switch grapple_hook_state {
 		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
 		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
 		
-		var mov_angle = point_direction(x + (grapple_hook_x_origin * spr_dir), y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		var mov_angle = point_direction(x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
 		var mov_accel = 0.6;
 		
 		// error state: not in fspecial
@@ -259,7 +259,7 @@ switch grapple_hook_state {
 		hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 		vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		
-		if (abs(grapple_hook_x - x - (grapple_hook_x_origin * spr_dir)) < abs(hsp)) {
+		if (abs(grapple_hook_x - x  - (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir) < abs(hsp)) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
 			grapple_hook_target = noone;

@@ -159,17 +159,22 @@ switch(attack) {
         		can_move = false;
         		can_fast_fall = false;
         		if (grapple_hook_state == GRAPPLE_DISABLED) {
-        			if (!free) { // temp
-        				y -= 1;
-        				set_state(PS_ATTACK_AIR);
-        				free = true;
-        			}
-        			set_attack(AT_NAIR); // temp
-        			vsp = -6;
+        			vsp = 0;
         			hsp = 2 * spr_dir;
-        			attack_end();
+        			window = 7;
+        			window_timer = 0;
         		}
-        		break
+        		break;
+        	
+        	case 7:
+        		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -8;
+        		break;
+        	
+        	case 8:
+        	case 9:
+        		// manual gravity (for parachute safety)
+        		vsp += gravity_speed;
+        		break;
 	        
     	}
         break;

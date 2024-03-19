@@ -30,7 +30,7 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 	hit_player_obj.hitstop = 2;
 	hit_player_obj.hitstop_full = 2;
 	
-	set_attack_value(AT_FSPECIAL, AG_NUM_WINDOWS, 6);
+	set_attack_value(AT_FSPECIAL, AG_NUM_WINDOWS, 9);
 	window = 6;
 	window_timer = 6;
 	
