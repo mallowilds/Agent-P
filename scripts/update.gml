@@ -30,6 +30,7 @@ else if (!is_on_plat && plat_active) {
 }
 
 // Parachute
+
 if (parachute_active) {
 	
 	if (free) attack_air_limit[AT_USPECIAL] = true;
@@ -70,17 +71,21 @@ if (parachute_active) {
 	if (!hitpause) vis_parachute_angle = lerp(vis_parachute_angle, hsp * 40 / air_max_speed, 0.2);
 	
 }
-else if (parachute_stats) {
+else {
 	
-	parachute_stats = false;
+	if (!free) attack_air_limit[AT_USPECIAL] = false;
 	
-	max_fall = base_max_fall;
-	fast_fall = base_fast_fall;
-	gravity_speed = base_gravity_speed;
-	jump_speed = base_jump_speed;
-	short_hop_speed = base_sh_speed;
-	djump_speed = base_djump_speed;
-	air_accel = base_air_accel;
+	if (parachute_stats) {
+		parachute_stats = false;
+		
+		max_fall = base_max_fall;
+		fast_fall = base_fast_fall;
+		gravity_speed = base_gravity_speed;
+		jump_speed = base_jump_speed;
+		short_hop_speed = base_sh_speed;
+		djump_speed = base_djump_speed;
+		air_accel = base_air_accel;
+	}
 	
 }
 

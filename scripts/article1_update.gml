@@ -1,4 +1,5 @@
 
+if (hitpause) exit;
 state_timer++;
 
 
@@ -12,11 +13,14 @@ switch(state) { // use this one for doing actual article behavior
             vsp = -6 + (2.5 * throw_dir);
             
             hbox = create_hitbox(AT_NSPECIAL, 1, x, y);
+            hbox.agent_p_grapple_hitbox = true;
         }
         
         if (vsp < 6) vsp += 0.2;
         
-        if (state_timer == 25) {
+        if (lightweight_detect_hitboxes(mask_index, 50)) set_state(2);
+        
+        else if (state_timer == 25) {
             set_state(1);
             if (instance_exists(hbox)) hbox.destroyed = true;
         }
@@ -36,6 +40,7 @@ switch(state) { // use this one for doing actual article behavior
         if (state_timer + lifetime_decayed >= max_lifetime && !agent_p_grappling) {
             set_state(2);
         }
+        if (lightweight_detect_hitboxes(mask_index, 50)) set_state(2);
         break;
         
     case 2: //die
@@ -81,3 +86,55 @@ state_timer = 0;
     
     hsp = (abs(hsp_dec) < abs(hsp)) ? (hsp + hsp_dec) : 0;
     vsp = (abs(vsp_dec) < abs(vsp)) ? (vsp + vsp_dec) : 0;
+
+// Adapted from Desperado signpost.
+#define lightweight_detect_hitboxes(hitbox_mask, sim_percent)
+    
+    var old_mask = mask_index;
+    mask_index = hitbox_mask;
+
+    var hbox = noone;
+    with pHitBox {
+        if (place_meeting(x, y, other) && (hit_priority > 0) && "agent_p_grapple_hitbox" not in self) {
+            if (hbox == noone || type == 1 && hbox.type == 2 || hit_priority > hbox.hit_priority) {
+                hbox = self;
+            }
+        }
+    }
+    
+    if (hbox != noone) {
+        var sim_kb = ceil(get_kb_formula(sim_percent, 1, get_match_setting(SET_SCALING), hbox.damage, hbox.kb_value, hbox.kb_scale));
+        sim_percent *= 0.1;
+        
+        if (get_local_setting(SET_HUD_SHAKE)) shake_camera(sim_kb, ceil(sim_kb/1.5 < 2 ? 2 : sim_kb/1.5));
+        
+        hitstop = floor(hbox.hitpause + hbox.extra_hitpause + (hbox.hitpause_growth*sim_percent));
+        if (hbox.type == 1) with (hbox.player_id) {
+            if (!hitpause) {
+                old_hsp = hsp;
+                old_vsp = vsp;
+            }
+            hitpause = true;
+            has_hit = true;
+            if (hitstop < hbox.hitpause + (hbox.hitpause_growth*sim_percent)) {
+                hitstop = hbox.hitpause + (hbox.hitpause_growth*sim_percent);
+                hitstop_full = hbox.hitpause + (hbox.hitpause_growth*sim_percent);
+            }
+            
+        }
+        sound_play(hbox.sound_effect);
+        with hbox spawn_hit_fx((x+other.x)/2+(spr_dir*hit_effect_x), (y+other.y-50)/2+(hit_effect_y), hit_effect);
+        
+        // SK bounce for fun~
+        if (hbox.player_id.url == CH_SHOVEL_KNIGHT && hbox.attack == AT_DAIR && hbox.type == 1) {
+            if (hbox.player_id.vsp > -5) hbox.player_id.vsp = -5;
+            if (hbox.player_id.old_vsp > -5) hbox.player_id.old_vsp = -5;
+            if (hbox.hbox_num == 3) sound_play(asset_get("sfx_shovel_hit_light1")); // idk why this one doesn't have sfx lol
+        }
+        
+        mask_index = old_mask;
+        return true;
+    }
+    
+    mask_index = old_mask;
+    return false;
