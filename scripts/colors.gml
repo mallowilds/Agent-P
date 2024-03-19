@@ -30,7 +30,7 @@ set_color_profile_slot_range( 6, 6, 3, 25 );
 
 
 // ALTERNATE COLORS
-set_num_palettes( 15 );
+set_num_palettes( 14 );
 
 // Agent B
 set_color_profile_slot( 1, 0, 255, 255, 255 ); //Eyes
@@ -80,7 +80,7 @@ set_color_profile_slot( 5, 6, 59, 37, 64 ); //Beak
 // Prototype
 set_color_profile_slot( 6, 0, 211, 226, 154 ); //Eyes
 set_color_profile_slot( 6, 1, 83, 122, 62 ); //Eyes2
-set_color_profile_slot( 6, 2, 83, 122, 62 ); //FurDark
+set_color_profile_slot( 6, 2, 167, 186, 74 ); //FurDark
 set_color_profile_slot( 6, 3, 167, 186, 74 ); //FurLight
 set_color_profile_slot( 6, 4, 83, 122, 62 ); //Hat
 set_color_profile_slot( 6, 5, 211, 226, 154 ); //Tail
@@ -95,68 +95,59 @@ set_color_profile_slot( 7, 4, 40, 35, 64 ); //Hat
 set_color_profile_slot( 7, 5, 202, 54, 224 ); //Tail
 set_color_profile_slot( 7, 6, 153, 181, 227 ); //Beak
 
-// -------------------------
-set_color_profile_slot( 8, 0, 0, 255, 0 ); //Eyes
-set_color_profile_slot( 8, 1, 0, 255, 0 ); //Eyes2
-set_color_profile_slot( 8, 2, 0, 255, 0 ); //FurDark
-set_color_profile_slot( 8, 3, 0, 255, 0 ); //FurLight
-set_color_profile_slot( 8, 4, 0, 255, 0 ); //Hat
-set_color_profile_slot( 8, 5, 0, 255, 0 ); //Tail
-set_color_profile_slot( 8, 6, 0, 255, 0 ); //Beak
-
 // Agent... Meap?
-set_color_profile_slot( 9, 0, 255, 255, 255 ); //Eyes
-set_color_profile_slot( 9, 1, 0, 0, 0 ); //Eyes2
-set_color_profile_slot( 9, 2, 125, 187, 199 ); //FurDark
-set_color_profile_slot( 9, 3, 186, 243, 255 ); //FurLight
-set_color_profile_slot( 9, 4, 41, 24, 28 ); //Hat
-set_color_profile_slot( 9, 5, 239, 122, 191 ); //Tail
-set_color_profile_slot( 9, 6, 176, 118, 151 ); //Beak
+set_color_profile_slot( 8, 0, 255, 255, 255 ); //Eyes
+set_color_profile_slot( 8, 1, 0, 0, 0 ); //Eyes2
+set_color_profile_slot( 8, 2, 125, 187, 199 ); //FurDark
+set_color_profile_slot( 8, 3, 186, 243, 255 ); //FurLight
+set_color_profile_slot( 8, 4, 41, 24, 28 ); //Hat
+set_color_profile_slot( 8, 5, 239, 122, 191 ); //Tail
+set_color_profile_slot( 8, 6, 176, 118, 151 ); //Beak
 
 // Fearless
-set_color_profile_slot( 10, 0, 245, 220, 47 ); //Eyes
-set_color_profile_slot( 10, 1, 0, 0, 0 ); //Eyes2
-set_color_profile_slot( 10, 2, 179, 98, 0 ); //FurDark
-set_color_profile_slot( 10, 3, 219, 135, 30 ); //FurLight
-set_color_profile_slot( 10, 4, 27, 27, 28 ); //Hat
-set_color_profile_slot( 10, 5, 28, 28, 31 ); //Tail
-set_color_profile_slot( 10, 6, 194, 157, 109 ); //Beak
+set_color_profile_slot( 9, 0, 245, 220, 47 ); //Eyes
+set_color_profile_slot( 9, 1, 0, 0, 0 ); //Eyes2
+set_color_profile_slot( 9, 2, 179, 98, 0 ); //FurDark
+set_color_profile_slot( 9, 3, 219, 135, 30 ); //FurLight
+set_color_profile_slot( 9, 4, 27, 27, 28 ); //Hat
+set_color_profile_slot( 9, 5, 28, 28, 31 ); //Tail
+set_color_profile_slot( 9, 6, 194, 157, 109 ); //Beak
 
 // Courageous
-set_color_profile_slot( 11, 0, 255, 255, 255 ); //Eyes
-set_color_profile_slot( 11, 1, 0, 0, 0 ); //Eyes2
-set_color_profile_slot( 11, 2, 123, 154, 232 ); //FurDark
-set_color_profile_slot( 11, 3, 140, 180, 255 ); //FurLight
-set_color_profile_slot( 11, 4, 38, 38, 38 ); //Hat
-set_color_profile_slot( 11, 5, 38, 38, 38 ); //Tail
-set_color_profile_slot( 11, 6, 77, 96, 145 ); //Beak
+set_color_profile_slot( 10, 0, 255, 255, 255 ); //Eyes
+set_color_profile_slot( 10, 1, 0, 0, 0 ); //Eyes2
+set_color_profile_slot( 10, 2, 123, 154, 232 ); //FurDark
+set_color_profile_slot( 10, 3, 140, 180, 255 ); //FurLight
+set_color_profile_slot( 10, 4, 38, 38, 38 ); //Hat
+set_color_profile_slot( 10, 5, 38, 38, 38 ); //Tail
+set_color_profile_slot( 10, 6, 77, 96, 145 ); //Beak
 
 // Ravenous
+set_color_profile_slot( 11, 0, 255, 255, 255 ); //Eyes
+set_color_profile_slot( 11, 1, 0, 0, 0 ); //Eyes2
+set_color_profile_slot( 11, 2, 55, 78, 112 ); //FurDark
+set_color_profile_slot( 11, 3, 82, 115, 167 ); //FurLight
+set_color_profile_slot( 11, 4, 5, 36, 82 ); //Hat
+set_color_profile_slot( 11, 5, 55, 78, 112 ); //Tail
+set_color_profile_slot( 11, 6, 128, 140, 156 ); //Beak
+
+// Spy
 set_color_profile_slot( 12, 0, 255, 255, 255 ); //Eyes
-set_color_profile_slot( 12, 1, 0, 0, 0 ); //Eyes2
-set_color_profile_slot( 12, 2, 55, 78, 112 ); //FurDark
-set_color_profile_slot( 12, 3, 82, 115, 167 ); //FurLight
-set_color_profile_slot( 12, 4, 5, 36, 82 ); //Hat
-set_color_profile_slot( 12, 5, 55, 78, 112 ); //Tail
-set_color_profile_slot( 12, 6, 128, 140, 156 ); //Beak
+set_color_profile_slot( 12, 1, 255, 255, 255 ); //Eyes2
+set_color_profile_slot( 12, 2, 255, 255, 255 ); //FurDark
+set_color_profile_slot( 12, 3, 255, 255, 255 ); //FurLight
+set_color_profile_slot( 12, 4, 255, 255, 255 ); //Hat
+set_color_profile_slot( 12, 5, 255, 255, 255 ); //Tail
+set_color_profile_slot( 12, 6, 255, 255, 255 ); //Beak
 
 // Spy
 set_color_profile_slot( 13, 0, 255, 255, 255 ); //Eyes
-set_color_profile_slot( 13, 1, 255, 255, 255 ); //Eyes2
-set_color_profile_slot( 13, 2, 255, 255, 255 ); //FurDark
-set_color_profile_slot( 13, 3, 255, 255, 255 ); //FurLight
-set_color_profile_slot( 13, 4, 255, 255, 255 ); //Hat
-set_color_profile_slot( 13, 5, 255, 255, 255 ); //Tail
-set_color_profile_slot( 13, 6, 255, 255, 255 ); //Beak
-
-// Spy
-set_color_profile_slot( 14, 0, 255, 255, 255 ); //Eyes
-set_color_profile_slot( 14, 1, 0, 0, 0 ); //Eyes2
-set_color_profile_slot( 14, 2, 0, 0, 0 ); //FurDark
-set_color_profile_slot( 14, 3, 0, 0, 0 ); //FurLight
-set_color_profile_slot( 14, 4, 0, 0, 0 ); //Hat
-set_color_profile_slot( 14, 5, 0, 0, 0 ); //Tail
-set_color_profile_slot( 14, 6, 0, 0, 0 ); //Beak
+set_color_profile_slot( 13, 1, 0, 0, 0 ); //Eyes2
+set_color_profile_slot( 13, 2, 0, 0, 0 ); //FurDark
+set_color_profile_slot( 13, 3, 0, 0, 0 ); //FurLight
+set_color_profile_slot( 13, 4, 0, 0, 0 ); //Hat
+set_color_profile_slot( 13, 5, 0, 0, 0 ); //Tail
+set_color_profile_slot( 13, 6, 0, 0, 0 ); //Beak
 
 
 /* This is a comment used by that one RoA colors.gml generator tool to store palette data. You can safely keep it in your colors.gml if you plan to re-use the tool later, or safely remove it if you don't.

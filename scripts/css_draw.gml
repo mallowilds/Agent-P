@@ -1,213 +1,74 @@
-// alt color shade slots (css edition)
-/* // WIP
-num_base_colors                 = 1;    // how many colors the character has
+// Recreation of the core functionality of Hyu's css template -- by Nart
 
-col_shade_list                  = [
-                                [1],
-                                [0],
-                                [0],
-                                [0],
-                                [1],
-                                [1]
-                                ];      // array holding shade values in each
-                                        // alt for each color
-                                        // as sandbert only has 1 color and 6
-                                        // alts, there's 6 arrays with 1 element
+// ================================ SOME CUSTOM STUFF ===============================
+// ignore this part, this is just my own stuff lmao
+
 init_shader();
-*/
-//--- ---
-//
-// hyuponia's "ae" css code
-//
-// this is my single most user-UNfriendly code.
-// read my code and suffer, or just simply edit the only things you need to change.
-// feel free to use or edit or redistribute, long as you don't claim the original template as yours.
-// shoutouts to muno for css+ functions.
-//
-// to refresh the custom code proper, you have to temporarily change qe_b value or load another character with this code,
-// for example hyuponia's characters, and then load your character back. sorry, there wasn't really any better way i could find.
-//
-// and just in case, this code goes into css_draw.gml.
-//
-// now, please change this string to your character's name. used for resetting the values after other characters.
-//--- ---
-var qe_b = "BaseBert"
-// ! you can now scroll down until you reach "the primary part you should change."
- 
-var tmp_cur = 0;
-var tmp_i = [0, 0, 0, 0, 0];
-var tmp_x = [0, 0, 0, 0, 0];
-var tmp_y = [0, 0, 0, 0, 0];
-with(asset_get("cs_playercursor_obj")){
-    tmp_cur = (!tmp_i[0])?0:(!tmp_i[1])?1:(!tmp_i[2])?2:(!tmp_i[3])?3:4
-    tmp_i[tmp_cur] = 1
-    tmp_x[tmp_cur] = get_instance_x( self )
-    tmp_y[tmp_cur] = get_instance_y( self )
+//alt_info[alt_rainbow,0] = get_color_slot_hex(alt_rainbow, 0);
+
+draw_badges();
+
+// ==================================================================================
+
+// keep track of alts
+alt_cur = get_player_color(player);
+if alt_cur != alt_old {
+	// get direction of alt switching
+	if alt_cur == alt_max && alt_old == 0 { alt_dir = -1; }
+	else if alt_cur == 0 && alt_old == alt_max { alt_dir = 1; }
+	else { alt_dir = sign(alt_cur - alt_old); }
+	// update values
+    alt_old = alt_cur;
+    timer = timer_max;
 }
-var tmp_pt = abs(player-5)-1
-var temp_x = x + 8;
-var temp_y = y + 9;
-var tmp_xl = 9
-var tmp_bw = 32
-var tmp_yl = 151
-var tmp_bh = 20
-var tmp_xl1 = x+tmp_xl
-var tmp_xl2 = tmp_xl1+tmp_bw
-var tmp_yl1 = y+tmp_yl
-var tmp_yl2 = tmp_yl1+tmp_bh
-draw_set_halign(fa_left);
- 
-var ye = false;
-if (variable_instance_exists(id,"qe")){
-    if (qe != qe_b){
-    ye = true;
-    }
-}
- 
-if (!variable_instance_exists(id,"ae") || ye == true){
-    qe = qe_b
-    ae = "ae"
-    oe = 0;
-    ue = 0; //cur
-    ne = 0; //tmp
-    ee = 0;
-    ee_m = 60;
-    ie = 0;
-    ye = false;
-    dial_time = 0;
-    dial_max = 8;
-    
-    //--- ---
-    // the primary part you should change.
-    //--- ---
-    altsel = 0; // change the alt select sound here. if you don't want to change the sound, put 0 here.
-    color_desc_activate = false; // optional "alt color description button". set to "true" to turn it on.
-    
-    col_max = 5; // number of alternate color palettes. 0 is the default color, count it accordingly.
-    
-    //first array index is for alternate color. second array index is for distinguishing the information in it.
-    ce[0,0] = make_color_rgb(236, 123, 222) // "color preview square" color. can be any color!
-    ce[0,1] = "Default" // the name of the alternate color.
-    ce[0,2] = "The default color." // description to display if "alt color description button" is on. keep it blank if none, and you can remove it if you didn't turn it on.
-    ce[1,0] = make_color_rgb(140, 192, 255)
-    ce[1,1] = "color_1"
-    ce[1,2] = "References this thing, etc. a a a a a a a a a a"
-    ce[2,0] = make_color_rgb(181, 88, 72)
-    ce[2,1] = "color_2"
-    ce[2,2] = ""
-    ce[3,0] = make_color_rgb(42, 222, 160)
-    ce[3,1] = "color_3"
-    ce[3,2] = ""
-    ce[4,0] = make_color_rgb(133, 112, 118)
-    ce[4,1] = "color_4"
-    ce[4,2] = ""
-    ce[5,0] = make_color_rgb(118, 93, 135)
-    ce[5,1] = "color_5"
-    ce[5,2] = ""
-    // you can add more, by copypasting and changing the first index of the array accordingly.
-    // ! changing part end.
-    // you can ignore the mess below...
-}
- 
-if (ae == "ae"){
-    ae = "oe";
-}
-if (ae == "oe"){
-    ae = "ue";
-}
-if (ne != ue){
-    ie = (ue == col_max && ne == 0) ? -1 : (ue == 0 && ne == col_max) ? 1 : (ne < ue) ? 1 : -1 
-    ne = ue;
-    ae = "ne";
-    if (altsel!=0){
-    sound_stop(altsel);
-    sound_play(altsel);
-    }
-}
-if (ae == "ne"){
-    ee = ee_m;
-    ae = "ue";
-}
-if (ee > 0){
-    var tw = ease_quartOut(0, 1, ee, ee_m);
-    var tw_b = (ease_quartOut(0, 1, ee, ee_m)/2) - (ease_quartIn(0, 1, ee, ee_m)/2);
-    var tw_c = (ease_quartOut(0, 1, ee, ee_m)/4) - (ease_quartIn(0, 1, ee, ee_m)/4);
-    var tw_d = (ease_quartOut(0, 1, ee, ee_m)/2) + (ease_quartIn(0, 1, ee, ee_m));
-    var tw_e = (ease_quartOut(0, 1, ee, ee_m)/4) + (ease_quartIn(0, 1, ee, ee_m)/2);
-    var tw_f = (ease_quartOut(0, 1, ee, ee_m)/6) + (ease_quartIn(0, 1, ee, ee_m)/4);
-    var tw_g = (ease_quartOut(0, 1, ee, ee_m)) + (ease_quartIn(0, 1, ee, ee_m)/2);
+
+// draw
+if timer > 0 {
+	draw_set_halign(fa_left);
+	
     var dist = 14;
-    var typ = round(ease_expoIn(0, dist, ee, ee_m-2));
-    //using muno's function;
-    if (ue-2>=0){
-    rectDraw(temp_x + 2, temp_y + 77 +(0-(dist*2)-6+(typ*ie)), temp_x + 16, temp_y + 91 +(0-(dist*2)-6+(typ*ie)),
-    ce[clamp(ue-2,0,col_max),0], c_gray, (ie==-1) ? tw_c : tw_e );
-    }
-    if (ue-1>=0){
-    rectDraw(temp_x + 2, temp_y + 77 +(0-dist-3+(typ*ie)), temp_x + 16, temp_y + 91 +(0-dist-3+(typ*ie)),
-    ce[clamp(ue-1,0,col_max),0], c_gray, (ie==-1) ? tw_b : tw_d );
-    }
+    var slide = round(ease_expoIn(0, dist-2, timer, timer_max-4)) * alt_dir;
+	var ease = ease_linear(0, 2, timer, timer_max);
     
-    rectDraw(temp_x + 2, temp_y + 77 +(typ*ie), temp_x + 16, temp_y + 91 +(typ*ie), ce[ue,0], c_white, tw);
+    var draw_min = -3;
+    var draw_max = 4;
     
-    if (ue+1<=col_max){
-    rectDraw(temp_x + 2, temp_y + 77 +(dist+3+(typ*ie)), temp_x + 16, temp_y + 91 +(dist+3+(typ*ie)),
-    ce[clamp(ue+1,0,col_max),0], c_gray, (ie==1) ? tw_b : tw_d );
+    for (var i = draw_min; i <= draw_max; i += 1) {
+		var draw_alt = alt_cur + i;
+		
+		// skip certain squares under certain scenarios
+		if draw_alt != clamp(draw_alt, 0, alt_max)
+		|| (i == draw_min && alt_dir == -1)
+		|| (i == draw_max && alt_dir == 1) {
+			continue;
+		}
+		// draw squares
+		var x1 = x + 10;
+		var y1 = y + 86 + slide + (dist + 3)*i;
+		var x2 = x1 + dist;
+		var y2 = y1 + dist;
+		var c_out = (i == 0 ? c_white : c_gray);
+		var alpha = (ease - abs((i)/4.5)) * (5-abs(i))/5; // dumb arbitrary math
+		
+		rectDraw(x1, y1, x2, y2, alt_info[draw_alt,0], c_out, alpha);
     }
-    if (ue+2<=col_max){
-    rectDraw(temp_x + 2, temp_y + 77 +((dist*2)+6+(typ*ie)), temp_x + 16, temp_y + 91 +((dist*2)+6+(typ*ie)),
-    ce[clamp(ue+2,0,col_max),0], c_gray, (ie==1) ? tw_c : tw_e );
-    }
-    
-    if (ue+(3*-ie)<=col_max && ue+(3*-ie)>=0){
-    rectDraw(temp_x + 2, temp_y + 77 +((((dist*3)+9)*-ie)+(typ*ie)),
-    temp_x + 16, temp_y + 91 +((((dist*3)+9)*-ie)+(typ*ie)),
-    ce[clamp(ue+(3*-ie),0,col_max),0], c_gray, tw_f);
-    }
-    
-textDraw(temp_x + 2 + ((player==0)?32:0), temp_y + 130, "fName", c_white, 0, 1000, 1, true, tw_g, ce[ue,1]);
-    
-    ee--;
-}
-    ue = get_player_color(player);
- 
-//this part does button stuff, drawing etc
- 
-if (color_desc_activate){
-    if (tmp_x[tmp_pt]>tmp_xl1 && tmp_x[tmp_pt]<tmp_xl2 && tmp_y[tmp_pt]>tmp_yl1 && tmp_y[tmp_pt]<tmp_yl2){
-        if (dial_time<dial_max){ dial_time++; }
-    }else{
-        if (dial_time>0){ dial_time--; }
-    }
-    draw_set_alpha(0.3);
-    draw_rectangle_colour(tmp_xl2-1, tmp_yl1+3, tmp_xl2, tmp_yl2, c_dkgray, c_dkgray, c_dkgray, c_dkgray, false);
-    textDraw(round(tmp_xl1+(tmp_bw/2))-3, round(tmp_yl1+(tmp_bh/2))-4, "fName", c_dkgray, 0, 100, 1, false, 0.3, "?");
-    var dial_ease = ease_linear( 0, 100, dial_time, dial_max )
-    draw_set_alpha(dial_ease/130);
-    draw_rectangle_colour(x+10, y+95-round(dial_ease/30), x+210, y+153, c_black, c_black, c_black, c_black, false);
-    draw_set_alpha(dial_ease/500);
-    draw_rectangle_colour(tmp_xl1, tmp_yl1+3, tmp_xl2, tmp_yl2, c_white, c_white, c_white, c_white, false);
-    draw_set_alpha(1);
-    textDraw(x+14, (y+100)-round(dial_ease/30), "fName", c_white, 18, 200, 1, false, dial_ease/100, "- Color "+string(ue)+": "+ce[ue,1]);
-    textDraw(x+14, (y+120)-round(dial_ease/30), "fName", c_white, 18, 200, 1, false, dial_ease/100, ce[ue,2]);
+	// draw dumb black rectangle to hide squares sliding into/out of view lol
+	draw_rectangle_colour(x+8, y+152, x+40, y+171, c_black, c_black, c_black, c_black, false);
+    // draw name
+    textDraw(x+12, y+43, "fName", c_white, 0, 1000, 1, true, ease, alt_info[alt_cur,1]);
+	// update timer
+	timer -= 1;
 }
  
-//ae code end
- 
- 
- 
-//--- ---
-// altered version of muno's functions. if you have other css codes, this part needs to be at the bottom of the code.
-//--- ---
  
 #define textDraw(x, y, font, color, lineb, linew, scale, outline, alpha, string)
- 
+
 draw_set_font(asset_get(argument[2]));
  
 if argument[7]{
     for (i = -1; i < 2; i++){
         for (j = -1; j < 2; j++){
-            draw_text_ext_transformed_color(argument[0] + i * 2, argument[1] + j * 2, argument[9], argument[4], argument[5], argument[6], argument[6], 0, c_black, c_black, c_black, c_black, 1);
+            draw_text_ext_transformed_color(argument[0] + i * 2, argument[1] + j * 2, argument[9], argument[4], argument[5], argument[6], argument[6], 0, c_black, c_black, c_black, c_black, alpha);
         }
     }
 }
@@ -224,3 +85,62 @@ draw_rectangle_color(argument[0], argument[1], argument[2], argument[3], argumen
 draw_set_alpha(argument[6]*1.5);
 draw_rectangle_color(argument[0]+2, argument[1]+2, argument[2]-2, argument[3]-2, argument[4], argument[4], argument[4], argument[4], false);
 draw_set_alpha(1);
+
+
+#define get_color_slot_hex(alt, slot)
+var _r = get_color_profile_slot_r(alt, slot);
+var _g = get_color_profile_slot_g(alt, slot);
+var _b = get_color_profile_slot_b(alt, slot);
+return make_color_rgb(_r, _g, _b);
+
+
+#define draw_badges
+var badge_num = -1;
+switch get_player_color(player) {
+	// abyss
+    case 13:
+        badge_num = 1;
+        break;
+    
+    // early access
+    case 14:
+        badge_num = 2;
+        break;
+	
+    // workshop
+    case 6: // bubbles
+    case 7: // lava flow
+    case 8: // prune
+    case 9: // revolver
+    case 10: // rollerblade
+    case 11: // sweet tooth
+    case 12: // air mail
+    case 15: // whirlpool
+    case 16: // lumens
+    case 17: // peachy
+        badge_num = 3;
+        break;
+        
+    // ranked
+	case 18:
+        badge_num = 5;
+        break;
+    
+    // seasonal
+    case 19:
+        badge_num = 0;
+        break;
+	
+	// custom
+	case 20: // blm
+	case 21: // tag
+	case 22: // mothra
+	case 23: // dude-like
+		badge_num = 7;
+		break;
+}
+
+if (badge_num != -1) {
+	shader_end();
+	//draw_sprite_ext(sprite_get("css_badges"), badge_num, x + 176, y + 112, 2, 2, 0, c_white, 1);
+}

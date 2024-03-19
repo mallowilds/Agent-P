@@ -23,7 +23,7 @@ if col == 6 || col == 13 || col == 14 {
 
 
 switch col {
-    case 14: {
+    case 13: {
         outline_color = [255, 255, 255]
     }
     break;
