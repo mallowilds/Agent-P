@@ -124,6 +124,33 @@ if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_PROJECTILE_MUL
 }
 
 
+// Rune L: parachute momentum
+if (has_rune("L") && parachute_active) {
+	switch(my_hitboxID.attack) {
+		case AT_NAIR:
+			if (old_vsp > -6) old_vsp = -6;
+			break;
+		case AT_FAIR:
+			if (old_hsp*spr_dir < 9) old_hsp = 9 * spr_dir;
+			else old_hsp += 1 * spr_dir;
+			if (hbox == 3 && old_vsp > -4) old_vsp = -4;
+			else if (old_vsp > 0) old_vsp = 0;
+			break;
+		case AT_BAIR:
+			if (old_hsp*spr_dir > -10) old_hsp = -10 * spr_dir;
+			if (old_vsp > -4) old_vsp = -4;
+			break;
+		case AT_UAIR:
+			if (hbox == 1 && old_vsp > -2) old_vsp = -2;
+			if (hbox == 2 && old_vsp > -8) old_vsp = -8;
+			break;
+		case AT_DAIR:
+			if (old_vsp > -5) old_vsp = -5;
+			break;
+	}
+}
+
+
 //                          --hit gamefeel--                                  //
 
 switch(my_hitboxID.attack) {

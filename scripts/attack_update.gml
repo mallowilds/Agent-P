@@ -110,7 +110,13 @@ switch(attack) {
 	        				//print_debug("found " + string(self));
 	        			}
 	        		}
-	        		instance_destroy(donor_article);
+	        		if (has_rune("M")) with oPlayer { // Rune M: player-targetted aim assist
+	        			if (other != self && place_meeting(x, y, donor_article)) {
+	        				other.grapple_hook_aim_obj = self;
+	        				//print_debug("found " + string(self));
+	        			}
+	        		}
+ 	        		instance_destroy(donor_article);
 	        		
     			}
     			

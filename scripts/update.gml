@@ -102,8 +102,11 @@ switch grapple_hook_state {
 		grapple_hook_hsp -= (grapple_hook_timer / 12) * grapple_hook_dir;
 		// grapple_hook_vsp = vsp; // not really used yet
     	
-    	if (instance_exists(grapple_hook_aim_obj)) { // aim assist
-    		var dir = point_direction(grapple_hook_x, grapple_hook_y, grapple_hook_aim_obj.x, grapple_hook_aim_obj.y);
+    	// aim assist
+    	if (instance_exists(grapple_hook_aim_obj)) { 
+    		// below offset is for rune M support (for ctrl-F navigation: has_rune("M"))
+    		var temp_y = grapple_hook_aim_obj.y - (grapple_hook_aim_obj.object_index == oPlayer ? grapple_hook_aim_obj.char_height/2 : 0);
+    		var dir = point_direction(grapple_hook_x, grapple_hook_y,  grapple_hook_aim_obj.x, temp_y);
     		grapple_hook_x += lengthdir_x(abs(grapple_hook_hsp), dir) + hsp;
     		grapple_hook_y += lengthdir_y(abs(grapple_hook_hsp), dir) + vsp;
 		}
