@@ -30,7 +30,7 @@ switch state {
     case 10:
         if (player_id.rune_a_alpha < 1) {
             with (player_id) shader_start();
-            draw_sprite_ext(player_id.sprite_index, player_id.image_index, player_id.x, player_id.y, 1, 1, 0, c_white, player_id.rune_a_alpha);
+            draw_sprite_ext(player_id.sprite_index, player_id.image_index, player_id.x, player_id.y, player_id.spr_dir, 1, 0, c_white, player_id.rune_a_alpha);
             shader_end();
         }
         break;
