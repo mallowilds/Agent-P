@@ -2,6 +2,12 @@
 if (hitstop > 0) exit;
 state_timer++;
 
+if (place_meeting(x, y, asset_get("plasma_field_obj"))) {
+	spawn_hit_fx(x, y, (HFX_CLA_DSMASH_BREAK));
+	sound_play(asset_get("sfx_clairen_hit_weak"));
+	should_die = true;
+}
+
 switch(state) { // use this one for doing actual article behavior
 
     case 0: // spawn
@@ -13,6 +19,7 @@ switch(state) { // use this one for doing actual article behavior
             
             hbox = create_hitbox(AT_NSPECIAL, 1, x, y);
             hbox.agent_p_grapple_hitbox = true;
+            hbox.owner_drone = self
         }
         
         if (hit_wall) {

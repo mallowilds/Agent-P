@@ -17,7 +17,6 @@ if get_gameplay_time() == 2 {
 	}
 }
 
-
 // Respawn platform
 var is_on_plat = (state == PS_RESPAWN || (state == PS_ATTACK_GROUND && respawn_taunt > 0));
 if (is_on_plat) plat_active = 1;
