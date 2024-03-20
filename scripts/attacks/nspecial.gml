@@ -41,7 +41,7 @@ set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES,
 window_num++;
 
 //                        --attack hitboxes--                                 //
-set_num_hitboxes(atk, 2);
+set_num_hitboxes(atk, 3);
 var hbox_num = 1;
 
 // main hitbox
@@ -62,6 +62,7 @@ set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0.3);
 set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 6);
 set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , 0.3);
 set_hitbox_value(atk, hbox_num, HG_HITSTUN_MULTIPLIER       , .8);
+set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT            , HFX_GEN_OMNI);
 set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , asset_get("sfx_blow_medium3"));
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_SPRITE        , sprite_get("null"));
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK          , -1);
@@ -107,4 +108,38 @@ set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , false);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DOES_NOT_REFLECT, false);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_IS_TRANSCENDENT, false);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PLASMA_SAFE   , false);
+hbox_num++;
+
+// explode
+set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE              , 2);
+set_hitbox_value(atk, hbox_num, HG_WINDOW                   , 0);
+set_hitbox_value(atk, hbox_num, HG_WINDOW_CREATION_FRAME    , 0);
+set_hitbox_value(atk, hbox_num, HG_LIFETIME                 , 2);
+set_hitbox_value(atk, hbox_num, HG_HITBOX_X                 , 32);
+set_hitbox_value(atk, hbox_num, HG_HITBOX_Y                 , -32);
+set_hitbox_value(atk, hbox_num, HG_SHAPE                    , 2);
+set_hitbox_value(atk, hbox_num, HG_WIDTH                    , 70);
+set_hitbox_value(atk, hbox_num, HG_HEIGHT                   , 70);
+set_hitbox_value(atk, hbox_num, HG_PRIORITY                 , 5); // kragg rock safety
+set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 4);
+set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 90);
+set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 7);
+set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0.3);
+set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 6);
+set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , 0.3);
+set_hitbox_value(atk, hbox_num, HG_HITSTUN_MULTIPLIER       , .8);
+set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT            , HFX_ELL_FSPEC_HIT);
+set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , asset_get("sfx_ell_strong_attack_explosion"));
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_SPRITE        , sprite_get("null"));
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK          , -1);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DESTROY_EFFECT, hfx_null);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR , 0);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 0);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 0);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_UNBASHABLE    , true);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , true);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DOES_NOT_REFLECT, true);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_IS_TRANSCENDENT, false);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PLASMA_SAFE   , false);
+set_hitbox_value(atk, hbox_num, HG_EXTENDED_PARRY_STUN      , false);
 hbox_num++;

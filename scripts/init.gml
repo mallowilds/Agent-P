@@ -45,7 +45,7 @@ use_stored_vsp = false;
 nspec_num_drones = 0;
 nspec_max_drones = 2;
 nspec_drone_cd = 0;
-nspec_drone_cd_max = 45;
+nspec_drone_cd_max = 150;
 
 ustrong_smear = noone;
 dstrong_boom = noone;

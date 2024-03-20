@@ -76,6 +76,7 @@ switch(state) { // use this one for doing actual article behavior
         
         vis_frame = 4 + (state_timer / 4) % 12;
         if (state_timer > 15) {
+        	create_hitbox(AT_NSPECIAL, 3, x, y);
             sound_play(asset_get("sfx_ell_small_missile_ground"));
             spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
             should_die = true;
