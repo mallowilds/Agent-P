@@ -57,6 +57,13 @@ taunt_loops = 0;
 
 plat_active = 0;
 
+if (has_rune("A")) {
+    rune_a_alpha = 1;
+    rune_a_handler = instance_create(x, y, "obj_article3");
+    rune_a_handler.state = 10;
+}
+
+
 // Galaxy sfx
 hit_last_frame = array_create(noone, 20);
 num_hit_last_frame = 0;

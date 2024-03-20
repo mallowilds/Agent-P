@@ -11,6 +11,9 @@
 - 02: Drone despawn ~ fly away
 
 
+- 10: Rune A manager
+
+
 */
 
 
@@ -64,6 +67,12 @@ switch state {
             instance_destroy();
             exit;
         }
+        break;
+    
+    
+    
+    // Rune A manager
+    case 10:
         break;
     
     //#region Failed initialization

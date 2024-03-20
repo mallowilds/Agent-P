@@ -25,8 +25,14 @@ switch state {
         draw_sprite_ext(sprite_get("drone"), vis_frame, x, y, spr_dir, 1, 0, c_white, vis_alpha);
         break;
     
-    case 03:
-        draw_sprite_ext(sprite_get("drone"), vis_frame, x, y, spr_dir, 1, 0, c_white, 1);
+    
+    // Rune A manager
+    case 10:
+        if (player_id.rune_a_alpha < 1) {
+            with (player_id) shader_start();
+            draw_sprite_ext(player_id.sprite_index, player_id.image_index, player_id.x, player_id.y, 1, 1, 0, c_white, player_id.rune_a_alpha);
+            shader_end();
+        }
         break;
     
     //#endregion

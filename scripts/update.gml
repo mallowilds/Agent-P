@@ -408,6 +408,20 @@ if (stinger_cooldown > 0) {
 }
 
 
+// Rune A management
+if (has_rune("A")) {
+	// index 49 is walkturn
+	if (state == PS_CROUCH || state == PS_ATTACK_GROUND && (attack == 49 || attack == AT_DTILT)) {
+		rune_a_alpha = clamp(rune_a_alpha-0.05, 0, 1);
+	}
+	else {
+		rune_a_alpha = clamp(rune_a_alpha+0.05, 0, 1);
+	}
+	visible = (rune_a_alpha == 1);
+}
+
+
+
 if state == PS_WAVELAND && state_timer == 1 && !hitpause {
     sound_play(asset_get("sfx_waveland_hod"), 0, noone, .8, 1.1)
 }
@@ -433,6 +447,7 @@ if (attack_air_limit_ver) {
 		attack_air_limit_ver = false;
 	}
 }
+
 
 // character recoloring / applying shade values
 // init_shader(); //unused for now
