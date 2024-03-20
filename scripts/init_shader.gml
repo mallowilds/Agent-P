@@ -23,6 +23,9 @@ if col == 6 || col == 13 || col == 14 {
 
 
 switch col {
+    case 6:
+        outline_color = [42, 90, 63]; 
+    break;
     case 13: {
         outline_color = [255, 255, 255]
     }

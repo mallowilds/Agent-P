@@ -30,7 +30,7 @@ alt_info[5,0] = get_color_slot_hex(5, 1);
 alt_info[5,1] = "Agent V";
 
 alt_info[6,0] = get_color_slot_hex(6, 1);
-alt_info[6,1] = "Prototype";
+alt_info[6,1] = "Pilot";
 
 alt_info[7,0] = get_color_slot_hex(7, 1);
 alt_info[7,1] = "Other Dimension";
