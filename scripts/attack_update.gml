@@ -57,11 +57,6 @@ switch(attack) {
         break;
     
     case AT_NSPECIAL:
-		if free {
-			set_window_value(AT_NSPECIAL, 2                        , AG_WINDOW_VSPEED, -8);
-		} else {
-			set_window_value(AT_NSPECIAL, 2                    , AG_WINDOW_VSPEED, 0);
-		}
         
         if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
         	var nspec_drone = instance_create(floor(x)+(40*spr_dir), floor(y)-40, "obj_article1");
@@ -69,6 +64,8 @@ switch(attack) {
         	
         	nspec_num_drones++;
         	nspec_drone_cd += nspec_drone_cd_max;
+        	
+        	if (free) vsp = (parachute_active ? -6 : -8);
         }
         
         break;

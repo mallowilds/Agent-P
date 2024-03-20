@@ -1,6 +1,7 @@
 // use this to draw stuff
 
 
+// Hitbox handling
 if (get_match_setting(SET_HITBOX_VIS)) {
     if ((state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR) && attack == AT_FSPECIAL) {
         if (window == 2) {

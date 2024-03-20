@@ -2,11 +2,27 @@
 if (hitstop > 0) exit;
 state_timer++;
 
+// Safety: clairen field
 if (place_meeting(x, y, asset_get("plasma_field_obj"))) {
 	spawn_hit_fx(x, y, (HFX_CLA_DSMASH_BREAK));
 	sound_play(asset_get("sfx_clairen_hit_weak"));
 	should_die = true;
 }
+
+// Safety: blast zones
+if (   x < get_stage_data(SD_LEFT_BLASTZONE_X)
+	|| x > get_stage_data(SD_RIGHT_BLASTZONE_X)
+	|| y > get_stage_data(SD_BOTTOM_BLASTZONE_Y)
+) {
+	sound_play(asset_get("sfx_ell_small_missile_ground"));
+	should_die = true;
+}
+
+// Instead of killing off the top, nudge down
+if (y < get_stage_data(SD_TOP_BLASTZONE_Y)+230 && state == 1) {
+	y += 4;
+}
+
 
 switch(state) { // use this one for doing actual article behavior
 
@@ -76,7 +92,7 @@ switch(state) { // use this one for doing actual article behavior
         
         vis_frame = 4 + (state_timer / 4) % 12;
         if (state_timer > 15) {
-        	create_hitbox(AT_NSPECIAL, 3, x, y);
+        	if (has_rune("H")) create_hitbox(AT_NSPECIAL, 3, x, y); // explosion rune
             sound_play(asset_get("sfx_ell_small_missile_ground"));
             spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
             should_die = true;
