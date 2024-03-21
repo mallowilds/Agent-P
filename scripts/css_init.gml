@@ -11,46 +11,46 @@ alt_dir = 0;
 alt_max = 12; // number of alternate color palettes, not including default
 
 // Alt info
-alt_info[0,0] = get_color_slot_hex(0, 1);
+alt_info[0,0] = get_color_slot_hex(0, 3);
 alt_info[0,1] = "Agent P";
 
-alt_info[1,0] = get_color_slot_hex(1, 1);
+alt_info[1,0] = get_color_slot_hex(1, 3);
 alt_info[1,1] = "Agent B";
 
-alt_info[2,0] = get_color_slot_hex(2, 1);
+alt_info[2,0] = get_color_slot_hex(2, 3);
 alt_info[2,1] = "Agent C";
 
-alt_info[3,0] = get_color_slot_hex(3, 1);
+alt_info[3,0] = get_color_slot_hex(3, 3);
 alt_info[3,1] = "Agent T";
 
-alt_info[4,0] = get_color_slot_hex(4, 1);
+alt_info[4,0] = get_color_slot_hex(4, 3);
 alt_info[4,1] = "Agent N";
 
-alt_info[5,0] = get_color_slot_hex(5, 1);
+alt_info[5,0] = get_color_slot_hex(5, 3);
 alt_info[5,1] = "Agent V";
 
-alt_info[6,0] = get_color_slot_hex(6, 1);
+alt_info[6,0] = get_color_slot_hex(6, 3);
 alt_info[6,1] = "Pilot";
 
-alt_info[7,0] = get_color_slot_hex(7, 1);
+alt_info[7,0] = get_color_slot_hex(7, 3);
 alt_info[7,1] = "Other Dimension";
 
-alt_info[8,0] = get_color_slot_hex(8, 1);
+alt_info[8,0] = get_color_slot_hex(8, 3);
 alt_info[8,1] = "Agent... Meap?";
 
-alt_info[9,0] = get_color_slot_hex(9, 1);
+alt_info[9,0] = get_color_slot_hex(9, 3);
 alt_info[9,1] = "Fearless";
 
-alt_info[10,0] = get_color_slot_hex(10, 1);
+alt_info[10,0] = get_color_slot_hex(10, 3);
 alt_info[10,1] = "Courageous";
 
-alt_info[11,0] = get_color_slot_hex(11, 1);
+alt_info[11,0] = get_color_slot_hex(11, 3);
 alt_info[11,1] = "Ravenous";
 
-alt_info[12,0] = get_color_slot_hex(12, 1);
+alt_info[12,0] = get_color_slot_hex(12, 3);
 alt_info[12,1] = "Spy";
 
-alt_info[13,0] = get_color_slot_hex(13, 1);
+alt_info[13,0] = get_color_slot_hex(13, 3);
 alt_info[13,1] = "Spy";
 
 

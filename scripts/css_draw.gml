@@ -1,3 +1,6 @@
+draw_sprite(sprite_get("charselect_overlay"), get_player_color(player), x + 8, y + 8)
+
+
 // Recreation of the core functionality of Hyu's css template -- by Nart
 
 // ================================ SOME CUSTOM STUFF ===============================
