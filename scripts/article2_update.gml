@@ -55,13 +55,15 @@ switch(state) { // use this one for doing actual article behavior
 
 switch(state) { // use this one for changing sprites and animating
     case 0: // prepping
-        image_index = (state_timer > 4) ? 1 : 0;
+        image_index = (state_timer < 4) ? 0 : 1;
         break;
     case 1: // idle
-        image_index = (state_timer > 4) ? 2 : 4-floor((state_timer/4)%2);
+        image_index = (state_timer < 4) ? 2 : 4-floor((state_timer/30)%2);
+        print_debug(image_index);
+        print_debug((state_timer/4)%2)
         break;
-    case 3: // exploding
-        image_index = 3;
+    case 2: // exploding
+        image_index = 5;
         break;
 }
 // don't forget that articles aren't affected by small_sprites
