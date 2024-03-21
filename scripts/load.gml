@@ -96,7 +96,8 @@ sprite_change_offset("nspecial_proj"            , 68, 68);
 sprite_change_offset("fspec_proj"               , 6,  14);
 sprite_change_offset("rope", 0, 4);
 
-sprite_change_offset("drone", 28, 20);
+sprite_change_offset("drone", 106, 80);
+sprite_change_offset("drone_primed", 106, 80);
 sprite_change_offset("drone_mask", 28, 20);
 
 sprite_change_offset("dspecial_art", load_x, load_y);

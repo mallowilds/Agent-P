@@ -7,6 +7,12 @@ if (get_match_setting(SET_HITBOX_VIS)) {
     
 }
 
+
+// Arrow indicator
+if (state == 1) draw_sprite_ext(asset_get("triangle_spr"), 0, x, y-40, 1, 1, 0, get_player_hud_color(player), 1);
+
+
+
 if (player_id.object_index == oTestPlayer) exit;
 
 // Off-screen handling

@@ -18,7 +18,9 @@ switch state {
         break;
     
     case 01:
+        with (player_id) shader_start();
         draw_sprite_ext(sprite_get("plat_fly"), 0, x, y, spr_dir, 1, 0, c_white, vis_alpha);
+        shader_end();
         break;
     
     case 02:

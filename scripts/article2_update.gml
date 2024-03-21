@@ -43,7 +43,12 @@ switch(state) { // use this one for doing actual article behavior
         break;
     
     case 2: // exploding
-        if (state_timer >= 7) { // very temp!
+    	
+    	if (state_timer == 1 || state_timer == 7) {
+    		print_debug(state_timer);
+    		sound_play(sound_get("sfx_perry_beep"));
+    	}
+        if (state_timer >= 14) { // very temp!
         	create_hitbox(AT_NSPECIAL, 3, x, y);
             sound_play(asset_get("sfx_ell_small_missile_ground"));
             spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
@@ -59,8 +64,6 @@ switch(state) { // use this one for changing sprites and animating
         break;
     case 1: // idle
         image_index = (state_timer < 4) ? 2 : 4-floor((state_timer/30)%2);
-        print_debug(image_index);
-        print_debug((state_timer/4)%2)
         break;
     case 2: // exploding
         image_index = 5;

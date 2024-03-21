@@ -52,9 +52,10 @@ switch(state) { // use this one for doing actual article behavior
         
         if (state_timer == 23) sound_play(asset_get("sfx_ell_dspecial_drop"));
         if (state_timer == 25) {
-            var vfx = spawn_hit_fx(x, y, HFX_ELL_STEAM_HIT);
-            vfx.depth = depth+1;
+            //var vfx = spawn_hit_fx(x, y, HFX_ELL_STEAM_HIT);
+            //vfx.depth = depth+1;
             set_state(1);
+            enemy_hittable = false;
             if (instance_exists(hbox)) hbox.destroyed = true;
         }
         
@@ -108,15 +109,16 @@ switch(state) { // use this one for changing sprites and animating
         image_index = (state_timer / 4) % 4;
         break;
     case 1: // idle
-        if (agent_p_grappling && agent_p_grapple_dir != 0) {
-            if (agent_p_grapple_dir < 0) image_index = 14 + (state_timer / 5) % 2;
-            else image_index = 12 + (state_timer / 5) % 2;
+        if (agent_p_grappling && agent_p_grapple_dir != 0) { // grappled
+            if (agent_p_grapple_dir < 0) image_index = 16 + (state_timer / 5) % 2;
+            else image_index = 14 + (state_timer / 5) % 2;
         }
-        else image_index = 4 + (state_timer / 5) % 8;
+        else if (state_timer < 4) image_index = 4 + (state_timer / 2); // startup
+        else image_index = 6 + (state_timer / 5) % 8; // loop
         break;
     case 3: // exploding
-        if (hsp*spr_dir < 0) image_index = 14 + (state_timer / 5) % 2;
-        else image_index = 12 + (state_timer / 5) % 2;
+        if (hsp*spr_dir < 0) image_index = 16 + (state_timer / 5) % 2;
+        else image_index = 14 + (state_timer / 5) % 2;
         break;
 }
 // don't forget that articles aren't affected by small_sprites
@@ -217,7 +219,7 @@ with hbox {
         && hit_priority != 0 && hit_priority <= 10
         && (groundedness == 0 || groundedness == 1+other.free)
         && "agent_p_grapple_hitbox" not in self
-        //&& (!player_equal) //uncomment to prevent the article from being hit by its owner.
+        && (player_equal || other.enemy_hittable)
         //&& ( (get_match_setting(SET_TEAMS) && (get_match_setting(SET_TEAMATTACK) || !team_equal) ) || player_equal) //uncomment to prevent the article from being hit by its owner's team.
 }
  
