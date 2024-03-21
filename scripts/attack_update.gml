@@ -203,30 +203,31 @@ switch(attack) {
 	        
     	}
         break;
-    case AT_DSPECIAL:
-        //spawns test article
-        /*
-        if (window == 1 && window_timer == 1) { // WARN: Possible repetition during hitpause. Consider using window_time_is(frame) https://rivalslib.com/assistant/function_library/attacks/window_time_is.html
-        	article_id = instance_create(x + 30 * spr_dir, y, "obj_article1");
-        }
-        */
-        break;
+        
 	case AT_DSPECIAL_AIR: 
 		can_fast_fall = false;
-
-		if parachute_active {
-			set_window_value(AT_DSPECIAL_AIR, 2                        , AG_WINDOW_VSPEED, -8);
-		} else {
-			set_window_value(AT_DSPECIAL_AIR, 2                        , AG_WINDOW_VSPEED, -7);
-		} 
-		//note for shear: if the move is on cooldown / if button is out, you should be able to use the move, but it should give you like. -4 vsp (with or without para) and have a 1 per air time limit (resets on wj).
-		//same thing for the ground vers but its just like a 30 or so frame cooldown.
-		//if you use dspecial in the air and the projectile goes into the blastzone, it should have like a 1.5 second cooldown that doesnt get refreshed on walljump or landing.
-
-		//also if you land during startup it should put you into the grounded version thanks :eggdog:
-		move_cooldown[AT_DSPECIAL] = 90
-		move_cooldown[AT_DSPECIAL_AIR] = 90
-		break;
+		if (!free) {
+			attack_end();
+			attack = AT_DSPECIAL;
+			// deliberately avoid resetting window/timer
+		}
+		// no break
+	case AT_DSPECIAL:
+        
+        if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
+        	if (!instance_exists(dspec_explosive)) {
+        		dspec_explosive = instance_create(floor(x), floor(y), "obj_article2");
+        		if (free) vsp = (parachute_active ? -6 : -8);
+        	}
+        	else if (free) vsp = (parachute_active ? -3.5 : -4);
+        }
+        
+        if (free) attack_air_limit[AT_DSPECIAL_AIR] = true;
+        
+        move_cooldown[AT_DSPECIAL] = 30; // not really necessary but telegraphs that this isn't spammable
+        
+        break;	
+        
     case AT_USPECIAL:
     	can_wall_jump = (window > 1);
     	can_shield = (window > 1);

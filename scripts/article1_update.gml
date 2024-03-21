@@ -10,17 +10,19 @@ if (place_meeting(x, y, asset_get("plasma_field_obj"))) {
 }
 
 // Safety: blast zones
-if (   x < get_stage_data(SD_LEFT_BLASTZONE_X)
-	|| x > get_stage_data(SD_RIGHT_BLASTZONE_X)
-	|| y > get_stage_data(SD_BOTTOM_BLASTZONE_Y)
-) {
-	sound_play(asset_get("sfx_ell_small_missile_ground"));
-	should_die = true;
-}
+if (player_id.object_index != oTestPlayer) {
+	if (   x < get_stage_data(SD_LEFT_BLASTZONE_X)
+		|| x > get_stage_data(SD_RIGHT_BLASTZONE_X)
+		|| y > get_stage_data(SD_BOTTOM_BLASTZONE_Y)
+	) {
+		sound_play(asset_get("sfx_ell_small_missile_ground"));
+		should_die = true;
+	}
 
-// Instead of killing off the top, nudge down
-if (y < get_stage_data(SD_TOP_BLASTZONE_Y)+230 && state == 1) {
-	y += 4;
+	// Instead of killing off the top, nudge down
+	if (y < get_stage_data(SD_TOP_BLASTZONE_Y)+230 && state == 1) {
+		y += 4;
+	}
 }
 
 

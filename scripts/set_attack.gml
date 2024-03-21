@@ -5,7 +5,7 @@ reset_attack_value(attack,AG_NUM_WINDOWS);
 
 // detect/apply once-per-air limit to attacks
 if (get_attack_value(attack,AG_ATTACK_AIR_LIMIT)) {
-    if (attack_air_limit[attack]) {
+    if (attack_air_limit[attack] && move_cooldown[attack] < 2) {
         move_cooldown[attack] = 2;
     } else {
         attack_air_limit[attack] = true;

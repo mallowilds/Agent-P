@@ -33,8 +33,6 @@ set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 24);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 3);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
-set_window_value(atk, window_num                        , AG_WINDOW_VSPEED_TYPE, 2);
-set_window_value(atk, window_num                        , AG_WINDOW_VSPEED, -8);
 
 window_num++;
 

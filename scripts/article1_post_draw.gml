@@ -7,6 +7,7 @@ if (get_match_setting(SET_HITBOX_VIS)) {
     
 }
 
+if (player_id.object_index == oTestPlayer) exit;
 
 // Off-screen handling
 

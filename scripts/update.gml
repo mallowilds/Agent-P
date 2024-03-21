@@ -411,7 +411,7 @@ if (stinger_cooldown > 0) {
 // Rune A management
 if (has_rune("A")) {
 	// index 49 is walkturn
-	if (state == PS_CROUCH || state == PS_ATTACK_GROUND && (attack == 49 || attack == AT_DTILT)) {
+	if (state == PS_CROUCH || state == PS_ATTACK_GROUND && (attack == 49 || attack == AT_DTILT || attack == AT_TAUNT_2)) {
 		rune_a_alpha = clamp(rune_a_alpha-0.05, 0, 1);
 	}
 	else {

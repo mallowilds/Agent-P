@@ -47,6 +47,8 @@ nspec_max_drones = 2;
 nspec_drone_cd = 0;
 nspec_drone_cd_max = 150;
 
+dspec_explosive = noone;
+
 ustrong_smear = noone;
 dstrong_boom = noone;
 

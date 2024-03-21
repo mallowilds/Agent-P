@@ -99,6 +99,8 @@ sprite_change_offset("rope", 0, 4);
 sprite_change_offset("drone", 28, 20);
 sprite_change_offset("drone_mask", 28, 20);
 
+sprite_change_offset("dspecial_art", load_x, load_y);
+
 sprite_change_offset("ustrong_vfx1"             , load_x, load_y);
 sprite_change_offset("ustrong_vfx2"             , load_x, load_y);
 
