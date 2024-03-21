@@ -43,7 +43,7 @@ sprite_change_offset("roll_backward", load_x, load_y);
 sprite_change_offset("airdodge", load_x, load_y);
 sprite_change_offset("waveland", load_x, load_y);
 sprite_change_offset("tech", load_x, load_y);
-sprite_change_offset("jab", load_x, load_y);
+sprite_change_offset("jab", load_x_2, load_y_2);
 sprite_change_offset("dattack", load_x, load_y);
 sprite_change_offset("ftilt", load_x, load_y);
 sprite_change_offset("dtilt", load_x, load_y);

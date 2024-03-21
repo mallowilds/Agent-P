@@ -8,6 +8,7 @@ for (var i=0; i < num_base_colors; i++) {
 */
 var col = get_player_color( player ) 
 
+
 // i.e. if disguised (see unload.gml)
 if get_synced_var(player) {
     if (object_index == asset_get("draw_result_screen")) {
@@ -23,6 +24,9 @@ if col == 6 || col == 13 || col == 14 {
 
 
 switch col {
+    case 0: 
+        set_character_color_slot( 7, 255, 255, 255 )
+        break;
     case 6:
         outline_color = [42, 90, 63]; 
     break;
