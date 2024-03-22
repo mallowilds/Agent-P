@@ -6,9 +6,8 @@ switch state {
     // Parachute
     case 00:
         if (!"vis_angle" in self) exit;
-        if (get_player_color(player) == 0) {
-            draw_sprite_ext(sprite_get("parachute"), vis_frame, x, y, 1, 1, vis_angle, c_white, vis_alpha);
-        }
+        if (is_default) draw_sprite_ext(sprite_get("parachute"), vis_frame, x, y, 1, 1, vis_angle, c_white, vis_alpha);
+        else if (is_ea) draw_sprite_ext(sprite_get("parachute_ea"), vis_frame, x, y, 1, 1, vis_angle, c_white, vis_alpha);
         else {
             with (player_id) shader_start();
             draw_sprite_ext(sprite_get("parachute_col"), vis_frame, x, y, 1, 1, vis_angle, c_white, vis_alpha);

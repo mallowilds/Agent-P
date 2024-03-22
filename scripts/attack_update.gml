@@ -81,10 +81,8 @@ switch(attack) {
     	switch window {
     		case 1:
     			if (window_timer == 1 && vsp > 0) vsp = 0;
-    			break;
-    		
-    		case 2:
-    			if (window_timer == 1) {
+    			
+    			if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
     				grapple_hook_state = GRAPPLE_ACTIVE;
 	        		grapple_hook_timer = 0;
 	        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir) + (grapple_hook_x_offset * spr_dir);
@@ -117,11 +115,14 @@ switch(attack) {
 	        			}
 	        		}
  	        		instance_destroy(donor_article);
+ 	        		
+ 	        		training_mode_alpha = 0.5;
 	        		
     			}
     			
-    			training_mode_alpha = 0.5;
-    			
+    			break;
+    		
+    		case 2:
         		// no break
         	
         	case 3:

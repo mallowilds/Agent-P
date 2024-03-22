@@ -20,7 +20,7 @@ if (player_id.object_index != oTestPlayer) {
 	}
 
 	// Instead of killing off the top, nudge down
-	if (y < get_stage_data(SD_TOP_BLASTZONE_Y)+230 && state == 1) {
+	if (y < get_stage_data(SD_TOP_BLASTZONE_Y)+230 && state == 1 && hsp == 0 && vsp == 0) {
 		y += 4;
 	}
 }
@@ -104,6 +104,8 @@ switch(state) { // use this one for doing actual article behavior
         
 }
 
+
+sprite_index = sprite_get("drone" + (is_primed ? "_primed" : "") + (is_ea ? "_ea" : ""));
 switch(state) { // use this one for changing sprites and animating
     case 0: // spawn
         image_index = (state_timer / 4) % 4;

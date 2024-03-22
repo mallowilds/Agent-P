@@ -1,7 +1,7 @@
 //                              ARTICLE  STUFF                                //
 
 // sprite and mask indexes; + default article variables
-sprite_index = sprite_get("drone");
+sprite_index = sprite_get(player_id.is_ea ? "drone_ea" : "drone");
 mask_index = asset_get("drone_mask");
 can_be_grounded = false;
 ignores_walls = false;
@@ -14,6 +14,9 @@ state = 0;
 state_timer = 0;
 should_die = false; //if the article should be despawned
 
+is_default = player_id.is_default;
+is_ea = player_id.is_ea;
+
 throw_dir = 0; // default
 
 max_lifetime = 900;
@@ -23,6 +26,8 @@ last_decay_frame = get_gameplay_time(); // ensures only one decay step per frame
 
 enemy_hittable = true;
 
+is_primed = false;
+
 // grapple compat
 agent_p_grapplable = 2;     // denotes grabbability by grappling hook. 
                             // (2 is a special value denoting the drone, use 1 or true for article compat)
@@ -30,6 +35,8 @@ agent_p_pull_vel = 0.5;     // how much grappling should move the article by (se
 agent_p_grappling = false;  // set to true each frame grapple is applied.
                             // (should be set to false at the end of article update.)
 agent_p_grapple_dir = 0;    // pull direction for ongoing grapple. used for visual updates.
+
+
 
 
 

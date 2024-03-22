@@ -24,4 +24,5 @@ free = true;
 hit_wall = false;
 
 //Skin behavior
-is_ea = (get_player_color(player) == 7);
+is_default = player_id.is_default;
+is_ea = player_id.is_ea;

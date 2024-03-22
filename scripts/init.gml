@@ -59,6 +59,11 @@ taunt_loops = 0;
 
 plat_active = 0;
 
+// Colors
+is_default = (get_player_color(player) == 0 || get_player_color(player) == 13);
+is_ea = (get_player_color(player) == 6);
+
+// Runes
 if (has_rune("A")) {
     rune_a_alpha = 1;
     rune_a_handler = instance_create(x, y, "obj_article3");
