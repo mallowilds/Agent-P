@@ -39,19 +39,19 @@ alt_info[8,0] = get_color_slot_hex(8, 3);
 alt_info[8,1] = "Agent... Meap?";
 
 alt_info[9,0] = get_color_slot_hex(9, 3);
-alt_info[9,1] = "Fearless";
+alt_info[9,1] = "Agent Pond";
 
 alt_info[10,0] = get_color_slot_hex(10, 3);
-alt_info[10,1] = "Courageous";
+alt_info[10,1] = "Fearless";
 
 alt_info[11,0] = get_color_slot_hex(11, 3);
-alt_info[11,1] = "Ravenous";
+alt_info[11,1] = "Courageous";
 
 alt_info[12,0] = get_color_slot_hex(12, 3);
-alt_info[12,1] = "Spy";
+alt_info[12,1] = "Ravenous";
 
 alt_info[13,0] = get_color_slot_hex(13, 3);
-alt_info[13,1] = "Spy";
+alt_info[13,1] = "Canon";
 
 
 // MISC. STUFF

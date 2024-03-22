@@ -245,6 +245,10 @@ switch(attack) {
     	if (window >= 2 && vis_parachute_frame < 2) vis_parachute_frame += 0.25;
         break;
     case AT_TAUNT: 
+		var is_on_plat = (state == PS_RESPAWN || (state == PS_ATTACK_GROUND && respawn_taunt > 0));
+		if window == 1 && window_timer == 1 {
+			if (is_on_plat) sound_play(sound_get("sfx_perry_hjonk"))
+		}
     case AT_TAUNT_2:
         if window == 2 {
             if window_timer == 5 && taunt_loops < 15{ // WARN: Possible repetition during hitpause. Consider using window_time_is(frame) https://rivalslib.com/assistant/function_library/attacks/window_time_is.html
@@ -434,6 +438,13 @@ switch(attack) {
 		//a
     	break;
     case 2: //intro
+		if window == 1 {
+			if get_gameplay_time() > 300 && !attack_down {
+				set_window_value(AT_INTRO_1, 1                        , AG_WINDOW_TYPE, 9); //Idle, waiting for stuff
+			} else {
+				set_window_value(AT_INTRO_1, 1                        , AG_WINDOW_TYPE, 0); //Idle, waiting for stuff
+			}
+		}
 		if window == 4 && window_timer == 1 {
 			sound_play(sound_get("sfx_perry_stinger"))
 			spawn_base_dust(x, y, "land", spr_dir)

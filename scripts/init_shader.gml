@@ -6,7 +6,6 @@ for (var i=0; i < num_base_colors; i++) {
 }
 }
 */
-var col = get_player_color( player ) 
 
 
 // i.e. if disguised (see unload.gml)
@@ -22,16 +21,22 @@ if col == 6 || col == 13 || col == 14 {
     }
 }
 
+var col = get_player_color( player ) 
 
 switch col {
     case 0: 
         set_character_color_slot( 7, 255, 255, 255 )
+        set_article_color_slot( 7, 255, 255, 255 )
         break;
     case 6:
         outline_color = [42, 90, 63]; 
     break;
     case 13: {
-        outline_color = [255, 255, 255]
+        set_character_color_shading( 2, 0 );
+        set_character_color_shading( 3, 0 );
+        set_character_color_shading( 4, 0 );
+        set_character_color_shading( 6, 0 );
+        set_character_color_shading( 7, 0 );
     }
     break;
 }
