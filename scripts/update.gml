@@ -31,6 +31,7 @@ else if (!is_on_plat && plat_active) {
 // Parachute
 
 if (parachute_active) {
+	hud_offset = 100
 	
 	if (free) attack_air_limit[AT_USPECIAL] = true;
 	
@@ -71,7 +72,6 @@ if (parachute_active) {
 	
 }
 else {
-	
 	if (!free) attack_air_limit[AT_USPECIAL] = false;
 	
 	if (parachute_stats) {

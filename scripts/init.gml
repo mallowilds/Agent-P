@@ -370,7 +370,8 @@ hitstun_hurtbox_spr             = -1;
 
 
 //                  --animation speeds + %-arrow offset--                     //
-char_height                     = 48;
+base_char_height                = 46;
+char_height                     = base_char_height
 idle_anim_speed                 = 0.1;
 crouch_anim_speed               = 0.1;
 walk_anim_speed                 = 0.125;

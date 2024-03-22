@@ -266,6 +266,7 @@ switch(attack) {
 		if attack == AT_TAUNT_2 down_down = true
         break;
     case AT_USTRONG: 
+		if (window == 2 || window == 3 || window == 4) hud_offset = 50
         can_move = false;
         if (free) {
         	if (left_down)  hsp = clamp(hsp-0.1, -5, hsp);
@@ -401,7 +402,7 @@ switch(attack) {
         //a
         break;
     case AT_UTILT:
-        //a
+        if (window == 2 || window == 3) hud_offset = 40
         break;
     case AT_DATTACK:
         //a
@@ -420,7 +421,9 @@ switch(attack) {
         //a
         break;
     case AT_UAIR:
-        //a
+		if window != 1  && !parachute_active{
+			hud_offset = 30
+		}
         break;
     
     case AT_NSPECIAL:
@@ -440,6 +443,16 @@ switch(attack) {
 		//a
     	break;
     case 2: //intro
+		switch (window) {
+			case 1:
+				char_height = -1000 
+				break;
+			case 3: 
+				if (window_timer == 1) char_height = 42;
+				hud_offset = 180;
+				break;
+		}
+		
 		if window == 1 {
 			if get_gameplay_time() > 300 && !attack_down {
 				set_window_value(AT_INTRO_1, 1                        , AG_WINDOW_TYPE, 9); //Idle, waiting for stuff
@@ -453,7 +466,10 @@ switch(attack) {
 		}
 		break;
 	case 3: //intro 2
-
+		if window < 4 {
+			hud_offset = 1000
+		}
+		
 		if window == 4 && window_timer == 1 {
 			sound_play(sound_get("sfx_perry_stinger"))
 			spawn_base_dust(x, y, "land", spr_dir)
