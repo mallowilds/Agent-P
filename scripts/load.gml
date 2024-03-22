@@ -7,6 +7,10 @@ var load_y = 58*2
 var load_x_2 = 53*2
 var load_y_2 = 62*2
 
+sprite_change_offset("crouchbox", 48, 25); 
+sprite_change_offset("hurt_crouch", 48, 25); // yes, this is necessary
+                                             // for whatever reason, crouchbox_spr cannot be assigned to attacks.
+
 sprite_change_offset("intro1", 130*2, 193*2); //listen.
 sprite_change_offset("intro2", 130*2, 193*2); //listen.
 
@@ -20,7 +24,6 @@ sprite_change_offset("hurtground", load_x, load_y);
 sprite_change_offset("spinhurt", load_x, load_y);
 
 sprite_change_offset("crouch", load_x, load_y);
-sprite_change_offset("crouch_hurt", 48, 25); 
 sprite_change_offset("walk", load_x, load_y);
 sprite_change_offset("walkturn", load_x, load_y);
 sprite_change_offset("dash", load_x, load_y);
@@ -67,11 +70,11 @@ sprite_change_offset("dstrong", load_x, load_y);
 sprite_change_offset("nspecial", load_x, load_y);
 sprite_change_offset("nspecial_air", load_x, load_y);
 sprite_change_offset("nspecial_air_strap", load_x, load_y);
-sprite_change_offset("nspecial_eaover", load_x_old, load_y_old);
+sprite_change_offset("nspecial_eaover", 36, 52);
 sprite_change_offset("fspec_base", load_x, load_y);
 sprite_change_offset("fspec_air", load_x, load_y);
 sprite_change_offset("fspec_air_strap", load_x, load_y);
-sprite_change_offset("fspec_eaover", load_x, load_y);
+sprite_change_offset("fspec_eaover", 34, 48);
 sprite_change_offset("fspec_swing", load_x, load_y);
 sprite_change_offset("fspec_swing_strap", load_x, load_y);
 
@@ -103,16 +106,14 @@ sprite_change_offset("fspec_proj_ea"               , 6,  14);
 sprite_change_offset("rope", 0, 4);
 sprite_change_offset("rope_ea", 0, 4);
 
-sprite_change_offset("drone", 106, 80);
-sprite_change_offset("drone_primed", 106, 80);
-sprite_change_offset("drone_ea", 106, 80);
-sprite_change_offset("drone_primed_ea", 106, 80);
+sprite_change_offset("drone", 62, 72);
+sprite_change_offset("drone_primed", 62, 72);
+sprite_change_offset("drone_ea", 62, 72);
+sprite_change_offset("drone_primed_ea", 62, 72);
 sprite_change_offset("drone_mask", 28, 20);
 
 sprite_change_offset("dspecial_art", load_x, load_y);
 
 sprite_change_offset("ustrong_vfx"             , load_x, load_y);
-
-//sprite_change_offset("dstrong_vfx"              , load_x, load_y); //deprecated
 
 sprite_change_offset("fx_medium_circle1"        , 174, 168);

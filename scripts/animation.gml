@@ -11,6 +11,7 @@ if state == PS_CROUCH && prev_state == PS_ATTACK_GROUND && attack == AT_TAUNT_2 
 custom_crouch() // run the custom crouch code
 
 
+
 if (state == PS_RESPAWN) {
 	sprite_index = sprite_get("idle_plat");
 	image_index = state_timer / 5;
@@ -19,11 +20,14 @@ if (state == PS_RESPAWN) {
 // Crawl
 if (state == PS_CROUCH && ccrouch_phase == 1) {
 	
+	hurtboxID.sprite_index = crouchbox_spr; // averts issue with last crawlturn frame
+	
 	if (spr_dir == 1) {
 		if (left_down) {
 			spr_dir *= -1;
 			set_state(PS_ATTACK_GROUND);
 			set_attack(AT_CRAWLTURN);
+			hurtboxID.sprite_index = get_attack_value(attack, AG_HURTBOX_SPRITE);
 			hsp = clamp(hsp-crawl_accel-ground_friction, crawl_speed*-1, hsp);
 			sprite_index = sprite_get("crawlturn");
 			image_index = 0;
@@ -43,6 +47,7 @@ if (state == PS_CROUCH && ccrouch_phase == 1) {
 			spr_dir *= -1;
 			set_state(PS_ATTACK_GROUND);
 			set_attack(AT_CRAWLTURN);
+			hurtboxID.sprite_index = get_attack_value(attack, AG_HURTBOX_SPRITE);
 			hsp = clamp(hsp+crawl_accel+ground_friction, hsp, crawl_speed);
 			sprite_index = sprite_get("crawlturn");
 			image_index = 0;
@@ -198,12 +203,7 @@ switch(state) {
         
         break;
     case PS_DASH_START:
-        // 'moonwalk' (dashing backwards) animation
-        if (dash_moonwalks) {
-            if (hsp * spr_dir < 0) {
-                sprite_index = sprite_get("moonwalk");
-            }
-        }
+        
         break;
     case PS_DASH_TURN:
         
