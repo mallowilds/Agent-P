@@ -281,7 +281,7 @@ switch(attack) {
         	vsp = -12;
         	ustrong_smear = spawn_hit_fx(x, y - 12, fx_ustrong1);
             ustrong_smear.depth = depth-1;
-        	spawn_hit_fx(x, y, fx_ustrong2); // jump dust
+        	//spawn_hit_fx(x, y, fx_ustrong2); // jump dust
         }
         else if (window == 4 || window == 5) {
         	fall_timer++;

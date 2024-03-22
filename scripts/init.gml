@@ -239,8 +239,8 @@ dash_moonwalks                  = false; // if the character has a moonwalk anim
 //                           --visual effects--                               //
 // full vfx
 
-fx_ustrong1                     = hit_fx_create(sprite_get("ustrong_vfx1"), 12);
-fx_ustrong2                     = hit_fx_create(sprite_get("ustrong_vfx2"), 12);
+fx_ustrong1                     = hit_fx_create(sprite_get("ustrong_vfx"), 12);
+//fx_ustrong2                     = hit_fx_create(sprite_get("ustrong_vfx2"), 12);
 
 
 fx_dstrong                      = hit_fx_create(sprite_get("dstrong_vfx"), 20);
@@ -363,14 +363,14 @@ fx_array_flashlight             = [
 //=-(                      ~~//** BASE STATS **//~~                        )-=//
 
 //                              --hurtboxes--                                 //
-hurtbox_spr                     = asset_get("ex_guy_hurt_box");
-crouchbox_spr                   = asset_get("ex_guy_crouch_box");
+hurtbox_spr                     = asset_get("ex_guy_hurt_box"); //wow thats convenient
+crouchbox_spr                   = sprite_get("crouch_hurt");
 air_hurtbox_spr                 = -1;
 hitstun_hurtbox_spr             = -1;
 
 
 //                  --animation speeds + %-arrow offset--                     //
-char_height                     = 52;
+char_height                     = 48;
 idle_anim_speed                 = 0.1;
 crouch_anim_speed               = 0.1;
 walk_anim_speed                 = 0.125;

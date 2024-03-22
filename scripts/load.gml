@@ -1,11 +1,13 @@
-var load_x = 105
-var load_y = 124
+var load_x_old = 105
+var load_y_old = 124
+
+var load_x = 31*2
+var load_y = 58*2
 
 var load_x_2 = 53*2
 var load_y_2 = 62*2
 
 sprite_change_offset("intro1", 130*2, 193*2); //listen.
-
 sprite_change_offset("intro2", 130*2, 193*2); //listen.
 
 sprite_change_offset("idle", load_x, load_y);
@@ -18,6 +20,7 @@ sprite_change_offset("hurtground", load_x, load_y);
 sprite_change_offset("spinhurt", load_x, load_y);
 
 sprite_change_offset("crouch", load_x, load_y);
+sprite_change_offset("crouch_hurt", 48, 25); 
 sprite_change_offset("walk", load_x, load_y);
 sprite_change_offset("walkturn", load_x, load_y);
 sprite_change_offset("dash", load_x, load_y);
@@ -43,7 +46,7 @@ sprite_change_offset("roll_backward", load_x, load_y);
 sprite_change_offset("airdodge", load_x, load_y);
 sprite_change_offset("waveland", load_x, load_y);
 sprite_change_offset("tech", load_x, load_y);
-sprite_change_offset("jab", load_x_2, load_y_2);
+sprite_change_offset("jab", load_x, load_y);
 sprite_change_offset("dattack", load_x, load_y);
 sprite_change_offset("ftilt", load_x, load_y);
 sprite_change_offset("dtilt", load_x, load_y);
@@ -64,7 +67,7 @@ sprite_change_offset("dstrong", load_x, load_y);
 sprite_change_offset("nspecial", load_x, load_y);
 sprite_change_offset("nspecial_air", load_x, load_y);
 sprite_change_offset("nspecial_air_strap", load_x, load_y);
-sprite_change_offset("nspecial_eaover", load_x, load_y);
+sprite_change_offset("nspecial_eaover", load_x_old, load_y_old);
 sprite_change_offset("fspec_base", load_x, load_y);
 sprite_change_offset("fspec_air", load_x, load_y);
 sprite_change_offset("fspec_air_strap", load_x, load_y);
@@ -91,9 +94,9 @@ sprite_change_offset("nspecial_proj", 64, 94);
 sprite_change_offset("grapple_assist_mask_1"    , 0,  42);
 sprite_change_offset("grapple_assist_mask_-1"   , 290,  42);
 
-sprite_change_offset("parachute"                , load_x_2, load_y_2);
-sprite_change_offset("parachute_col"            , load_x_2, load_y_2);
-sprite_change_offset("parachute_ea"             , load_x_2, load_y_2);
+sprite_change_offset("parachute"                , load_x, load_y);
+sprite_change_offset("parachute_col"            , load_x, load_y);
+sprite_change_offset("parachute_ea"             , load_x, load_y);
 
 sprite_change_offset("fspec_proj"               , 6,  14);
 sprite_change_offset("fspec_proj_ea"               , 6,  14);
@@ -108,49 +111,8 @@ sprite_change_offset("drone_mask", 28, 20);
 
 sprite_change_offset("dspecial_art", load_x, load_y);
 
-sprite_change_offset("ustrong_vfx1"             , load_x, load_y);
-sprite_change_offset("ustrong_vfx2"             , load_x, load_y);
+sprite_change_offset("ustrong_vfx"             , load_x, load_y);
 
-sprite_change_offset("dstrong_vfx"              , load_x, load_y);
-
-sprite_change_offset("fx_small_circle1"         , 174, 168);
-sprite_change_offset("fx_small_circle2"         , 174, 168);
-sprite_change_offset("fx_small_circle3"         , 174, 168);
-sprite_change_offset("fx_small_circle4"         , 174, 168);
-sprite_change_offset("fx_small_circle_angled1"  , 174, 168);
-sprite_change_offset("fstrong_hfx1", 30, 30);
-sprite_change_offset("fstrong_hfx2", 30, 30);
+//sprite_change_offset("dstrong_vfx"              , load_x, load_y); //deprecated
 
 sprite_change_offset("fx_medium_circle1"        , 174, 168);
-sprite_change_offset("fx_medium_circle_angled1" , 174, 168);
-sprite_change_offset("fx_medium_circle_angled2" , 174, 168);
-
-sprite_change_offset("fx_large_circle1"         , 174, 168);
-sprite_change_offset("fx_large_circle_angled1"  , 174, 168);
-
-
-sprite_change_offset("fx_small_flare1_0"        , 174, 168);
-sprite_change_offset("fx_small_flare1_1"        , 174, 168);
-sprite_change_offset("fx_small_flare1_2"        , 174, 168);
-sprite_change_offset("fx_small_flare1_3"        , 174, 168);
-
-sprite_change_offset("fx_small_spark1_0"        , 174, 168);
-sprite_change_offset("fx_small_spark1_1"        , 174, 168);
-sprite_change_offset("fx_small_spark1_2"        , 174, 168);
-sprite_change_offset("fx_small_spark1_3"        , 174, 168);
-
-sprite_change_offset("fx_smaller_glowwhite0"    , 174, 168);
-sprite_change_offset("fx_smaller_glowwhite1"    , 174, 168);
-sprite_change_offset("fx_smaller_glowwhite2"    , 174, 168);
-sprite_change_offset("fx_small_glowwhite0"      , 174, 168);
-sprite_change_offset("fx_small_glowwhite1"      , 174, 168);
-sprite_change_offset("fx_small_glowwhite2"      , 174, 168);
-
-sprite_change_offset("fx_small_centershine"     , 174, 168);
-
-sprite_change_offset("fx_small_shine0"          , 174, 168);
-sprite_change_offset("fx_small_shine1"          , 174, 168);
-sprite_change_offset("fx_small_shine2"          , 174, 168);
-sprite_change_offset("fx_small_shine3"          , 174, 168);
-
-sprite_change_offset("fx_small_flashlight1"     , 174, 168);

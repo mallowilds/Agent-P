@@ -4,7 +4,7 @@ var window_length   = 0;
 
 //                        --attack windows--                                  //
 set_attack_value(atk, AG_SPRITE                         , sprite_get("taunt_2"));
-set_attack_value(atk, AG_HURTBOX_SPRITE                 , asset_get("ex_guy_hurt_box"));
+set_attack_value(atk, AG_HURTBOX_SPRITE                 , crouchbox_spr);
 set_attack_value(atk, AG_NUM_WINDOWS                    , 3);
 set_attack_value(atk, AG_CATEGORY                       , 0);
 
