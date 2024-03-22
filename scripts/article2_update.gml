@@ -44,9 +44,9 @@ switch(state) { // use this one for doing actual article behavior
     
     case 2: // exploding
     	
-    	if (state_timer == 1 || state_timer == 7) {
+    	if (state_timer == 1 || state_timer == 8) {
     		print_debug(state_timer);
-    		sound_play(sound_get("sfx_perry_beep"));
+    		sound_play(sound_get("snake_prime1"));
     	}
         if (state_timer >= 14) { // very temp!
         	create_hitbox(AT_NSPECIAL, 3, x, y);

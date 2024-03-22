@@ -35,17 +35,13 @@ grabbed_player_relative_x = 0;
 grabbed_player_relative_y = 0;
 
 
+if (attack == AT_TAUNT && shield_down) attack = AT_INTRO_1;
 
-if (attack == AT_TAUNT && down_down) {
-   if shield_down {
-    attack = AT_INTRO_1
-} else {
-    attack = AT_TAUNT_2;
-}
-}
+if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;
 
 
-//if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;
+
+if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;
 //debug, restore this vers after trailer clip is made
 
 if (attack == AT_DSPECIAL  && free) attack = AT_DSPECIAL_AIR
