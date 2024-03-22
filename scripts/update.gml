@@ -95,6 +95,10 @@ if (nspec_drone_cd > nspec_num_drones * nspec_drone_cd_max) nspec_drone_cd--;
 
 
 //#region Grapple handling
+
+// Undo sliding ground friction reduction
+if (ground_friction < base_ground_friction) ground_friction = clamp(ground_friction+0.05, 0, base_ground_friction);
+
 switch grapple_hook_state {
 	
 	case GRAPPLE_ACTIVE:
@@ -346,6 +350,7 @@ switch grapple_hook_state {
 		else {
 			hsp = stored_hsp;
 			if (free || stored_vsp < -0.5) vsp = stored_vsp; // ensure stored vsp is sufficient to counter gravity
+			if (!free) ground_friction = reduced_ground_friction; // enable shenanigans on slides
 		}
 		
 		// safe zone (walls and base cast articles won't run this)

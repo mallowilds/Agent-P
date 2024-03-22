@@ -64,8 +64,8 @@ is_default = (get_player_color(player) == 0 || get_player_color(player) == 13);
 is_ea = (get_player_color(player) == 6);
 
 // Runes
+rune_a_alpha = 1;
 if (has_rune("A")) {
-    rune_a_alpha = 1;
     rune_a_handler = instance_create(x, y, "obj_article3");
     rune_a_handler.state = 10;
 }
@@ -391,7 +391,9 @@ dash_turn_time                  = 6;
 dash_turn_accel                 = 1.5;
 dash_stop_time                  = 4;
 dash_stop_percent               = 0.35;
-ground_friction                 = 0.9;
+base_ground_friction            = 0.9;
+reduced_ground_friction         = 0.4;
+ground_friction                 = base_ground_friction;  // Changes dynamically for fspec slides
 moonwalk_accel                  = 1.4;
 
 //                       --aerial movement stats--                            //
