@@ -74,7 +74,7 @@ sprite_change_offset("nspecial_eaover", load_x_old, load_y_old);
 sprite_change_offset("fspec_base", load_x, load_y);
 sprite_change_offset("fspec_air", load_x, load_y);
 sprite_change_offset("fspec_air_strap", load_x, load_y);
-sprite_change_offset("fspec_eaover", load_x, load_y);
+sprite_change_offset("fspec_eaover", 34, 48);
 sprite_change_offset("fspec_swing", load_x, load_y);
 sprite_change_offset("fspec_swing_strap", load_x, load_y);
 
@@ -106,8 +106,8 @@ sprite_change_offset("fspec_proj_ea"               , 6,  14);
 sprite_change_offset("rope", 0, 4);
 sprite_change_offset("rope_ea", 0, 4);
 
-sprite_change_offset("drone", 106, 80);
-sprite_change_offset("drone_primed", 106, 80);
+sprite_change_offset("drone", 62, 72);
+sprite_change_offset("drone_primed", 62, 72);
 sprite_change_offset("drone_ea", 106, 80);
 sprite_change_offset("drone_primed_ea", 106, 80);
 sprite_change_offset("drone_mask", 28, 20);
@@ -115,7 +115,5 @@ sprite_change_offset("drone_mask", 28, 20);
 sprite_change_offset("dspecial_art", load_x, load_y);
 
 sprite_change_offset("ustrong_vfx"             , load_x, load_y);
-
-//sprite_change_offset("dstrong_vfx"              , load_x, load_y); //deprecated
 
 sprite_change_offset("fx_medium_circle1"        , 174, 168);
