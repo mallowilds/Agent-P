@@ -81,6 +81,7 @@ switch(state) { // use this one for doing actual article behavior
         despawn_obj.state = 02;
         despawn_obj.vis_frame = image_index;
         despawn_obj.vis_alpha = 1;
+        despawn_obj.is_primed = is_primed;
         break;
     
     case 3: // hit -> explode
