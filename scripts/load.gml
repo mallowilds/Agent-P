@@ -1,10 +1,10 @@
 var load_x_old = 105
 var load_y_old = 124
 
-var load_x = 31*2
+var load_x = 32*2
 var load_y = 58*2
 
-var load_x_2 = 53*2
+var load_x_2 = 52*2
 var load_y_2 = 62*2
 
 sprite_change_offset("crouchbox", 48, 25); 
