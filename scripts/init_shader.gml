@@ -6,6 +6,7 @@ for (var i=0; i < num_base_colors; i++) {
 }
 }
 */
+var col = get_player_color( player ) 
 
 
 // i.e. if disguised (see unload.gml)
@@ -15,13 +16,12 @@ if get_synced_var(player) {
     }
 }
 
-if col == 6 || col == 13 || col == 14 {
+if col == 6  {
     for (var slot_num = 0; slot_num < 8; slot_num++) {
     set_character_color_shading( slot_num, 0 );
     }
 }
 
-var col = get_player_color( player ) 
 
 switch col {
     case 0: 
