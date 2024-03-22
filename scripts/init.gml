@@ -364,7 +364,7 @@ fx_array_flashlight             = [
 
 //                              --hurtboxes--                                 //
 hurtbox_spr                     = asset_get("ex_guy_hurt_box"); //wow thats convenient
-crouchbox_spr                   = sprite_get("crouch_hurt");
+crouchbox_spr                   = sprite_get("crouchbox");
 air_hurtbox_spr                 = -1;
 hitstun_hurtbox_spr             = -1;
 

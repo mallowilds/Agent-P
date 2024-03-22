@@ -4,7 +4,7 @@ var window_length   = 0;
 
 //                        --attack windows--                                  //
 set_attack_value(atk, AG_SPRITE                         , sprite_get("crawlturn"));
-set_attack_value(atk, AG_HURTBOX_SPRITE                 , crouchbox_spr);
+set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("hurt_crouch"));
 set_attack_value(atk, AG_NUM_WINDOWS                    , 1);
 set_attack_value(atk, AG_CATEGORY                       , 0);
 

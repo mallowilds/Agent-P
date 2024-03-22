@@ -35,16 +35,15 @@ grabbed_player_relative_x = 0;
 grabbed_player_relative_y = 0;
 
 
+//debug, restore this vers after trailer clip is made
 if (attack == AT_TAUNT && shield_down) attack = AT_INTRO_1;
 
 if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;
 
 
+if (attack == AT_DSPECIAL && free) attack = AT_DSPECIAL_AIR;
 
-if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;
-//debug, restore this vers after trailer clip is made
 
-if (attack == AT_DSPECIAL  && free) attack = AT_DSPECIAL_AIR
 /* debug
 if (attack == AT_JAB) {
     if ground_type == 1 {
@@ -55,6 +54,7 @@ if (attack == AT_JAB) {
         print("2")
     }
 }*/ 
+
 // Prevent ustrong from flying off ledges (immediately is reset to 2)
 if (attack == AT_USTRONG) set_attack_value(AT_USTRONG, AG_CATEGORY, 0);
 

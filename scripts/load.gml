@@ -7,6 +7,10 @@ var load_y = 58*2
 var load_x_2 = 53*2
 var load_y_2 = 62*2
 
+sprite_change_offset("crouchbox", 48, 25); 
+sprite_change_offset("hurt_crouch", 48, 25); // yes, this is necessary
+                                             // for whatever reason, crouchbox_spr cannot be assigned to attacks.
+
 sprite_change_offset("intro1", 130*2, 193*2); //listen.
 sprite_change_offset("intro2", 130*2, 193*2); //listen.
 
@@ -20,7 +24,6 @@ sprite_change_offset("hurtground", load_x, load_y);
 sprite_change_offset("spinhurt", load_x, load_y);
 
 sprite_change_offset("crouch", load_x, load_y);
-sprite_change_offset("crouch_hurt", 48, 25); 
 sprite_change_offset("walk", load_x, load_y);
 sprite_change_offset("walkturn", load_x, load_y);
 sprite_change_offset("dash", load_x, load_y);
