@@ -77,12 +77,18 @@ switch(state) { // use this one for doing actual article behavior
     	if (state_timer == 1 || state_timer == 8) sound_play(sound_get("snake_prime1"));
     	
         if (state_timer >= 14 || (state_timer >= 6 && hitstun_triggered)) { // very temp!
-        	create_hitbox(AT_NSPECIAL, 3, x, y);
             sound_play(asset_get("sfx_ell_small_missile_ground"));
-            spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
-            should_die = true;
+            spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode_gr);
+            set_state(4);
         }
         break;
+    
+    case 4: // exploded	
+    	if (state_timer == 3) {
+    		create_hitbox(AT_DSPECIAL, 1, x, y-4);
+    		should_die = true;
+    	}
+    	break;
         
 }
 
@@ -96,12 +102,15 @@ switch(state) { // use this one for changing sprites and animating
         break;
     case 2: // idle
     	sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
-        image_index = (state_timer < 4) ? 2 : 4-floor((state_timer/30)%2);
+        image_index = (state_timer < 2) ? 2 : 4-floor((state_timer/30)%2);
         break;
     case 3: // exploding
     	sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
         image_index = 5;
         break;
+    case 4: // exploded
+    	sprite_index = sprite_get("null");
+    	break;
 }
 
 // don't forget that articles aren't affected by small_sprites

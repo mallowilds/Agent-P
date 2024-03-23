@@ -26,7 +26,11 @@ last_decay_frame = get_gameplay_time(); // ensures only one decay step per frame
 
 enemy_hittable = true;
 
+// dspec functionality
 is_primed = false;
+trigger_w = 40;
+trigger_h = 20;
+hitstun_triggered = false;
 
 // grapple compat
 agent_p_grapplable = 2;     // denotes grabbability by grappling hook. 

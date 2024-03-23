@@ -24,3 +24,5 @@ trigger_h_hitstun = 50;
 hitstun_triggered = false;
 
 hud_offset = 90;
+
+rune_empowered = false;
