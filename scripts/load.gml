@@ -70,11 +70,11 @@ sprite_change_offset("dstrong", load_x, load_y);
 sprite_change_offset("nspecial", load_x, load_y);
 sprite_change_offset("nspecial_air", load_x, load_y);
 sprite_change_offset("nspecial_air_strap", load_x, load_y);
-sprite_change_offset("nspecial_eaover", 36, 52);
+sprite_change_offset("nspecial_eaover", 38, 52);
 sprite_change_offset("fspec_base", load_x, load_y);
 sprite_change_offset("fspec_air", load_x, load_y);
 sprite_change_offset("fspec_air_strap", load_x, load_y);
-sprite_change_offset("fspec_eaover", 34, 48);
+sprite_change_offset("fspec_eaover", 36, 48);
 sprite_change_offset("fspec_swing", load_x, load_y);
 sprite_change_offset("fspec_swing_strap", load_x, load_y);
 
@@ -86,8 +86,11 @@ sprite_change_offset("dspecial_air_strap", load_x, load_y);
 sprite_change_offset("taunt", load_x, load_y);
 sprite_change_offset("taunt_2", load_x, load_y);
 
-sprite_change_offset("plat", load_x, load_y);
+// plat is a null texture
+sprite_change_offset("plat_idle", load_x, load_y);
+sprite_change_offset("plat_idle_ea", load_x, load_y);
 sprite_change_offset("plat_fly", load_x, load_y);
+sprite_change_offset("plat_fly_ea", load_x, load_y);
 
 sprite_change_offset("nspecial_proj", 64, 94);
 
@@ -113,7 +116,13 @@ sprite_change_offset("drone_primed_ea", 62, 72);
 sprite_change_offset("drone_mask", 28, 20);
 
 sprite_change_offset("dspecial_art", load_x, load_y);
+sprite_change_offset("dspecial_art_ea", load_x, load_y);
+sprite_change_offset("dspec_proj", load_x, load_y);
+sprite_change_offset("dspec_proj_ea", load_x, load_y);
 
-sprite_change_offset("ustrong_vfx"             , load_x, load_y);
+sprite_change_offset("ustrong_vfx", load_x, load_y);
+sprite_change_offset("vfx_dspec_button", 38, 38);
+sprite_change_offset("dspec_explode", 104, 136);
+sprite_change_offset("dspec_explode_gr", 104, 136);
 
-sprite_change_offset("fx_medium_circle1"        , 174, 168);
+sprite_change_offset("fx_medium_circle1", 174, 168);

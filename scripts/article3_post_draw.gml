@@ -17,16 +17,19 @@ switch state {
         break;
     
     case 01:
-        with (player_id) shader_start();
-        draw_sprite_ext(sprite_get("plat_fly"), 0, x, y, spr_dir, 1, 0, c_white, vis_alpha);
-        shader_end();
+        if (is_ea) draw_sprite_ext(sprite_get("plat_fly_ea"), 0, x, y, spr_dir, 1, 0, c_white, vis_alpha);
+        else {
+            with (player_id) shader_start();
+            draw_sprite_ext(sprite_get("plat_fly"), 0, x, y, spr_dir, 1, 0, c_white, vis_alpha);
+            shader_end();
+        }
         break;
     
     case 02:
         if (is_ea) draw_sprite_ext(sprite_get(is_primed ? "drone_primed_ea" : "drone_ea"), vis_frame, x, y, spr_dir, 1, 0, c_white, vis_alpha);
         else {
             with (player_id) shader_start();
-            draw_sprite_ext(sprite_get(is_primed ? "drone_primed" : "drone"), vis_frame, x, y, 1, 1, vis_angle, c_white, vis_alpha);
+            draw_sprite_ext(sprite_get(is_primed ? "drone_primed" : "drone"), vis_frame, x, y, 1, 1, 0, c_white, vis_alpha);
             shader_end();
         }
         break;

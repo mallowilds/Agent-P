@@ -20,55 +20,99 @@ if (player_id.object_index != oTestPlayer) {
 	}
 }
 
-
 switch(state) { // use this one for doing actual article behavior
-
-    case 0: // prep
+	
+	case 0: // falling
+		vsp = clamp(vsp+0.6, 3, 10);
+		if (!free) set_state(1);
+		
+		with (obj_article1) {
+        	if (player_id != other.player_id) continue;
+        	
+        	var colliding = place_meeting(x, y, other);
+        	
+        	if (colliding) {
+        		is_primed = true;
+        		instance_destroy(other);
+        		sound_play(asset_get("sfx_ell_dspecial_drop"))
+        		var vfx = spawn_hit_fx(x+spr_dir, y, player_id.vfx_dspec_button);
+        		vfx.depth = depth-1;
+        		exit;
+        	}
+        }
+		
+    case 1: // prep
         
-        if (free && vsp < 7) vsp += 0.3;
+        if (free) set_state(0);
     	
         if (state_timer == 23) sound_play(asset_get("sfx_ell_dspecial_drop"));
-        if (state_timer >= 25) set_state(1);
+        if (state_timer >= 25) {
+        	set_state(2);
+        }
         break;
         
-    case 1: // idle
-        if (free && vsp < 7) vsp += 0.3;
+    case 2: // idle
+    
+        if (free) set_state(0);
         
         with (oPlayer) {
-        	if (self != other.player_id && place_meeting(x, y, other)) {
-        		other.state = 2;
+        	if (self == other.player_id) continue;
+        	
+        	if (state_cat == SC_HITSTUN) {
+        		with (other) var colliding = collision_rectangle(x-(trigger_w/2), y, x+(trigger_w/2), y-(trigger_h_hitstun), other.hurtboxID, true, false);
+        	} else {
+        		with (other) var colliding = collision_rectangle(x-(trigger_w/2), y, x+(trigger_w/2), y-(trigger_h), other.hurtboxID, true, false);
+        	}
+        	
+        	if (colliding) {
+        		other.state = 3;
         		other.state_timer = 0;
+        		other.hitstun_triggered = other.hitstun_triggered || (state_cat == SC_HITSTUN);
         	}
         }
         break;
     
-    case 2: // exploding
+    case 3: // exploding
     	
-    	if (state_timer == 1 || state_timer == 8) {
-    		print_debug(state_timer);
-    		sound_play(sound_get("snake_prime1"));
-    	}
-        if (state_timer >= 14) { // very temp!
-        	create_hitbox(AT_NSPECIAL, 3, x, y);
+    	if (state_timer == 1 || state_timer == 8) sound_play(sound_get("snake_prime1"));
+    	
+        if (state_timer >= 14 || (state_timer >= 6 && hitstun_triggered)) { // very temp!
             sound_play(asset_get("sfx_ell_small_missile_ground"));
-            spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
-            should_die = true;
+            spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode_gr);
+            set_state(4);
         }
         break;
+    
+    case 4: // exploded	
+    	if (state_timer == 3) {
+    		create_hitbox(AT_DSPECIAL, 1, x, y-4);
+    		should_die = true;
+    	}
+    	break;
         
 }
 
 switch(state) { // use this one for changing sprites and animating
-    case 0: // prepping
+	case 0: // falling
+		sprite_index = sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj")
+		break;
+    case 1: // prepping
+    	sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
         image_index = (state_timer < 4) ? 0 : 1;
         break;
-    case 1: // idle
-        image_index = (state_timer < 4) ? 2 : 4-floor((state_timer/30)%2);
+    case 2: // idle
+    	sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
+        image_index = (state_timer < 2) ? 2 : 4-floor((state_timer/30)%2);
         break;
-    case 2: // exploding
+    case 3: // exploding
+    	sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
         image_index = 5;
         break;
+    case 4: // exploded
+    	sprite_index = sprite_get("null");
+    	break;
 }
+
 // don't forget that articles aren't affected by small_sprites
 
 if (should_die) { //despawn and exit script

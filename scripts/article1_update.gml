@@ -25,6 +25,9 @@ if (player_id.object_index != oTestPlayer) {
 	}
 }
 
+// HUD offset
+if (is_primed) hud_offset = primed_hud_offset
+
 
 switch(state) { // use this one for doing actual article behavior
 
@@ -72,6 +75,20 @@ switch(state) { // use this one for doing actual article behavior
         if (vsp < 6) vsp += 0.1
         do_air_friction(0.3);
         if (state_timer + lifetime_decayed >= max_lifetime && !agent_p_grappling) set_state(2);
+        
+        // primed player detection
+        if (is_primed) with (oPlayer) {
+        	if (self == other.player_id) continue;
+        	
+        	with (other) var colliding = collision_rectangle(x-(trigger_w/2), y, x+(trigger_w/2), y-(trigger_h), other.hurtboxID, true, false);
+        	
+        	if (colliding) {
+        		other.state = 4;
+        		other.state_timer = 0;
+        		other.hitstun_triggered = other.hitstun_triggered || (state_cat == SC_HITSTUN);
+        	}
+        }
+        
         hit_detection();
         break;
         
@@ -94,14 +111,36 @@ switch(state) { // use this one for doing actual article behavior
         
         hit_detection();
         
-        vis_frame = 4 + (state_timer / 4) % 12;
         if (state_timer > 15) {
-        	if (has_rune("H")) create_hitbox(AT_NSPECIAL, 3, x, y); // explosion rune
-            sound_play(asset_get("sfx_ell_small_missile_ground"));
-            spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
+        	
+        	if (is_primed) {
+        		
+        		do_primed_explosion();
+        		
+        	} else {
+        		
+        		if (has_rune("H")) create_hitbox(AT_NSPECIAL, 3, floor(x), floor(y)); // explosion rune
+            	sound_play(asset_get("sfx_ell_small_missile_ground"));
+            	spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
+            	
+        	}
+        	
             should_die = true;
         }
         break;
+    
+    case 4: // primed explosion
+    
+    	if (state_timer == 1 || state_timer == 8) sound_play(sound_get("snake_prime1"));
+    	
+        if (state_timer >= 14 || (state_timer >= 6 && hitstun_triggered)) { // very temp!
+            sound_play(asset_get("sfx_ell_small_missile_ground"));
+            spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode);
+            do_primed_explosion();
+            should_die = true;
+        }
+        
+    	break;
         
 }
 
@@ -120,9 +159,13 @@ switch(state) { // use this one for changing sprites and animating
         else image_index = 6 + (state_timer / 5) % 8; // loop
         break;
     case 3: // exploding
-        if (hsp*spr_dir < 0) image_index = 16 + (state_timer / 5) % 2;
+    	if (is_primed) image_index = 18;
+        else if (hsp*spr_dir < 0) image_index = 16 + (state_timer / 5) % 2;
         else image_index = 14 + (state_timer / 5) % 2;
         break;
+	case 4: // primed explosion
+		image_index = 18;
+		break;
 }
 // don't forget that articles aren't affected by small_sprites
 
@@ -151,7 +194,14 @@ state_timer = 0;
     hsp = (abs(hsp_dec) < abs(hsp)) ? (hsp + hsp_dec) : 0;
     vsp = (abs(vsp_dec) < abs(vsp)) ? (vsp + vsp_dec) : 0;
 
-    
+#define do_primed_explosion()
+	sound_play(asset_get("sfx_ell_small_missile_ground"));
+	spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode);
+	var button = instance_create(floor(x), floor(y), "obj_article2");
+	button.state = 4;
+	button.sprite_index = sprite_get("null");
+	if (has_rune("H")) button.rune_empowered = true;
+
 
 // Supersonic Hit Detection Template
 
