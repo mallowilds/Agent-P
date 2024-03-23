@@ -282,7 +282,7 @@ switch(attack) {
         	vsp = -12;
         	ustrong_smear = spawn_hit_fx(x, y - 12, fx_ustrong1);
             ustrong_smear.depth = depth-1;
-        	//spawn_hit_fx(x, y, fx_ustrong2); // jump dust
+            spawn_base_dust(x, y, "jump");
         }
         else if (window == 4 || window == 5) {
         	fall_timer++;
@@ -291,6 +291,9 @@ switch(attack) {
         		iasa_script();
         		create_hitbox(attack, 2, x, y);
         	}
+        }
+        if (window == 6 && window_timer == 1) {
+        	spawn_base_dust(x, y, "land");
         }
         
         if (hitpause && instance_exists(ustrong_smear)) {

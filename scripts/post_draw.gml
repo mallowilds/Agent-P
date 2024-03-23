@@ -1,6 +1,17 @@
 // use this to draw stuff
 
 
+
+// Respawn platform
+if (plat_active) {
+    if (is_ea) draw_sprite_ext(sprite_get("plat_idle_ea"), get_gameplay_time()/5, x, y, spr_dir, 1, 0, c_white, 1);
+    else {
+        shader_start();
+        draw_sprite_ext(sprite_get("plat_idle"), get_gameplay_time()/5, x, y, spr_dir, 1, 0, c_white, 1);
+        shader_end();
+    }
+}
+
 // Early access color correction
 if (is_ea && (state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND)) {
     if (attack == AT_FSPECIAL && image_index <= 11) {

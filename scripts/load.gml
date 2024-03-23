@@ -70,11 +70,11 @@ sprite_change_offset("dstrong", load_x, load_y);
 sprite_change_offset("nspecial", load_x, load_y);
 sprite_change_offset("nspecial_air", load_x, load_y);
 sprite_change_offset("nspecial_air_strap", load_x, load_y);
-sprite_change_offset("nspecial_eaover", 36, 52);
+sprite_change_offset("nspecial_eaover", 38, 52);
 sprite_change_offset("fspec_base", load_x, load_y);
 sprite_change_offset("fspec_air", load_x, load_y);
 sprite_change_offset("fspec_air_strap", load_x, load_y);
-sprite_change_offset("fspec_eaover", 34, 48);
+sprite_change_offset("fspec_eaover", 36, 48);
 sprite_change_offset("fspec_swing", load_x, load_y);
 sprite_change_offset("fspec_swing_strap", load_x, load_y);
 
@@ -86,8 +86,11 @@ sprite_change_offset("dspecial_air_strap", load_x, load_y);
 sprite_change_offset("taunt", load_x, load_y);
 sprite_change_offset("taunt_2", load_x, load_y);
 
-sprite_change_offset("plat", load_x, load_y);
+// plat is a null texture
+sprite_change_offset("plat_idle", load_x, load_y);
+sprite_change_offset("plat_idle_ea", load_x, load_y);
 sprite_change_offset("plat_fly", load_x, load_y);
+sprite_change_offset("plat_fly_ea", load_x, load_y);
 
 sprite_change_offset("nspecial_proj", 64, 94);
 
