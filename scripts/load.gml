@@ -39,7 +39,7 @@ sprite_change_offset("jump_strap", load_x, load_y);
 sprite_change_offset("doublejump", load_x, load_y);
 sprite_change_offset("doublejump_strap", load_x, load_y);
 sprite_change_offset("walljump", load_x, load_y);
-sprite_change_offset("pratfall", 32, 62);
+sprite_change_offset("pratfall", load_x, load_y);
 sprite_change_offset("land", load_x, load_y);
 sprite_change_offset("landinglag", load_x, load_y);
 
