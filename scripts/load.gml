@@ -116,6 +116,9 @@ sprite_change_offset("drone_primed_ea", 62, 72);
 sprite_change_offset("drone_mask", 28, 20);
 
 sprite_change_offset("dspecial_art", load_x, load_y);
+sprite_change_offset("dspecial_art_ea", load_x, load_y);
+sprite_change_offset("dspec_proj", load_x, load_y);
+sprite_change_offset("dspec_proj_ea", load_x, load_y);
 
 sprite_change_offset("ustrong_vfx"             , load_x, load_y);
 
