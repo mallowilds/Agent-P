@@ -25,13 +25,30 @@ switch(state) { // use this one for doing actual article behavior
 	case 0: // falling
 		vsp = clamp(vsp+0.6, 3, 10);
 		if (!free) set_state(1);
-	
+		
+		with (obj_article1) {
+        	if (player_id != other.player_id) continue;
+        	
+        	var colliding = place_meeting(x, y, other);
+        	
+        	if (colliding) {
+        		is_primed = true;
+        		instance_destroy(other);
+        		sound_play(asset_get("sfx_ell_dspecial_drop"))
+        		var vfx = spawn_hit_fx(x+spr_dir, y, player_id.vfx_dspec_button);
+        		vfx.depth = depth-1;
+        		exit;
+        	}
+        }
+		
     case 1: // prep
         
         if (free) set_state(0);
     	
         if (state_timer == 23) sound_play(asset_get("sfx_ell_dspecial_drop"));
-        if (state_timer >= 25) set_state(2);
+        if (state_timer >= 25) {
+        	set_state(2);
+        }
         break;
         
     case 2: // idle

@@ -37,7 +37,8 @@ agent_p_grappling = false;  // set to true each frame grapple is applied.
 agent_p_grapple_dir = 0;    // pull direction for ongoing grapple. used for visual updates.
 
 
-
+hud_offset = 40;
+primed_hud_offset = 90;
 
 
 // Supersonic Hit Detection Template

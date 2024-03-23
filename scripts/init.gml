@@ -253,6 +253,8 @@ hfx_null                        = hit_fx_create(sprite_get("null"), 1);
 hfx_fstrong1                    = hit_fx_create(sprite_get("fstrong_hfx1"), 16);
 hfx_fstrong2                    = hit_fx_create(sprite_get("fstrong_hfx2"), 16);
 
+vfx_dspec_button                = hit_fx_create(sprite_get("vfx_dspec_button"), 14);
+
 //custom intro
 AT_INTRO_1 = 2; //the attack index the intro uses, 2 doesn't overwrite any other attack
 AT_INTRO_2 = 3; //the attack index the intro uses, 2 doesn't overwrite any other attack

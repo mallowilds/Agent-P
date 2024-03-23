@@ -120,6 +120,7 @@ sprite_change_offset("dspecial_art_ea", load_x, load_y);
 sprite_change_offset("dspec_proj", load_x, load_y);
 sprite_change_offset("dspec_proj_ea", load_x, load_y);
 
-sprite_change_offset("ustrong_vfx"             , load_x, load_y);
+sprite_change_offset("ustrong_vfx", load_x, load_y);
+sprite_change_offset("vfx_dspec_button", 38, 38);
 
-sprite_change_offset("fx_medium_circle1"        , 174, 168);
+sprite_change_offset("fx_medium_circle1", 174, 168);

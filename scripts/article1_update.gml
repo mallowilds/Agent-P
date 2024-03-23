@@ -25,6 +25,9 @@ if (player_id.object_index != oTestPlayer) {
 	}
 }
 
+// HUD offset
+if (is_primed) hud_offset = primed_hud_offset
+
 
 switch(state) { // use this one for doing actual article behavior
 
