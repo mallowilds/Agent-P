@@ -13,6 +13,7 @@ var atk = my_hitboxID.attack
 var hbox = my_hitboxID.hbox_num
 
 
+// Galaxy tracking
 if (!hit_player_obj.clone) {
 	hit_last_frame[num_hit_last_frame] = hit_player_obj;
 	num_hit_last_frame++;
@@ -62,66 +63,6 @@ if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_HAS_LERP) == t
 	}
 }
 
-// command grab code
-if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_HAS_GRAB) == true) {
-	
-	//Before grabbing the opponent, first make sure that:
-	//-The player is in an attack animation
-	//-The opponent is in hitstun
-	//-The player did not get parried, and
-	//-The opponent is not a Forsburn clone.
-
-	if ((state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)
-	  && (hit_player_obj.state == PS_HITSTUN || hit_player_obj.state == PS_HITSTUN_LAND)
-    	  && was_parried == false
-	  && hit_player_obj.clone == false) {
-		
-		//transition to the 'throw' part of the attack.
-		if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_GRAB_WINDOW_GOTO) != -1) {
-			destroy_hitboxes();
-			attack_end();
-			window = get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_GRAB_WINDOW_GOTO);
-			window_timer = 0;
-			old_hsp = get_window_value(my_hitboxID.attack, window, AG_WINDOW_HSPEED);
-			old_vsp = get_window_value(my_hitboxID.attack, window, AG_WINDOW_VSPEED);
-			
-			if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_GRAB_WINDOWS_NUM) != -1) {
-				set_attack_value(attack,AG_NUM_WINDOWS,get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_GRAB_WINDOWS_NUM));
-			}
-		}
-		
-		//if this attack hasn't grabbed a player yet, grab the player we just hit.
-		if (!instance_exists(grabbed_player_obj)) { grabbed_player_obj = hit_player_obj; }
-		
-		//if this attack has already grabbed a different opponent, prioritize grabbing the closest opponent.
-		else {
-			var old_grab_distance = point_distance(x, y, grabbed_player_obj.x, grabbed_player_obj.y);
-			var new_grab_distance = point_distance(x, y,     hit_player_obj.x,     hit_player_obj.y);
-			if (new_grab_distance < old_grab_distance) { grabbed_player_obj = hit_player_obj; }
-			// setting it in case of an attack that continues the current window
-			grabbed_player_relative_x = grabbed_player_obj.x - x;
-			grabbed_player_relative_y = grabbed_player_obj.y - y;
-		}
-	}
-}
-
-// break grab
-if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_BREAKS_GRAB) == true && instance_exists(grabbed_player_obj)) {
-	grabbed_player_obj = noone;
-}
-
-// multihit projectile code
-if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_PROJECTILE_MULTIHIT) == true) {
-	if (!my_hitboxID.proj_hitpause) {
-		my_hitboxID.proj_old_hsp = my_hitboxID.hsp;
-		my_hitboxID.proj_old_vsp = my_hitboxID.vsp;
-		my_hitboxID.proj_old_img_spd = my_hitboxID.img_spd;
-		my_hitboxID.proj_hitpause = true;
-	}
-	my_hitboxID.proj_hitstop = my_hitboxID.hitpause;
-	my_hitboxID.hitbox_hit_player_count[hit_player_obj.player] += 1;
-	my_hitboxID.hitbox_hit_player_timers[hit_player_obj.player] = 0;
-}
 
 
 // Rune L: parachute momentum

@@ -1,7 +1,11 @@
 
 if (hitstop > 0) exit;
 state_timer++;
-if (is_primed) vis_warn_timer++;
+
+if (is_primed) {
+	vis_warn_timer++;
+	player_id.dspec_article_cooldown = player_id.dspec_max_article_cooldown;
+}
 
 // Safety: clairen field
 if (place_meeting(x, y, asset_get("plasma_field_obj"))) {

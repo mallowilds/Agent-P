@@ -41,13 +41,19 @@ grapple_hook_hboxless = false; // used for safety on kragg/ranno articles
 
 use_stored_vsp = false;
 
-// max drones hard-coded to 2 for now
-nspec_num_drones = 0;
-nspec_max_drones = 2;
-nspec_drone_cd = 0;
-nspec_drone_cd_max = 150;
+// air limits
+uspec_used = false;
+fspec_used = false;
+dspec_used = false;
 
-dspec_explosive = noone;
+
+nspec_num_drones = 0;
+nspec_max_drones = has_rune("B") ? 3 : 2;
+nspec_drone_cd = 0;
+nspec_drone_cd_max = 180;
+
+dspec_article_cooldown = 0;
+dspec_max_article_cooldown = 90;
 
 ustrong_smear = noone;
 dstrong_boom = noone;
@@ -101,9 +107,6 @@ strap_anim_list = [
 make it look cleaner
 */
 
-// adds once-per-air limit to an attack
-AG_ATTACK_AIR_LIMIT             = 30;
-
 // might add ai indexes here later so you can tell the cpu when to use certain
 // moves
 
@@ -118,11 +121,6 @@ AG_WINDOW_CHARGE_FRAME_START    = 71;   // anim frame of the start of the loop
 AG_WINDOW_CHARGE_FRAMES         = 72;   // total number of frames
 AG_WINDOW_CHARGE_LOOP_SPEED     = 73;   // speed of the loop animation
 
-AG_WINDOW_GRAB_OPPONENT         = 74;   // if the window is a grab window (1),
-                                        // hold opponent, otherwise let them go
-AG_WINDOW_GRAB_POS_X            = 75;   // x position to hold grabbed opponent
-AG_WINDOW_GRAB_POS_Y            = 76;   // y position to hold grabbed opponent
-
 AG_WINDOW_CAN_WALLJUMP          = 77;   // if the player can walljump out of the
                                         // window
 
@@ -135,27 +133,11 @@ AG_WINDOW_CAN_WALLJUMP          = 77;   // if the player can walljump out of the
 make it look cleaner
 */
 
-HG_HAS_GRAB                     = 60;   // makes the hitbox into a command grab
-HG_BREAKS_GRAB                  = 61;   // if the grabbed player is hit, they're
-                                        // no longer grabbed
-HG_GRAB_WINDOW_GOTO             = 62;   // window the grab goes into
-                                        // -1 if it continues in the same window
-HG_GRAB_WINDOWS_NUM             = 63;   // up to what window the grab goes to
-                                        // -1 if it doesnt change window num
 HG_HAS_LERP                     = 64;   // if the hitbox has lerp properties
 HG_LERP_PERCENT                 = 65;   // how much pull the lerp has
                                         // from 0.0~1.0
 HG_LERP_POS_X                   = 66;   // x position that the lerp pulls to
 HG_LERP_POS_Y                   = 67;   // y position that the lerp pulls to
-
-HG_PROJECTILE_MULTIHIT          = 70;   // if a projectile multihits
-HG_PROJECTILE_MULTIHIT_RATE     = 71;   // rate at which a projectile multihits
-                                        // ex.: if 10, hits every 10 frames
-                                        // (individual per opponent)
-HG_PROJECTILE_MAX_HITS          = 72;   // max number of times the projectile
-                                        // can hit before being destroyed
-                                        // (individual per opponent)
-                                        // put -1 for no limit
 
 
 // if you're making custom indexes for your character, I recommend starting at
@@ -170,53 +152,8 @@ through enemies, otherwise it might just despawn on hit
 //=-(                    ~~//** CUSTOM VARIABLES **//~~                    )-=//
 
 //                               PRE-SET STUFF                                //
-// attack/hitbox index variables
-attack_air_limit                = array_create(50, false);
-                                        // tracks per-air limit for attacks
-attack_air_limit_ver            = false;// if true, will check if air limits
-                                        // should be reset
-                                        // so that it doesn't go through the big
-                                        // array more often than needed
-grabbed_player_obj              = noone;// the player that got grabbed
-grabbed_player_relative_x       = 0;    // x position in relation to the player, 
-                                        // for the grabbed player to be moved to
-grabbed_player_relative_y       = 0;    // y position in relation to the player, 
-                                        // for the grabbed player to be moved to
 
-// article variables
-article_id                      = noone;// id that refers to a spawned article
-                                        // change name to whatever you want
-
-// composite vfx array
-comp_vfx_array                  = [[{cur_timer: 1, max_timer: 0}]];
-                                        // array containing the composite
-                                        // vfx
-vfx_created                     = false;// checks if the effect was successfully
-                                        // created in the array
-
-/* // WIP 
-// alt color shade slots
-num_base_colors                 = 1;    // how many colors the character has
-
-col_shade_list                  = [
-                                [1],
-                                [0],
-                                [0],
-                                [0],
-                                [1],
-                                [1]
-                                ];      // array holding shade values in each
-                                        // alt for each color
-                                        // as sandbert only has 1 color and 6
-                                        // alts, there's 6 arrays with 1 element
-
-*/
-/*
-- remember that css needs it's own version of these variables, so if you change
-it here, change it there too!
-*/
-
-// animation stuff
+// animation stuff [TODO: these are from template, check if they're in use]
 idle_air_loops                  = false;// whether idle air has a looping 
                                         // animation or not
 idle_air_looping                = false;// checks if the loop is happening

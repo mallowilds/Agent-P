@@ -70,7 +70,7 @@ switch(attack) {
         
         break;
     case AT_FSPECIAL:
-    
+		
     	if (window < 4) {
     		can_fast_fall = false;
     		if (vsp > 2.5) vsp = 2.5;
@@ -80,6 +80,8 @@ switch(attack) {
     	
     	switch window {
     		case 1:
+    			if (free) fspec_used = true;
+    		
     			if (window_timer == 1 && vsp > 0) vsp = 0;
     			
     			if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
@@ -168,7 +170,8 @@ switch(attack) {
         		// slide behavior
         		else if (!free) {
         			
-        			attack_air_limit[attack] = false; // refresh cooldown
+        			// fspec_used will implicitly refresh via update.gml
+        			
         			if (get_gameplay_time() % 3 == 0) spawn_base_dust(x, y, "dash");
         			
         			// grounded air dodge (mainly for wavedashes)
@@ -206,6 +209,7 @@ switch(attack) {
         break;
         
 	case AT_DSPECIAL_AIR: 
+		dspec_used = true;
 		can_fast_fall = false;
 		if (!free) {
 			attack_end();
@@ -216,14 +220,14 @@ switch(attack) {
 	case AT_DSPECIAL:
         
         if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
-        	if (!instance_exists(dspec_explosive)) {
-        		dspec_explosive = instance_create(floor(x), floor(y), "obj_article2");
+        	if (dspec_article_cooldown <= 0) {
+        		instance_create(floor(x), floor(y), "obj_article2");
         		if (free) vsp = (parachute_active ? -6 : -8);
         	}
         	else if (free) vsp = (parachute_active ? -3.5 : -4);
         }
         
-        if (free) attack_air_limit[AT_DSPECIAL_AIR] = true;
+        if (free) dspec_used = true; // anti-stall
         
         move_cooldown[AT_DSPECIAL] = 30; // not really necessary but telegraphs that this isn't spammable
         
@@ -357,42 +361,11 @@ switch(attack) {
     
 }
 
-// command grab code
-if (instance_exists(grabbed_player_obj) && get_window_value(attack, window, AG_WINDOW_GRAB_OPPONENT)) {
-	
-	//first, drop the grabbed player if this is the last window of the attack, or if they somehow escaped hitstun.
-	if (window >= get_attack_value(attack, AG_NUM_WINDOWS)) { grabbed_player_obj = noone; }
-	else if (grabbed_player_obj.state != PS_HITSTUN && grabbed_player_obj.state != PS_HITSTUN_LAND) { grabbed_player_obj = noone; }
-	
-	else {
-		//keep the grabbed player in hitstop until the grab is complete.
-		grabbed_player_obj.hitstop = 2;
-		grabbed_player_obj.hitpause = true;
-		
-		//if this is the first frame of a window, store the grabbed player's relative position.
-		if (window_timer <= 1) {
-			grabbed_player_relative_x = grabbed_player_obj.x - x;
-			grabbed_player_relative_y = grabbed_player_obj.y - y;
-		}
-		
-		// pull opponent to window's grab positions
-		var pull_to_x = get_window_value(attack, window, AG_WINDOW_GRAB_POS_X) * spr_dir;
-		var pull_to_y = get_window_value(attack, window, AG_WINDOW_GRAB_POS_Y);
-			
-		//using an easing function, smoothly pull the opponent into the grab over the duration of this window.
-		grabbed_player_obj.x = x + ease_circOut( grabbed_player_relative_x, pull_to_x, window_timer, window_length);
-		grabbed_player_obj.y = y + ease_circOut( grabbed_player_relative_y, pull_to_y, window_timer, window_length);
-		
-	}
-	
-} else if (instance_exists(grabbed_player_obj)) { //if grabbed player exists but attack no longer grabs
-	grabbed_player_obj = noone;
-}
-
 // walljump code
 if (get_window_value(attack,window,AG_WINDOW_CAN_WALLJUMP)) {
 	can_wall_jump = true;
 }
+
 // cosmetic attack fx
 switch(attack) {
     case AT_JAB:

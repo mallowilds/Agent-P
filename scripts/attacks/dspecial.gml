@@ -16,7 +16,6 @@ set_attack_value(atk, AG_SPRITE                         , sprite_get("dspecial")
 set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("dspecial_hurt"));
 set_attack_value(atk, AG_NUM_WINDOWS                    , 2);
 set_attack_value(atk, AG_CATEGORY                       , 2);
-set_attack_value(atk, AG_ATTACK_AIR_LIMIT               , true);
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 16);
