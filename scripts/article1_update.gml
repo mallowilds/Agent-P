@@ -133,7 +133,7 @@ switch(state) { // use this one for doing actual article behavior
     
     	if (state_timer == 1 || state_timer == 8) sound_play(sound_get("snake_prime1"));
     	
-        if (state_timer >= 14 || (state_timer >= 6 && hitstun_triggered)) { // very temp!
+        if (state_timer >= 10 || (state_timer >= 3 && hitstun_triggered)) { // very temp!
             sound_play(asset_get("sfx_ell_small_missile_ground"));
             spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode);
             do_primed_explosion();
@@ -200,7 +200,7 @@ state_timer = 0;
 	var button = instance_create(floor(x), floor(y), "obj_article2");
 	button.state = 4;
 	button.sprite_index = sprite_get("null");
-	if (has_rune("H")) button.rune_empowered = true;
+	if (has_rune("H")) button.rune_drone_empowered = true;
 
 
 // Supersonic Hit Detection Template
