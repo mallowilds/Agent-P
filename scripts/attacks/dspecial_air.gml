@@ -37,4 +37,34 @@ set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES,
 window_num++;
 
 //                        --attack hitboxes--                                 //
-set_num_hitboxes(atk, 0); //
+set_num_hitboxes(atk, 1); //
+
+var hbox_num = 1;
+
+set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE             , 2); //projectile falling hitbox
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_SPRITE       , sprite_get("null")); 
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK      , -1); 
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR      , 1); 
+
+set_hitbox_value(atk, hbox_num, HG_HITBOX_GROUP             , 2);
+//set_hitbox_value(atk, hbox_num, HG_WINDOW                 , 5);     
+//set_hitbox_value(atk, hbox_num, HG_WINDOW_CREATION_FRAME  , 5); 
+set_hitbox_value(atk, hbox_num, HG_LIFETIME                 , 2);
+set_hitbox_value(atk, hbox_num, HG_HITBOX_X                 , -6);
+set_hitbox_value(atk, hbox_num, HG_HITBOX_Y                 , 0);
+set_hitbox_value(atk, hbox_num, HG_WIDTH                    , 16);
+set_hitbox_value(atk, hbox_num, HG_HEIGHT                   , 40);
+set_hitbox_value(atk, hbox_num, HG_PRIORITY                 , 1);
+set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 3);
+set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 270);
+set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 3);
+set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , .3);
+set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 7);
+set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , .3);
+set_hitbox_value(atk, hbox_num, HG_HIT_LOCKOUT               , 8);
+set_hitbox_value(atk, hbox_num, HG_FORCE_FLINCH              , 1);
+
+set_hitbox_value(atk, hbox_num, HG_HITSTUN_MULTIPLIER       , .7);
+set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT            , HFX_GEN_OMNI);
+set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT_X_OFFSET   , 0);
+set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , asset_get("sfx_blow_medium1"));

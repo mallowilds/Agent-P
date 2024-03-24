@@ -6,7 +6,6 @@ mask_index = asset_get("drone_mask");
 can_be_grounded = false;
 ignores_walls = false;
 spr_dir = player_id.spr_dir;
-
 uses_shader = true;
 
 // state machine variables

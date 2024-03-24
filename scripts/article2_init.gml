@@ -7,6 +7,7 @@ collision_index = asset_get("dspecial_art"); // idk lol
 can_be_grounded = true;
 ignores_walls = false;
 spr_dir = player_id.spr_dir;
+depth = -10 //want it to be rendered in front of perry
 
 uses_shader = true;
 

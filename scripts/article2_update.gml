@@ -23,7 +23,10 @@ if (player_id.object_index != oTestPlayer) {
 switch(state) { // use this one for doing actual article behavior
 	
 	case 0: // falling
-		vsp = clamp(vsp+0.6, 3, 10);
+		vsp = 12 //old = clamp(vsp+0.6, 3, 16); // I want it to have instant lifetime, imo having it clamp makes it feel a bit more sluggish than it should be.
+		//Also, sorry.
+		if (!oPlayer.hitpause) hbox = create_hitbox(AT_DSPECIAL_AIR, 1, x, y); //This Did Not Work.
+
 		if (!free) set_state(1);
 		
 		with (obj_article1) {
@@ -76,7 +79,7 @@ switch(state) { // use this one for doing actual article behavior
     	
     	if (state_timer == 1 || state_timer == 8) sound_play(sound_get("snake_prime1"));
     	
-        if (state_timer >= 14 || (state_timer >= 6 && hitstun_triggered)) { // very temp!
+        if (state_timer >= 9 || (state_timer >= 3 && hitstun_triggered)) { // very temp! 	//old = (state_timer >= 14 || (state_timer >= 9 && hitstun_triggered))
             sound_play(asset_get("sfx_ell_small_missile_ground"));
             spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode_gr);
             set_state(4);
