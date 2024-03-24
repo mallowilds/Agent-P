@@ -22,12 +22,39 @@ if (player_id.object_index != oTestPlayer) {
 	}
 }
 
+print_debug(state_timer)
 switch(state) { // use this one for doing actual article behavior
 	
 	case 0: // falling
 		vsp = clamp(vsp+0.4, 10, 16); 
 
-		if (!free) set_state(1);
+		if (!free) {
+			if (falling_hitbox_hit) {
+				set_state(3); // exploding
+				hitstun_triggered = true;
+			}
+			else set_state(1); // idle
+			if (instance_exists(falling_hitbox)) falling_hitbox.destroyed = true;
+		}
+		else {
+			if (state_timer == 1) {
+				falling_hitbox = create_hitbox(AT_DSPECIAL_AIR, 1, x, y-30);
+				falling_hitbox.agent_p_ignore_drone = true;
+				falling_hitbox.owner_button = self;
+				falling_hitbox.hsp = hsp;
+				falling_hitbox.vsp = vsp;
+			}
+			if (!instance_exists(falling_hitbox)) { // hitbox was destroyed, so despawn article
+				var vfx = spawn_hit_fx(x+spr_dir, y, player_id.vfx_dspec_button);
+        		vfx.depth = depth-1;
+        		should_die = true;
+			}
+			else {
+				falling_hitbox.hsp = hsp;
+				falling_hitbox.vsp = vsp;
+				falling_hitbox.length++;
+			}
+		}
 		
 		with (obj_article1) {
         	if (player_id != other.player_id) continue;
@@ -36,13 +63,15 @@ switch(state) { // use this one for doing actual article behavior
         	
         	if (colliding) {
         		is_primed = true;
-        		instance_destroy(other);
         		sound_play(asset_get("sfx_ell_dspecial_drop"))
         		var vfx = spawn_hit_fx(x+spr_dir, y, player_id.vfx_dspec_button);
         		vfx.depth = depth-1;
+        		if (instance_exists(other.falling_hitbox)) other.falling_hitbox.destroyed = true;
+        		instance_destroy(other);
         		exit;
         	}
         }
+		break;
 		
     case 1: // prep
         
@@ -73,6 +102,9 @@ switch(state) { // use this one for doing actual article behavior
         		other.hitstun_triggered = other.hitstun_triggered || (state_cat == SC_HITSTUN);
         	}
         }
+        
+        if (state_timer >= max_primed_lifetime) set_state(5);
+        
         break;
     
     case 3: // exploding
@@ -88,9 +120,19 @@ switch(state) { // use this one for doing actual article behavior
     
     case 4: // exploded	
     	if (state_timer == 3) {
-    		create_hitbox(AT_DSPECIAL, 1, x, y-4);
+    		create_hitbox(AT_DSPECIAL, hitbox_type, x, y-4);
     		should_die = true;
     	}
+    	break;
+    
+    case 5: // despawn
+    	if (state_timer == 1) sound_play(asset_get("sfx_springswitch"));
+    	if (free) {
+    		var vfx = spawn_hit_fx(x+spr_dir, y, player_id.vfx_dspec_button);
+        	vfx.depth = depth-1;
+        	should_die = true;
+    	}
+    	else if (state_timer >= 9) should_die = true;
     	break;
         
 }
@@ -120,13 +162,22 @@ switch(state) { // use this one for changing sprites and animating
     	sprite_index = sprite_get("null");
     	vis_warn_phase = -1;
     	break;
+    case 5: // despawn
+    	if (!free) {
+    		image_index = 4 + (state_timer / 3);
+	    	vis_warn_phase = 2 - (state_timer / 3);
+	    	vis_warn_y_offset = 0;
+    	}
+    	else { // really more of a failsafe than anything but y'know
+    		sprite_index = sprite_get("null");
+    		vis_warn_phase = -1;
+    	}
+    	break;
 }
 
 // don't forget that articles aren't affected by small_sprites
 
 if (should_die) { //despawn and exit script
-	player_id.move_cooldown[AT_DSPECIAL] = 90;
-	player_id.move_cooldown[AT_DSPECIAL_AIR] = 90;
     instance_destroy();
     exit;
 }

@@ -44,7 +44,7 @@ switch(state) { // use this one for doing actual article behavior
             vsp = -6.5 + (3 * throw_dir);
             
             hbox = create_hitbox(AT_NSPECIAL, 1, x, y);
-            hbox.agent_p_grapple_hitbox = true;
+            hbox.agent_p_ignore_drone = true;
             hbox.owner_drone = self
         }
         
@@ -214,7 +214,7 @@ state_timer = 0;
 	var button = instance_create(floor(x), floor(y), "obj_article2");
 	button.state = 4;
 	button.sprite_index = sprite_get("null");
-	if (has_rune("H")) button.rune_drone_empowered = true;
+	button.hitbox_type = (has_rune("H")) ? button.HB_RUNE_DRONE : button.HB_DRONE;
 
 
 // Supersonic Hit Detection Template
@@ -285,7 +285,7 @@ with hbox {
     return ("owner" not in self || owner != other) //check if the hitbox was created by this article
         && hit_priority != 0 && hit_priority <= 10
         && (groundedness == 0 || groundedness == 1+other.free)
-        && "agent_p_grapple_hitbox" not in self
+        && "agent_p_ignore_drone" not in self
         && (player_equal || other.enemy_hittable)
         //&& ( (get_match_setting(SET_TEAMS) && (get_match_setting(SET_TEAMATTACK) || !team_equal) ) || player_equal) //uncomment to prevent the article from being hit by its owner's team.
 }

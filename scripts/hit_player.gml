@@ -43,6 +43,12 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 }
 
 
+// DSpec falling hitbox
+if (atk == AT_DSPECIAL_AIR && "owner_button" in my_hitboxID) {
+	my_hitboxID.owner_button.falling_hitbox_hit = true;
+}
+
+
 // Pop up on ustrong silly hit
 if (atk == AT_USTRONG && hbox == 2) {
 	window = 6;

@@ -18,7 +18,7 @@ var window_length = get_window_value(attack, window, AG_WINDOW_LENGTH);
 switch(attack) {
     case AT_JAB:
         // clear attack so jab2 doesn't automatically happen
-    	if (window == 1 && window_timer == 1) { // WARN: Possible repetition during hitpause. Consider using window_time_is(frame) https://rivalslib.com/assistant/function_library/attacks/window_time_is.html
+    	if (window == 1 && window_timer == 1) {
     		clear_button_buffer(PC_ATTACK_PRESSED);
     	}
         break;
@@ -98,7 +98,7 @@ switch(attack) {
 	        		grapple_hook_hitbox = create_hitbox(AT_FSPECIAL, 1, grapple_hook_x, grapple_hook_y);
 	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
 	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;
-	        		grapple_hook_hitbox.agent_p_grapple_hitbox = true; // for use by articles
+	        		grapple_hook_hitbox.agent_p_ignore_drone = true; // for use by articles
 	        		
 	        		// aim assist for drones
 	        		grapple_hook_aim_obj = noone;
