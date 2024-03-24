@@ -106,7 +106,7 @@ set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PLASMA_SAFE   , false);
 set_hitbox_value(atk, hbox_num, HG_EXTENDED_PARRY_STUN      , false);
 hbox_num++;
 
-// Drone explosion (abyss rune-enhanced)
+// Drone explosion (rune H-enhanced)
 set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE              , 2);
 set_hitbox_value(atk, hbox_num, HG_WINDOW                   , 0);
 set_hitbox_value(atk, hbox_num, HG_WINDOW_CREATION_FRAME    , 0);

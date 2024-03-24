@@ -2,14 +2,13 @@
 
 // sprite and mask indexes; + default article variables
 sprite_index = sprite_get(player_id.is_ea ? "dspecial_art_ea" : "dspecial_art");
-mask_index = asset_get("dspecial_art"); // idk lol
-collision_index = asset_get("dspecial_art"); // idk lol
+mask_index = sprite_get("dspecial_art_mask");
 can_be_grounded = true;
 ignores_walls = false;
 spr_dir = player_id.spr_dir;
 depth = -10;
 
-uses_shader = true;
+uses_shader = false;
 
 // state machine variables
 state = 0;

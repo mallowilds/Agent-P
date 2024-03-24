@@ -142,9 +142,9 @@ switch(my_hitboxID.attack) {
         
     case AT_FSTRONG:
     	//a
-    	break;
+    
     case AT_USTRONG:
-    	if (hbox == 2) sound_play(asset_get("sfx_blow_weak1"));
+    	if (hbox == 2) sound_play(asset_get(has_rune("D") ? "sfx_blow_heavy1" : "sfx_blow_weak1"));
     	break;
     case AT_DSTRONG:
     	//a

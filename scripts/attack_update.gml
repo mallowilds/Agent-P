@@ -221,7 +221,9 @@ switch(attack) {
         
         if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
         	if (dspec_article_cooldown <= 0) {
-        		instance_create(floor(x), floor(y), "obj_article2");
+        		var dspec_button = instance_create(floor(x), floor(y), "obj_article2");
+        		dspec_button.state = free;
+        		if (free) dspec_button.sprite_index = sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj")
         		if (free) vsp = (parachute_active ? -6 : -8);
         	}
         	else if (free) vsp = (parachute_active ? -3.5 : -4);
@@ -290,8 +292,8 @@ switch(attack) {
         }
         else if (window == 4 || window == 5) {
         	fall_timer++;
-        	if (fall_timer > 33) {
-        		strong_charge = 0;
+        	if (has_rune("D") ? vsp > 1 : fall_timer > 33) { // Rune D empowers the spike, so have it come out as soon as falling starts
+        		if (!has_rune("D")) strong_charge = 0;
         		iasa_script();
         		create_hitbox(attack, 2, x, y);
         	}
