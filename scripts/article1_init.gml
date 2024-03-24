@@ -43,6 +43,10 @@ agent_p_grapple_dir = 0;    // pull direction for ongoing grapple. used for visu
 hud_offset = 40;
 primed_hud_offset = 90;
 
+vis_warn_phase = -1; // for dspec warn
+vis_warn_timer = 0;
+vis_warn_y_offset = 0;
+
 
 // Supersonic Hit Detection Template
  

@@ -23,9 +23,7 @@ if (player_id.object_index != oTestPlayer) {
 switch(state) { // use this one for doing actual article behavior
 	
 	case 0: // falling
-		vsp = 12 //old = clamp(vsp+0.6, 3, 16); // I want it to have instant lifetime, imo having it clamp makes it feel a bit more sluggish than it should be.
-		//Also, sorry.
-		if (!oPlayer.hitpause) hbox = create_hitbox(AT_DSPECIAL_AIR, 1, x, y); //This Did Not Work.
+		vsp = clamp(vsp+0.4, 10, 16); 
 
 		if (!free) set_state(1);
 		
@@ -98,6 +96,7 @@ switch(state) { // use this one for doing actual article behavior
 switch(state) { // use this one for changing sprites and animating
 	case 0: // falling
 		sprite_index = sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj")
+		vis_warn_phase = -1;
 		break;
     case 1: // prepping
     	sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
@@ -105,14 +104,19 @@ switch(state) { // use this one for changing sprites and animating
         break;
     case 2: // idle
     	sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
-        image_index = (state_timer < 2) ? 2 : 4-floor((state_timer/30)%2);
+        image_index = (state_timer < 2) ? 2 : 3;
+        vis_warn_phase = (state_timer < 9) ? state_timer/3 : 3
+        vis_warn_y_offset = 2 * round(sin(pi*state_timer/30));
         break;
     case 3: // exploding
     	sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
-        image_index = 5;
+        image_index = 5; 
+        vis_warn_phase = (state_timer < 2) ? 4 + state_timer/1 : 6
+        vis_warn_y_offset = 0;
         break;
     case 4: // exploded
     	sprite_index = sprite_get("null");
+    	vis_warn_phase = -1;
     	break;
 }
 

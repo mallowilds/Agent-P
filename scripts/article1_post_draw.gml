@@ -8,6 +8,10 @@ if (get_match_setting(SET_HITBOX_VIS) && state == 1 && is_primed) {
     
 }
 
+// Warn (primed)
+if (vis_warn_phase >= 0) draw_sprite_ext(sprite_get(is_ea ? "dspec_warn_ea" : "dspec_warn"), vis_warn_phase, x-1*spr_dir, y-46-vis_warn_y_offset, spr_dir, 1, 0, c_white, 1);
+
+
 
 // Arrow indicator
 if (state == 1) draw_sprite_ext(asset_get("triangle_spr"), 0, x, y-hud_offset, 1, 1, 0, get_player_hud_color(player), 1);

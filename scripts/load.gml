@@ -119,6 +119,8 @@ sprite_change_offset("dspecial_art", load_x, load_y);
 sprite_change_offset("dspecial_art_ea", load_x, load_y);
 sprite_change_offset("dspec_proj", load_x, load_y);
 sprite_change_offset("dspec_proj_ea", load_x, load_y);
+sprite_change_offset("dspec_warn", 26, 26);
+sprite_change_offset("dspec_warn_ea", 26, 26);
 
 sprite_change_offset("ustrong_vfx", load_x, load_y);
 sprite_change_offset("vfx_dspec_button", 38, 38);

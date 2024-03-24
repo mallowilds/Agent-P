@@ -1,6 +1,7 @@
 
 if (hitstop > 0) exit;
 state_timer++;
+if (is_primed) vis_warn_timer++;
 
 // Safety: clairen field
 if (place_meeting(x, y, asset_get("plasma_field_obj"))) {
@@ -86,6 +87,7 @@ switch(state) { // use this one for doing actual article behavior
         		other.state = 4;
         		other.state_timer = 0;
         		other.hitstun_triggered = other.hitstun_triggered || (state_cat == SC_HITSTUN);
+        		vis_warn_timer = 0;
         	}
         }
         
@@ -157,14 +159,22 @@ switch(state) { // use this one for changing sprites and animating
         }
         else if (state_timer < 4) image_index = 4 + (state_timer / 2); // startup
         else image_index = 6 + (state_timer / 5) % 8; // loop
+        
+        if (is_primed) {
+        	vis_warn_phase = (vis_warn_timer < 9) ? vis_warn_timer/3 : 3;
+        	vis_warn_y_offset = 2 * round(sin(pi*state_timer/20));
+        }
         break;
     case 3: // exploding
-    	if (is_primed) image_index = 18;
-        else if (hsp*spr_dir < 0) image_index = 16 + (state_timer / 5) % 2;
+    	if (hsp*spr_dir < 0) image_index = 16 + (state_timer / 5) % 2;
         else image_index = 14 + (state_timer / 5) % 2;
+        if (is_primed) vis_warn_phase = (vis_warn_timer < 2) ? 4 + vis_warn_timer/1 : 6;
+        vis_warn_y_offset = 0;
         break;
 	case 4: // primed explosion
 		image_index = 18;
+		if (is_primed) vis_warn_phase = (state_timer < 2) ? 4 + state_timer/1 : 6;
+		vis_warn_y_offset = 0;
 		break;
 }
 // don't forget that articles aren't affected by small_sprites
