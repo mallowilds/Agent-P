@@ -22,7 +22,6 @@ if (player_id.object_index != oTestPlayer) {
 	}
 }
 
-print_debug(state_timer)
 switch(state) { // use this one for doing actual article behavior
 	
 	case 0: // falling

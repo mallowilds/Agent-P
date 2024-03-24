@@ -18,8 +18,8 @@ is_ea = player_id.is_ea;
 
 throw_dir = 0; // default
 
-max_lifetime = 900;
-lifetime_decay_step = 9; // applied per frame while grappled, in addition to the standard lifetime progress
+max_lifetime = 600;
+lifetime_decay_step = 5; // applied per frame while grappled, in addition to the standard lifetime progress
 lifetime_decayed = 0;
 last_decay_frame = get_gameplay_time(); // ensures only one decay step per frame
 
