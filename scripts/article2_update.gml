@@ -75,6 +75,8 @@ switch(state) { // use this one for doing actual article behavior
         	
         	if (colliding) {
         		is_primed = true;
+        		if (state == 1) state_timer = 0;
+        		//lifetime_decayed = 0;
         		sound_play(asset_get("sfx_ell_dspecial_drop"))
         		var vfx = spawn_hit_fx(x+spr_dir, y, player_id.vfx_dspec_button);
         		vfx.depth = depth-1;
