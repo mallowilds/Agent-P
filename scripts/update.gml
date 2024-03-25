@@ -362,7 +362,7 @@ switch grapple_hook_state {
 		}
 		
 		// Rune K: Allow vertical movement
-		if (has_rune("K") && joy_pad_idle){
+		if (has_rune("K") && !joy_pad_idle){
 			can_fast_fall = false;
 			can_move = false;
 			hsp += lengthdir_x(air_accel, joy_dir)
