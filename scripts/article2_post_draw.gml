@@ -1,5 +1,10 @@
 
 
+// Bashed/parried visual
+if (state == 6) {
+    draw_sprite_ext(sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj"), 0, x, y, 1, 1, reflect_dir-270, c_white, 1);
+}
+
 // Warn
 if (vis_warn_phase >= 0) draw_sprite_ext(sprite_get(is_ea ? "dspec_warn_ea" : "dspec_warn"), vis_warn_phase, x, y-46-vis_warn_y_offset, spr_dir, 1, 0, c_white, 1);
 

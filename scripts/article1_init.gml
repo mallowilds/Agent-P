@@ -8,7 +8,7 @@ ignores_walls = false;
 spr_dir = player_id.spr_dir;
 uses_shader = true;
 
-// state machine variables
+// State machine variables
 state = 0;
 state_timer = 0;
 should_die = false; //if the article should be despawned
@@ -25,13 +25,13 @@ last_decay_frame = get_gameplay_time(); // ensures only one decay step per frame
 
 enemy_hittable = true;
 
-// dspec functionality
+// DSpec functionality
 is_primed = false;
 trigger_w = 40;
 trigger_h = 20;
 hitstun_triggered = false;
 
-// grapple compat
+// Grapple compat
 agent_p_grapplable = 2;     // denotes grabbability by grappling hook. 
                             // (2 is a special value denoting the drone, use 1 or true for article compat)
 agent_p_pull_vel = 0.5;     // how much grappling should move the article by (set to 0 to disable)
@@ -39,13 +39,19 @@ agent_p_grappling = false;  // set to true each frame grapple is applied.
                             // (should be set to false at the end of article update.)
 agent_p_grapple_dir = 0;    // pull direction for ongoing grapple. used for visual updates.
 
-
+// Visual
 hud_offset = 40;
 primed_hud_offset = 90;
 
 vis_warn_phase = -1; // for dspec warn
 vis_warn_timer = 0;
 vis_warn_y_offset = 0;
+
+// Bash/parry management
+unbashable = false;
+orig_player = player; // because ori is a thief >:(
+reflected_player_id = noone;
+reflect_dir = 0;
 
 
 // Supersonic Hit Detection Template

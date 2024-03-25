@@ -36,3 +36,9 @@ hitbox_type = 1;
 HB_DEFAULT = 1;
 HB_DRONE = 2;
 HB_RUNE_DRONE = 3;
+
+// Bash/parry management
+unbashable = false;
+orig_player = player; // because ori is a thief >:(
+reflected_player_id = noone;
+reflect_dir = 0;

@@ -1,5 +1,18 @@
 
 if (hitstop > 0) exit;
+
+// Bash handling
+if (getting_bashed) { // halt time progress
+	reflected_player_id = bashed_id;
+	exit;
+}
+if (player != orig_player) { // bash release
+	player = orig_player
+	reflect_dir = point_direction(0, 0, hsp, vsp);
+	set_state(5)
+}
+
+// Maintain timers/cooldowns
 state_timer++;
 
 if (is_primed) {
@@ -147,7 +160,47 @@ switch(state) { // use this one for doing actual article behavior
         }
         
     	break;
+       
+    case 5: // Parried
+    
+    	if (state_timer == 1) {
+            hbox = create_hitbox(AT_NSPECIAL, 1, x, y);
+            hbox.agent_p_ignore_drone = true;
+            hbox.owner_drone = self
+            
+        	// fake reflect
+            hbox.can_hit_self = true;
+            hbox.can_hit[reflected_player_id.player] = false;
+            
+            if (!is_primed & !has_rune("H")) hbox.enemies = 1; // go through enemies
+            
+            hsp = lengthdir_x(12, reflect_dir);
+            vsp = lengthdir_y(12, reflect_dir);
+        }
         
+        if (!instance_exists(hbox) || state_timer > 20 || hit_wall || !free) {
+        	if (is_primed) {
+        		do_primed_explosion();
+        	} else {
+        		if (has_rune("H")) {
+        			var boom = create_hitbox(AT_NSPECIAL, 3, floor(x), floor(y)); // explosion rune
+        			boom.was_parried = true;
+            		boom.last_player_id = reflected_player_id;
+            		boom.player = reflected_player_id.player;
+        		}
+            	sound_play(asset_get("sfx_ell_small_missile_ground"));
+            	spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
+        	}
+        	if (instance_exists(hbox)) hbox.destroyed = true;
+        	should_die = true;
+        }
+        else {
+        	hbox.hsp = hsp;
+        	hbox.vsp = vsp;
+        	hbox.length++;
+        }
+    
+    	break;
 }
 
 
@@ -215,6 +268,10 @@ state_timer = 0;
 	button.state = 4;
 	button.sprite_index = sprite_get("null");
 	button.hitbox_type = (has_rune("H")) ? button.HB_RUNE_DRONE : button.HB_DRONE;
+	if (state == 5) {
+		button.state = 7;
+		button.reflected_player_id = reflected_player_id;
+	}
 
 
 // Supersonic Hit Detection Template

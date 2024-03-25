@@ -28,19 +28,12 @@ if (atk == AT_DSTRONG && my_hitboxID.orig_player == player) {
 
 if (atk == AT_NSPECIAL && hbox == 1 && my_hitboxID.hit_priority == 5) {
     
-    instance_destroy(my_hitboxID.owner_drone);
-    nspec_num_drones--;
-    
-    var reflection = create_hitbox(AT_NSPECIAL, 2, my_hitboxID.x, my_hitboxID.y);
-    reflection.was_parried = true;
-    reflection.last_player_id = hit_player_obj;
-    reflection.player = hit_player;
-    
-    var dir = point_direction(my_hitboxID.x, my_hitboxID.y, x, y);
-    reflection.hsp = lengthdir_x(9, dir);
-    reflection.vsp = lengthdir_y(9, dir);
-    
-    print_debug(reflection.x);
-    print_debug(reflection.y);
+    var drone = my_hitboxID.owner_drone
+    drone.state = 5;
+    drone.state_timer = 0;
+    drone.reflected_player_id = hit_player_obj;
+    drone.reflect_dir = point_direction(drone.x, drone.y, x, y - (char_height / 2));
+    drone.ignores_walls = true;
+    drone.can_be_grounded = false;
     
 }

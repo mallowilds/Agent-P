@@ -68,8 +68,8 @@ set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , asset_get("sfx_blo
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_SPRITE        , sprite_get("null"));
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK          , -1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DESTROY_EFFECT, hfx_null);
-set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR , 0);
-set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 0);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR , 1);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 0);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_UNBASHABLE    , true);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , false);
@@ -104,8 +104,8 @@ set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , asset_get("sfx_ell
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_SPRITE        , sprite_get("null"));
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK          , -1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DESTROY_EFFECT, hfx_null);
-set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR , 0);
-set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 0);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR , 1);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 0);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_UNBASHABLE    , true);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , true);

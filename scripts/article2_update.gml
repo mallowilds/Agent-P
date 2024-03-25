@@ -1,9 +1,21 @@
 
 if (hitstop > 0) exit;
+
+// Bash handling
+if (getting_bashed) { // halt time progress
+	reflected_player_id = bashed_id;
+	vis_warn_phase = -1;
+	exit;
+}
+if (player != orig_player) { // bash release
+	player = orig_player
+	reflect_dir = point_direction(0, 0, hsp, vsp);
+	set_state(6)
+}
+
+// Timer / CD management
 state_timer++;
-
 player_id.dspec_article_cooldown = player_id.dspec_max_article_cooldown;
-
 
 // Safety: clairen field
 if (place_meeting(x, y, asset_get("plasma_field_obj"))) {
@@ -119,6 +131,7 @@ switch(state) { // use this one for doing actual article behavior
         break;
     
     case 4: // exploded	
+    	unbashable = true;
     	if (state_timer == 3) {
     		create_hitbox(AT_DSPECIAL, hitbox_type, x, y-4);
     		should_die = true;
@@ -133,6 +146,44 @@ switch(state) { // use this one for doing actual article behavior
         	should_die = true;
     	}
     	else if (state_timer >= 9) should_die = true;
+    	break;
+    	
+    case 6: // parried / bashed
+    	if (state_timer == 1) {
+            hbox = create_hitbox(AT_DSPECIAL, 1, x, y);
+            hbox.agent_p_ignore_drone = true;
+            hbox.owner_button = self;
+            hbox.hit_angle = 90;
+            
+        	// fake reflect
+            hbox.can_hit_self = true;
+            hbox.can_hit[reflected_player_id.player] = false;
+            
+            hsp = lengthdir_x(12, reflect_dir);
+            vsp = lengthdir_y(12, reflect_dir);
+        }
+        
+        if (!instance_exists(hbox) || state_timer > 20 || hit_wall || !free) {
+        	set_state(7);
+        	sound_play(asset_get("sfx_ell_small_missile_ground"));
+            spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode);
+        	if (instance_exists(hbox)) hbox.destroyed = true;
+        }
+        else {
+        	hbox.hsp = hsp;
+        	hbox.vsp = vsp;
+        	hbox.length++;
+        }
+        break;
+        
+    case 7: // explode (bashed/parried)
+    	unbashable = true;
+    	if (state_timer == 3) {
+    		var boom = create_hitbox(AT_DSPECIAL, hitbox_type, x, y-4);
+    		boom.can_hit_self = true;
+            boom.can_hit[reflected_player_id.player] = false;
+    		should_die = true;
+    	}
     	break;
         
 }
@@ -173,6 +224,9 @@ switch(state) { // use this one for changing sprites and animating
     		vis_warn_phase = -1;
     	}
     	break;
+    case 6: // parried / bashed
+		sprite_index = sprite_get("null");
+		vis_warn_phase = -1;
 }
 
 // don't forget that articles aren't affected by small_sprites
