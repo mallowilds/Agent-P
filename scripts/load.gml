@@ -127,5 +127,7 @@ sprite_change_offset("ustrong_vfx", load_x, load_y);
 sprite_change_offset("vfx_dspec_button", 38, 38);
 sprite_change_offset("dspec_explode", 104, 136);
 sprite_change_offset("dspec_explode_gr", 104, 136);
+sprite_change_offset("fstrong_hfx1", 53, 48);
+sprite_change_offset("fstrong_hfx2", 53, 48);
 
 sprite_change_offset("fx_medium_circle1", 174, 168);

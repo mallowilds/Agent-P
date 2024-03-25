@@ -367,17 +367,20 @@ switch(attack) {
     	move_cooldown[AT_DSTRONG] = 20;
     	
     	break;
-	case AT_FSTRONG: 
-		if window == 2 && window_timer == 7 {
+	case AT_FSTRONG:
+		if window == 1 && window_timer == 1 {
 			sound_play(asset_get("sfx_clairen_sword_deactivate"))
+		} 
+		if window == 2 && window_timer == 7 {
+			sound_play(sound_get("sfx_perry_fstrong1"), 0, noone, .5)
 		}
 		if window == 3  {
-			if window_timer == 1 && has_hit {
-				sound_play(asset_get("sfx_absa_singlezap2"))
+			if window_timer == 3 && has_hit {
+				sound_play(sound_get("sfx_perry_fstrong1"), 0, noone, .5)
 
 			}
-			if window_timer == 3 {
-				sound_play(asset_get("sfx_absa_new_whip1"))
+			if window_timer == 7 {
+				sound_play(sound_get("sfx_perry_fstrong2"), 0, noone, .6)
 			}
 
 		}

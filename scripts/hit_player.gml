@@ -39,10 +39,12 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 	vsp = 0;
 	
 	// djumps = 0; // reset djumps //you are fucked up and evil
-	sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
+	//sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
 }
 
-
+if atk == AT_FSTRONG {
+        sound_play(asset_get("sfx_absa_singlezap2"))
+}
 // DSpec falling hitbox
 if (atk == AT_DSPECIAL_AIR && "owner_button" in my_hitboxID) {
     sound_play(asset_get("sfx_absa_singlezap2"))

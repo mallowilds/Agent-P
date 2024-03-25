@@ -81,7 +81,7 @@ set_hitbox_value(atk, hbox_num, HG_PRIORITY                 , 2);
 set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 2);
 set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 45);
 set_hitbox_value(atk, hbox_num, HG_HAS_LERP                 , 1);
-set_hitbox_value(atk, hbox_num, HG_LERP_PERCENT             , .3);
+set_hitbox_value(atk, hbox_num, HG_LERP_PERCENT             , .5);
 set_hitbox_value(atk, hbox_num, HG_LERP_POS_X               , 50);
 set_hitbox_value(atk, hbox_num, HG_LERP_POS_Y               , 0);
 set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 4);
