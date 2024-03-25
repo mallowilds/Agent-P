@@ -344,6 +344,7 @@ with hbox {
         && (groundedness == 0 || groundedness == 1+other.free)
         && "agent_p_ignore_drone" not in self
         && (player_equal || other.enemy_hittable)
+        && !(player_equal && attack == AT_FSPECIAL && type == 1) // for fspec followup. not an ideal check, but setting variables on melee hitboxes gets messy
         //&& ( (get_match_setting(SET_TEAMS) && (get_match_setting(SET_TEAMATTACK) || !team_equal) ) || player_equal) //uncomment to prevent the article from being hit by its owner's team.
 }
  

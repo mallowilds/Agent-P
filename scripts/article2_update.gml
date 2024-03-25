@@ -183,12 +183,6 @@ switch(state) { // use this one for doing actual article behavior
     		boom.can_hit_self = true;
             boom.can_hit[reflected_player_id.player] = false;
     		should_die = true;
-    		if (was_parried) {
-    			var cd_manager = instance_create(floor(x), floor(y), "obj_article3");
-    			cd_manager.state = 20;
-    			cd_manager.vis_frame = 7;
-    			cd_manager.vis_y_offset = 0;
-    		}
     	}
     	break;
         
@@ -238,6 +232,12 @@ switch(state) { // use this one for changing sprites and animating
 // don't forget that articles aren't affected by small_sprites
 
 if (should_die) { //despawn and exit script
+	if (was_parried) {
+		var cd_manager = instance_create(floor(x), floor(y), "obj_article3");
+		cd_manager.state = 20;
+		cd_manager.vis_frame = 7;
+		cd_manager.vis_y_offset = 0;
+	}
     instance_destroy();
     exit;
 }
