@@ -17,4 +17,9 @@ if (has_rune("F")) {
     set_hitbox_value(AT_DTILT, 1, HG_EFFECT, 13);
 }
 
+// Disable gravity during wall/drone grapple
+if (has_rune("G")) {
+    set_window_value(AT_FSPECIAL, 5, AG_WINDOW_CUSTOM_GRAVITY, 0);
+}
+
 // Rune H: in-line in nspecial.gml and dspecial.gml

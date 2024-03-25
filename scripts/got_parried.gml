@@ -53,9 +53,19 @@ if (atk == AT_DSPECIAL_AIR && hbox == 1 && my_hitboxID.orig_player == player) {
 
 if (atk == AT_DSPECIAL && my_hitboxID.orig_player == player) {
     
-    var cd_manager = instance_create(floor(my_hitboxID.x), floor(my_hitboxID.y), "obj_article3");
-    cd_manager.state = 20;
-    cd_manager.vis_frame = 7;
-    cd_manager.vis_y_offset = 0;
+    // Rune K: exploding cooldown indicator
+    if (hit_player_obj == self && has_rune("K")) {
+        var cd_manager = instance_create(floor(my_hitboxID.x), floor(my_hitboxID.y), "obj_article3");
+        cd_manager.state = 22;
+        cd_manager.vis_frame = 7;
+        cd_manager.vis_y_offset = 0;
+    }
+    
+    else {
+        var cd_manager = instance_create(floor(my_hitboxID.x), floor(my_hitboxID.y), "obj_article3");
+        cd_manager.state = 20;
+        cd_manager.vis_frame = 7;
+        cd_manager.vis_y_offset = 0;
+    }
     
 }

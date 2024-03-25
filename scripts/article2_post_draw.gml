@@ -1,5 +1,4 @@
 
-
 // Bashed/parried visual
 if (state == 6) {
     draw_sprite_ext(sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj"), 0, x, y, 1, 1, reflect_dir-270, c_white, 1);

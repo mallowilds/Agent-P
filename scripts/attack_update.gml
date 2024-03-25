@@ -222,12 +222,15 @@ switch(attack) {
         if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
         	if (dspec_article_cooldown <= 0) {
         		var dspec_button = instance_create(floor(x), floor(y), "obj_article2");
-        		dspec_button.state = free;
-        		if (free) { 
-					dspec_button.sprite_index = sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj")
-					sound_play(asset_get("sfx_clairen_nspecial_grab_miss"), 0, noone, .5, 1.05)
-				}
-        		if (free) vsp = (parachute_active ? -6 : -8);
+        		if (!free) {
+        			dspec_button.sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
+        			dspec_button.state = 1;
+        			dspec_button.free = false;
+        		}
+        		else {
+        			vsp = (parachute_active ? -6 : -8);
+        			sound_play(asset_get("sfx_clairen_nspecial_grab_miss"), 0, noone, .5, 1.05)
+        		}
         	}
         	else if (free) vsp = (parachute_active ? -3.5 : -4);
         }
@@ -316,6 +319,22 @@ switch(attack) {
     
     case AT_DSTRONG: // self-parry
     
+    	if (window == 2 && has_rune("K") && window_timer == 2 && instance_exists(button_obj)) {
+    		if (button_obj.object_index == obj_article1) {
+    			button_obj.state = 4;
+        		button_obj.state_timer = 0;
+        		button_obj.hitstun_triggered = 1;
+        		button_obj.rune_can_hit_self = 1;
+        		button_obj.vis_warn_timer = 0;
+    		}
+    		else if (button_obj.object_index == obj_article2) {
+    			button_obj.state = 3;
+        		button_obj.state_timer = 0;
+        		button_obj.hitstun_triggered = 1;
+        		button_obj.rune_can_hit_self = 1;
+    		}
+    	}
+    	
     	if (window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH) && !hitpause) {
 	    	var hbox = create_hitbox(attack, 1, x, y);
 	    	hbox.can_hit_self = true;

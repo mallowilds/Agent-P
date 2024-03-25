@@ -83,6 +83,7 @@ switch(state) { // use this one for doing actual article behavior
         		vfx.depth = depth-1;
         		if (instance_exists(other.falling_hitbox)) other.falling_hitbox.destroyed = true;
         		instance_destroy(other);
+        		player_id.button_obj = self;
         		exit;
         	}
         }
@@ -136,7 +137,8 @@ switch(state) { // use this one for doing actual article behavior
     case 4: // exploded	
     	unbashable = true;
     	if (state_timer == 3) {
-    		create_hitbox(AT_DSPECIAL, hitbox_type, x, y-4);
+    		var boom = create_hitbox(AT_DSPECIAL, hitbox_type, x, y-4);
+    		boom.can_hit_self = rune_can_hit_self
     		should_die = true;
     	}
     	break;
@@ -241,6 +243,7 @@ if (should_die) { //despawn and exit script
 		cd_manager.vis_frame = 7;
 		cd_manager.vis_y_offset = 0;
 	}
+	if (player_id.button_obj == self) player_id.button_obj = noone;
     instance_destroy();
     exit;
 }

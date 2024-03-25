@@ -98,6 +98,37 @@ switch state {
             exit;
         }
         break;
+        
+    // DSpec empowered parry cooldown (rune K)
+    case 22:
+        player_id.dspec_article_cooldown = 2;
+        vis_frame = 8 + (state_timer / 6) % 9;
+        vis_y_offset = 2 * round(sin(pi*state_timer/30));
+        
+        if (state_timer == player_id.dspec_max_article_cooldown-13) sound_play(sound_get("snake_prime1"));
+        if (state_timer == player_id.dspec_max_article_cooldown-6) sound_play(sound_get("snake_prime1"));
+        if (state_timer == player_id.dspec_max_article_cooldown-2) sound_play(sound_get("boom"));
+        if (state_timer >= player_id.dspec_max_article_cooldown) {
+            state = 23;
+            state_timer = 0;
+            vis_frame = 2;
+            vis_y_offset = 0;
+            
+            x_offs = [-50, 50];
+            y_offs = [-30, -130];
+            for (var i = 0; i < 4; i++) spawn_hit_fx(x+x_offs[floor(i/2)], y+6+y_offs[i%2], player_id.vfx_dspec_explode);
+        }
+        break;
+    
+    // DSpec empowered parry cooldown: explode!
+    case 23:
+        if (state_timer == 3) {
+            for (var i = 0; i < 4; i++) create_hitbox(AT_DSPECIAL, 3, x+x_offs[floor(i/2)], y-4+y_offs[i%2]); // Rune drone explosion
+            instance_destroy();
+            exit;
+        }
+        
+        break;
     
     //#region Failed initialization
     default:

@@ -1,7 +1,7 @@
 //                              ARTICLE  STUFF                                //
 
 // sprite and mask indexes; + default article variables
-sprite_index = sprite_get(player_id.is_ea ? "dspecial_art_ea" : "dspecial_art");
+sprite_index = sprite_get(player_id.is_ea ? "dspec_proj_ea" : "dspec_proj");
 mask_index = sprite_get("dspecial_art_mask");
 can_be_grounded = true;
 ignores_walls = false;
@@ -43,3 +43,7 @@ orig_player = player; // because ori is a thief >:(
 reflected_player_id = noone;
 reflect_dir = 90;
 was_parried = false;
+
+// Abyss rune support
+player_id.button_obj = self; // Rune K
+rune_can_hit_self = false; // Rune K

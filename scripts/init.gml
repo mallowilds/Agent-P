@@ -56,6 +56,8 @@ dspec_article_cooldown = 0;
 dspec_max_article_cooldown = 90;
 dspec_parry_article_cooldown = 500;
 
+button_obj = noone; // Mainly used for rune K, can be either article1 or 2
+
 ustrong_smear = noone;
 dstrong_boom = noone;
 

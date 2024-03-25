@@ -348,8 +348,8 @@ switch grapple_hook_state {
 	
 		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
 			|| (attack != AT_FSPECIAL)
-			|| (point_distance(grapple_hook_x, grapple_hook_y, x, y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp))
-			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.12 && grapple_hook_timer > 15)
+			|| (point_distance(grapple_hook_x, grapple_hook_y, x, y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp) && !has_rune("G"))
+			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.12 && grapple_hook_timer > 15 && !has_rune("G"))
 		) {
 			grapple_hook_state = GRAPPLE_DISABLED;
 			grapple_hook_timer = 0;
@@ -361,6 +361,14 @@ switch grapple_hook_state {
 			if (!free) ground_friction = reduced_ground_friction; // enable shenanigans on slides
 		}
 		
+		// Rune K: Allow vertical movement
+		if (has_rune("K") && joy_pad_idle){
+			can_fast_fall = false;
+			can_move = false;
+			hsp += lengthdir_x(air_accel, joy_dir)
+			vsp += lengthdir_y(air_accel, joy_dir)
+		}
+		
 		// safe zone (walls and base cast articles won't run this)
 		if ("agent_p_grapplable" in grapple_hook_target) {
 			
@@ -368,14 +376,13 @@ switch grapple_hook_state {
 			grapple_hook_target.agent_p_grapple_dir = 0;
 			
 			if (grapple_hook_target.agent_p_pull_vel != 0) {
-				var x_change = -1 * lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle); // inverted to pull article toward perry
-				var y_change = -1 * lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
 				
-				grapple_hook_target.x += x_change;
-				grapple_hook_target.y += y_change;
+				var x_change = -lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle); // inverted to pull article toward perry
+				var y_change = -lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
 				
-				grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
-				grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+				// allow the article to handle this (for the sake of compat)
+				grapple_hook_target.agent_p_hsp = x_change;
+				grapple_hook_target.agent_p_vsp = y_change; 
 				
 				if (x_change < (grapple_hook_target.agent_p_pull_vel/-6)) grapple_hook_target.agent_p_grapple_dir = -1;
 				else if (x_change > (grapple_hook_target.agent_p_pull_vel/6)) grapple_hook_target.agent_p_grapple_dir = 1;

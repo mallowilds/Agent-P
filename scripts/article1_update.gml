@@ -94,6 +94,11 @@ switch(state) { // use this one for doing actual article behavior
         do_air_friction(0.3);
         if (state_timer + lifetime_decayed >= max_lifetime && !agent_p_grappling) set_state(2);
         
+        if (agent_p_grappling) {
+        	hsp = agent_p_hsp;
+        	vsp = agent_p_vsp;
+        }
+        
         // primed player detection
         if (is_primed) with (oPlayer) {
         	if (self == other.player_id) continue;
@@ -104,7 +109,7 @@ switch(state) { // use this one for doing actual article behavior
         		other.state = 4;
         		other.state_timer = 0;
         		other.hitstun_triggered = other.hitstun_triggered || (state_cat == SC_HITSTUN);
-        		vis_warn_timer = 0;
+        		other.vis_warn_timer = 0;
         	}
         }
         
@@ -240,6 +245,7 @@ mask_index = asset_get("drone_mask");
 
 if (should_die) { //despawn and exit script
     player_id.nspec_num_drones--;
+    if (player_id.button_obj == self) player_id.button_obj = noone; // for primed state
     instance_destroy();
     exit;
 }
@@ -272,6 +278,7 @@ state_timer = 0;
 		button.state = 7;
 		button.reflected_player_id = reflected_player_id;
 	}
+	button.rune_can_hit_self = rune_can_hit_self;
 
 
 // Supersonic Hit Detection Template
