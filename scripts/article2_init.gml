@@ -41,4 +41,5 @@ HB_RUNE_DRONE = 3;
 unbashable = false;
 orig_player = player; // because ori is a thief >:(
 reflected_player_id = noone;
-reflect_dir = 0;
+reflect_dir = 90;
+was_parried = false;

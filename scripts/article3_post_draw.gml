@@ -1,8 +1,6 @@
 
 switch state {
  
-    //#region Parachute
-    
     // Parachute
     case 00:
         if (!"vis_angle" in self) exit;
@@ -42,6 +40,14 @@ switch state {
             draw_sprite_ext(player_id.sprite_index, player_id.image_index, player_id.x, player_id.y, player_id.spr_dir, 1, 0, c_white, player_id.rune_a_alpha);
             shader_end();
         }
+        break;
+    
+    
+    // DSpec parry cooldown
+    case 20:
+    case 21:
+        draw_sprite_ext(asset_get("triangle_spr"), 0, x+1*spr_dir, y-90, 1, 1, 0, get_player_hud_color(player), 1);
+        draw_sprite_ext(sprite_get(is_ea ? "dspec_warn_ea" : "dspec_warn"), vis_frame, x, y-46-vis_y_offset, 1, 1, 0, c_white, 1);
         break;
     
     //#endregion

@@ -26,7 +26,7 @@ if (atk == AT_DSTRONG && my_hitboxID.orig_player == player) {
     }
 }
 
-if (atk == AT_NSPECIAL && hbox == 1 && my_hitboxID.hit_priority == 5) {
+if (atk == AT_NSPECIAL && hbox == 1 && my_hitboxID.hit_priority == 5 && my_hitboxID.orig_player == player) {
     
     var drone = my_hitboxID.owner_drone
     drone.state = 5;
@@ -35,5 +35,27 @@ if (atk == AT_NSPECIAL && hbox == 1 && my_hitboxID.hit_priority == 5) {
     drone.reflect_dir = point_direction(drone.x, drone.y, x, y - (char_height / 2));
     drone.ignores_walls = true;
     drone.can_be_grounded = false;
+    
+}
+
+if (atk == AT_DSPECIAL_AIR && hbox == 1 && my_hitboxID.orig_player == player) {
+    
+    var button = my_hitboxID.owner_button
+    button.state = 6;
+    button.state_timer = 0;
+    button.reflected_player_id = hit_player_obj;
+    button.reflect_dir = 90;
+    button.ignores_walls = true;
+    button.can_be_grounded = false;
+    button.was_parried = true;
+    
+}
+
+if (atk == AT_DSPECIAL && my_hitboxID.orig_player == player) {
+    
+    var cd_manager = instance_create(floor(my_hitboxID.x), floor(my_hitboxID.y), "obj_article3");
+    cd_manager.state = 20;
+    cd_manager.vis_frame = 7;
+    cd_manager.vis_y_offset = 0;
     
 }

@@ -10,9 +10,9 @@
 - 01: Spawn platform
 - 02: Drone despawn ~ fly away
 
-
 - 10: Rune A manager
 
+- 20: DSpec parry cooldown
 
 */
 
@@ -73,6 +73,30 @@ switch state {
     
     // Rune A manager
     case 10:
+        break;
+    
+    
+    // DSpec parry cooldown
+    case 20:
+        player_id.dspec_article_cooldown = 2;
+        vis_frame = 7 + (state_timer / 8) % 10;
+        vis_y_offset = 2 * round(sin(pi*state_timer/30));
+        if (state_timer >= player_id.dspec_parry_article_cooldown) {
+            state = 21;
+            state_timer = 1;
+            vis_frame = 2;
+            vis_y_offset = 0;
+            exit;
+        }
+        break;
+    
+    // DSpec parry cooldown: fadeout
+    case 21:
+        vis_frame = 2 - (state_timer / 3);
+        if (state_timer >= 9) {
+            instance_destroy();
+            exit;
+        }
         break;
     
     //#region Failed initialization

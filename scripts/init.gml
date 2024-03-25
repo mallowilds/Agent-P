@@ -54,6 +54,7 @@ nspec_drone_cd_max = 180;
 
 dspec_article_cooldown = 0;
 dspec_max_article_cooldown = 90;
+dspec_parry_article_cooldown = 500;
 
 ustrong_smear = noone;
 dstrong_boom = noone;
