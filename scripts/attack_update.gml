@@ -223,7 +223,10 @@ switch(attack) {
         	if (dspec_article_cooldown <= 0) {
         		var dspec_button = instance_create(floor(x), floor(y), "obj_article2");
         		dspec_button.state = free;
-        		if (free) dspec_button.sprite_index = sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj")
+        		if (free) { 
+					dspec_button.sprite_index = sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj")
+					sound_play(asset_get("sfx_clairen_nspecial_grab_miss"), 0, noone, .5, 1.05)
+				}
         		if (free) vsp = (parachute_active ? -6 : -8);
         	}
         	else if (free) vsp = (parachute_active ? -3.5 : -4);

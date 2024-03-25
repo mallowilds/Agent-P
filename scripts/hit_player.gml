@@ -45,6 +45,7 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 
 // DSpec falling hitbox
 if (atk == AT_DSPECIAL_AIR && "owner_button" in my_hitboxID) {
+    sound_play(asset_get("sfx_absa_singlezap2"))
 	my_hitboxID.owner_button.falling_hitbox_hit = true;
 }
 

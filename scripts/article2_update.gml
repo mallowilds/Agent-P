@@ -47,6 +47,7 @@ switch(state) { // use this one for doing actual article behavior
 			}
 			else set_state(1); // idle
 			if (instance_exists(falling_hitbox)) falling_hitbox.destroyed = true;
+			sound_play(asset_get("sfx_springswitch"));
 		}
 		else {
 			if (state_timer == 1) {
@@ -126,7 +127,7 @@ switch(state) { // use this one for doing actual article behavior
     	if (state_timer == 1 || state_timer == 8) sound_play(sound_get("snake_prime1"));
     	
         if (state_timer >= 9 || (state_timer >= 3 && hitstun_triggered)) { // very temp! 	//old = (state_timer >= 14 || (state_timer >= 9 && hitstun_triggered))
-            sound_play(asset_get("sfx_ell_small_missile_ground"));
+            sound_play(sound_get("boom"));
             spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode_gr);
             set_state(4);
         }

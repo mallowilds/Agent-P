@@ -27,7 +27,7 @@ trigger_h_hitstun = 50;
 hitstun_triggered = false;
 
 hud_offset = 90;
-max_primed_lifetime = 1800;
+max_primed_lifetime = 480;
 
 vis_warn_phase = -1;
 vis_warn_y_offset = 0;
