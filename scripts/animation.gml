@@ -69,6 +69,7 @@ if (state == PS_CROUCH && ccrouch_phase == 1) {
 
 // FSpecial
 if (attack == AT_FSPECIAL && window == 5 && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
+	
 	sprite_index = sprite_get(parachute_active ? "fspec_swing_strap" : "fspec_swing");
 	
 	if (!free) image_index = 1; // slide
@@ -83,6 +84,9 @@ if (attack == AT_FSPECIAL && window == 5 && (state == PS_ATTACK_GROUND || state 
 		else if (vis_angle < 115) image_index = 3;
 		else image_index = 4;
 	}
+	
+	hurtboxID.sprite_index = sprite_get("fspec_swing_hurt");
+	hurtboxID.image_index = image_index;
 	
 }
 

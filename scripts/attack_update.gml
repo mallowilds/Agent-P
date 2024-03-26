@@ -318,7 +318,8 @@ switch(attack) {
     break;
     
     case AT_DSTRONG: // self-parry
-    
+    	
+    	// Rune K: trigger DSpecial remotely
     	if (window == 2 && has_rune("K") && window_timer == 2 && instance_exists(button_obj)) {
     		if (button_obj.object_index == obj_article1) {
     			button_obj.state = 4;
@@ -335,6 +336,7 @@ switch(attack) {
     		}
     	}
     	
+    	// Spawn self-hitting melee hitbox
     	if (window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH) && !hitpause) {
 	    	var hbox = create_hitbox(attack, 1, x, y);
 	    	hbox.can_hit_self = true;
