@@ -4,18 +4,21 @@ var hbox = my_hitboxID.hbox_num
 
 // Insert obvious pun
 
+// Disable parachute
 if (parachute_active) {
     parachute_active = false;
     var despawn_parachute = instance_create(x+(1*spr_dir), y-15, "obj_article3");
     despawn_parachute.state = 00;
 }
 
+// FSpecial: emulate melee parry
 if (atk == AT_FSPECIAL && hbox == 1 && my_hitboxID.orig_player == player) {
     was_parried = 1;
     my_hitboxID.destroyed = true;
     gh_hitbox = noone;
 }
 
+// DStrong: cancel parrystun if enemy didn't parry
 if (atk == AT_DSTRONG && my_hitboxID.orig_player == player) {
     if (hit_player_obj == self) {
         dstrong_cancel_parry_stun = (get_gameplay_time() != dstrong_parried_time);
@@ -26,6 +29,7 @@ if (atk == AT_DSTRONG && my_hitboxID.orig_player == player) {
     }
 }
 
+// NSpecial: create reflected drone article
 if (atk == AT_NSPECIAL && hbox == 1 && my_hitboxID.hit_priority == 5 && my_hitboxID.orig_player == player) {
     
     var drone = my_hitboxID.owner_drone
@@ -38,6 +42,7 @@ if (atk == AT_NSPECIAL && hbox == 1 && my_hitboxID.hit_priority == 5 && my_hitbo
     
 }
 
+// Falling DSpecial: create reflected button article
 if (atk == AT_DSPECIAL_AIR && hbox == 1 && my_hitboxID.orig_player == player) {
     
     var button = my_hitboxID.owner_button
@@ -51,6 +56,7 @@ if (atk == AT_DSPECIAL_AIR && hbox == 1 && my_hitboxID.orig_player == player) {
     
 }
 
+// DSpecial: generate cooldown manager
 if (atk == AT_DSPECIAL && my_hitboxID.orig_player == player) {
     
     // Rune K: exploding cooldown indicator

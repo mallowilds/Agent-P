@@ -14,8 +14,14 @@ if (vis_warn_phase >= 0) draw_sprite_ext(sprite_get(is_ea ? "dspec_warn_ea" : "d
 
 
 // Arrow indicator
-if (state == 1) draw_sprite_ext(asset_get("triangle_spr"), 0, x, y-hud_offset, 1, 1, 0, get_player_hud_color(player), 1);
+if (state == 1 || state >= 6) draw_sprite_ext(asset_get("triangle_spr"), 0, x, y-hud_offset, 1, 1, 0, get_player_hud_color(player), 1);
 
+
+// Rune N: blur
+if (state == 7) {
+    if (90 < rune_recall_angle && rune_recall_angle < 270) draw_sprite_ext(sprite_get(is_ea ? "drone_blur_ea" : "drone_blur"), 0, x, y, -1, 1, rune_recall_angle-180, c_white, 1);
+    else draw_sprite_ext(sprite_get(is_ea ? "drone_blur_ea" : "drone_blur"), 0, x, y, 1, 1, rune_recall_angle, c_white, 1);
+}
 
 
 if (player_id.object_index == oTestPlayer) exit;

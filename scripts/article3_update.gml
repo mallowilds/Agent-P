@@ -12,7 +12,8 @@
 
 - 10: Rune A manager
 
-- 20: DSpec parry cooldown
+- 20-21: DSpec parry cooldown manager
+- 22-23: DSpec empowered parry cooldown (rune K) parry cooldown
 
 */
 

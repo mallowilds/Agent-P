@@ -57,6 +57,8 @@ reflect_dir = 0;
 
 // Abyss rune support
 rune_can_hit_self = false; // Rune K
+rune_recall_angle = 0;     // Rune N
+rune_recall_speed = 16;    // Rune N, constant
 
 
 // Supersonic Hit Detection Template

@@ -42,9 +42,7 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 	//sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
 }
 
-if atk == AT_FSTRONG {
-        sound_play(asset_get("sfx_absa_singlezap2"))
-}
+
 // DSpec falling hitbox
 if (atk == AT_DSPECIAL_AIR && "owner_button" in my_hitboxID) {
     sound_play(asset_get("sfx_absa_singlezap2"))
@@ -60,21 +58,7 @@ if (atk == AT_USTRONG && hbox == 2) {
 }
 
 
-// hitbox lerp code
-var is_forcing_flinch = get_hitbox_value(atk, hbox, HG_FORCE_FLINCH) && !hit_player_obj.free
-if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_HAS_LERP) == true && !is_forcing_flinch) {
-	if (my_hitboxID.type == 1) { //if physical, pull relative to player
-		hit_player_obj.x = lerp(hit_player_obj.x, x + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_X)*spr_dir, get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
-		hit_player_obj.y = lerp(hit_player_obj.y, y + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_Y), get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
-	} else if (my_hitboxID.type == 2) { // otherwise pull relative to hitbox
-		hit_player_obj.x = lerp(hit_player_obj.x, my_hitboxID.x + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_X)*spr_dir, get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
-		hit_player_obj.y = lerp(hit_player_obj.y, my_hitboxID.y + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_Y), get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
-	}
-}
-
-
-
-// Rune L: parachute momentum
+//#region Rune L: parachute momentum
 if (has_rune("L") && parachute_active) {
 	switch(my_hitboxID.attack) {
 		case AT_NAIR:
@@ -99,128 +83,63 @@ if (has_rune("L") && parachute_active) {
 			break;
 	}
 }
+//#endregion
 
 
-//                          --hit gamefeel--                                  //
+//#region Hit gamefeel
 
 switch(my_hitboxID.attack) {
-    case AT_JAB:
-        //a
-        break;
-    case AT_FTILT:
-        //a
-        break;
     case AT_DTILT:
         sound_play(asset_get("sfx_syl_fspecial_bite"), 0, noone, .4, 1.05)
 		sound_play(sound_get("sfx_per_chomp"), 0, noone, .8, 1.01)
-        var _x = (my_hitboxID.x + hit_player_obj.x) / 2 + (get_hitbox_value(AT_DTILT, 1, HG_VISUAL_EFFECT_X_OFFSET) * spr_dir);
-        var _y = (my_hitboxID.y + hit_player_obj.y) / 2 + get_hitbox_value(AT_DTILT, 1, HG_VISUAL_EFFECT_Y_OFFSET);
+        var _x = get_effect_offset_x();
+        var _y = get_effect_offset_y();
         var dir_fx = spawn_hit_fx(_x, _y, 303);
         break;
-    case AT_UTILT:
-        //a
-        break;
-    case AT_DATTACK:
-        //a
-        break;
-        
-    case AT_NAIR:
-        //a
-        break;
+
     case AT_FAIR:
         var _x = (my_hitboxID.x + hit_player_obj.x) / 2 + (get_hitbox_value(AT_FAIR, 1, HG_VISUAL_EFFECT_X_OFFSET) * spr_dir);
         var _y = (my_hitboxID.y + hit_player_obj.y) / 2 + get_hitbox_value(AT_FAIR, 1, HG_VISUAL_EFFECT_Y_OFFSET);
         var dir_fx = spawn_hit_fx(_x, _y, 303);
         break;
+        
     case AT_BAIR:
         sound_play(asset_get("sfx_pom_slap1"), 0, noone, 1.3, 1.1)
-        //a
-        break;
-    case AT_DAIR:
-        //a
-        break;
-    case AT_UAIR:
-        //a
         break;
         
     case AT_FSTRONG:
-    	//a
-    
+    	sound_play(asset_get("sfx_absa_singlezap2"));
+    	break;
+    	
     case AT_USTRONG:
     	if (hbox == 2) sound_play(asset_get(has_rune("D") ? "sfx_blow_heavy1" : "sfx_blow_weak1"));
     	break;
-    case AT_DSTRONG:
-    	//a
-    	break;
-    
-    
-    case AT_NSPECIAL:
-        //a
-        break;
-    case AT_FSPECIAL:
-        //a
-        break;
-    case AT_DSPECIAL:
-        //a
-        break;
-    case AT_USPECIAL:
-        //a
-        break;
-    
 }
+
+//#endregion
+
+
+//#region Hitbox lerp code
+var is_forcing_flinch = get_hitbox_value(atk, hbox, HG_FORCE_FLINCH) && !hit_player_obj.free
+if (get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_HAS_LERP) == true && !is_forcing_flinch) {
+	if (my_hitboxID.type == 1) { //if physical, pull relative to player
+		hit_player_obj.x = lerp(hit_player_obj.x, x + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_X)*spr_dir, get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
+		hit_player_obj.y = lerp(hit_player_obj.y, y + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_Y), get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
+	} else if (my_hitboxID.type == 2) { // otherwise pull relative to hitbox
+		hit_player_obj.x = lerp(hit_player_obj.x, my_hitboxID.x + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_X)*spr_dir, get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
+		hit_player_obj.y = lerp(hit_player_obj.y, my_hitboxID.y + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_POS_Y), get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_LERP_PERCENT));
+	}
+}
+//#endregion
+
 
 #define get_effect_offset_x
 
-return (hit_player_obj.x + x) * 0.5 + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_VISUAL_EFFECT_X_OFFSET) * spr_dir;
+return (hit_player_obj.x + my_hitboxID.x)*0.5 + get_hitbox_value(my_hitboxID.attack, my_hitboxID.hbox_num, HG_VISUAL_EFFECT_X_OFFSET) * spr_dir;
 
 #define get_effect_offset_y
 
-return (hit_player_obj.y + y)*0.5 + get_hitbox_value(my_hitboxID.attack,my_hitboxID.hbox_num,HG_VISUAL_EFFECT_Y_OFFSET) - 25;
-
-#define spawn_comp_hit_fx
-//function takes in an array that contains smaller arrays with the vfx information
-// list formatting: [ [x, y, delay_time, index, rotation, depth, force_dir], ..]
-var fx_list = argument0;
-vfx_created = false;
-
-//temporary array
-var temp_array = [{cur_timer: -1, max_timer: 0}];  //first value is an array that constains current and max timer, to detect when to spawn vfx and when to stop and be replaced
-                            //later values are the fx
-var player_dir = spr_dir;
-
-//first take the arrays from the function, set them into objects, and store them in an array
-for (var i=0;i < array_length(fx_list);i++) {
-    //create new fx part tracker and add to temp array
-    var new_fx_part = {
-        x: fx_list[i][0],
-        y: fx_list[i][1],
-        delay_timer: fx_list[i][2],
-        index: fx_list[i][3],
-        rotation: fx_list[i][4],
-        depth: fx_list[i][5],
-        spr_dir: fx_list[i][6] == 0 ? player_dir : fx_list[i][6]
-    };
-    array_push(temp_array, new_fx_part);
-    
-    //change max timer if delay is bigger than it
-    if (new_fx_part.delay_timer > temp_array[0].max_timer) {
-        temp_array[0].max_timer = new_fx_part.delay_timer;
-    }
-}
-
-//add temp array to final array
-for (var e=0;e<array_length(comp_vfx_array);e++) {
-    if (vfx_created) { //stop process if effect is created
-        break;
-    } 
-    if (comp_vfx_array[e][0].cur_timer > comp_vfx_array[e][0].max_timer) { //replace finished effects
-        comp_vfx_array[e] = temp_array;
-        vfx_created = true;
-    } else if (e == array_length(comp_vfx_array)-1) { //otherwise add it in the end of the array
-        array_push(comp_vfx_array, temp_array);
-        vfx_created = true;
-    }
-}
+return (hit_player_obj.y + my_hitboxID.y)*0.5 + get_hitbox_value(my_hitboxID.attack,my_hitboxID.hbox_num,HG_VISUAL_EFFECT_Y_OFFSET);
 
 #define spawn_base_dust // written by supersonic
 /// spawn_base_dust(x, y, name, dir = 0)

@@ -111,8 +111,10 @@ sprite_change_offset("rope_ea", 0, 4);
 
 sprite_change_offset("drone", 62, 72);
 sprite_change_offset("drone_primed", 62, 72);
+sprite_change_offset("drone_blur", 62, 72);
 sprite_change_offset("drone_ea", 62, 72);
 sprite_change_offset("drone_primed_ea", 62, 72);
+sprite_change_offset("drone_blur_ea", 62, 72);
 sprite_change_offset("drone_mask", 28, 20);
 
 sprite_change_offset("dspecial_art", load_x, load_y);

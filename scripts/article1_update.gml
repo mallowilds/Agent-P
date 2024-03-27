@@ -206,8 +206,53 @@ switch(state) { // use this one for doing actual article behavior
         }
     
     	break;
+    	
+    case 6: // Rune N: drone recall ~ startup
+    	
+    	ignores_walls = true;
+    	
+    	rune_recall_angle = point_direction(x, y, player_id.x, player_id.y - (player_id.char_height/2));
+    	hsp = lengthdir_x(-2, rune_recall_angle);
+    	vsp = lengthdir_y(-2, rune_recall_angle);
+    	
+    	if (state_timer >= 10) {
+    		set_state(7);
+    		hsp = lengthdir_x(rune_recall_speed, rune_recall_angle);
+    		vsp = lengthdir_y(rune_recall_speed, rune_recall_angle);
+    		
+    		hbox = create_hitbox(AT_NSPECIAL, 1, floor(x), floor(y));
+            hbox.agent_p_ignore_drone = true;
+            hbox.owner_drone = self
+            
+            hbox.hsp = hsp;
+            hbox.vsp = vsp;
+    		hbox.enemies = 1; // go through enemies
+    	}
+    	break;
+	
+	case 7: // Rune N: drone recall ~ active
+    	
+		rune_recall_angle = point_direction(x, y, player_id.x, player_id.y - (player_id.char_height/2));
+		hsp = lengthdir_x(rune_recall_speed, rune_recall_angle);
+		vsp = lengthdir_y(rune_recall_speed, rune_recall_angle);
+		
+		if (instance_exists(hbox)) {
+			hbox.hsp = hsp;
+    		hbox.vsp = vsp;
+    		hbox.length++;
+    		
+    		if (hbox.has_hit && is_primed) {
+    			set_state(4);
+    			do_air_friction(rune_recall_speed*2/3);
+    			hitstun_triggered = true;
+    		}
+		}
+		
+		if (state == 7 && point_distance(x+hsp/2, y+vsp/2, player_id.x, player_id.y - (player_id.char_height/2)) < rune_recall_speed) should_die = true;
+		
+		break;
+	
 }
-
 
 sprite_index = sprite_get("drone" + (is_primed ? "_primed" : "") + (is_ea ? "_ea" : ""));
 switch(state) { // use this one for changing sprites and animating
@@ -238,6 +283,19 @@ switch(state) { // use this one for changing sprites and animating
 		if (is_primed) vis_warn_phase = (state_timer < 2) ? 4 + state_timer/1 : 6;
 		vis_warn_y_offset = 0;
 		break;
+	case 5: // parried
+		image_index = (state_timer / 4) % 4;
+		vis_warn_y_offset = 0;
+		break;
+	case 6: // drone recall ~ startup
+		if (rune_recall_angle < 80 || 280 < rune_recall_angle) image_index = 16 + (state_timer / 5) % 2;
+		else if (100 < rune_recall_angle && rune_recall_angle < 260) image_index = 14 + (state_timer / 5) % 2;
+		else image_index = image_index = 6 + (state_timer / 5) % 8;
+		break;
+	case 7: // drone recall ~ active
+		sprite_index = sprite_get("null");
+		break;
+	
 }
 // don't forget that articles aren't affected by small_sprites
 

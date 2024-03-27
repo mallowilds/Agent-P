@@ -138,16 +138,16 @@ switch(attack) {
     	}
     	
     	if (window == 4 && window_timer == 1) {
-    		if (dstrong_cancel_parry_stun) {
+    		if (dstrong_cancel_parry_stun) { // i.e. only perry parried it
     			was_parried = false;
     			dstrong_cancel_parry_stun = false;
     			invince_time = 10;
-    		} else {
+    		} else { // i.e. someone else parried it
     			invincible = false;
     		}
     	}
     	
-    	// necessary for obvious reasons
+    	// necessary for obvious balance reasons
     	// also bandaids a bug where when using the move twice in succession,
     	// the hitbox would be unable to hit perry until late in the move,
     	// thus killing him
@@ -428,10 +428,17 @@ switch(attack) {
     case AT_TAUNT: 
     	switch window {
     		case 1:
-				if (window == 1 && window_timer == 1) {
+				if (window_timer == 1) {
 					var is_on_plat = (state == PS_RESPAWN || (state == PS_ATTACK_GROUND && respawn_taunt > 0));
 					if (is_on_plat) sound_play(sound_get("sfx_perry_hjonk"))
 					taunt_loops = 0;
+					
+					if (has_rune("N")) with obj_article1 {
+						if (player_id == other && state <= 1) {
+							state = 6;
+							state_timer = 0;
+						}
+					}
 				}
 				break;
 			case 2:
@@ -439,6 +446,7 @@ switch(attack) {
 		            window_timer = 0;
 		            taunt_loops++;
 		        }
+		        if (has_rune("N")) iasa_script();
 		        break;
     	}
 
