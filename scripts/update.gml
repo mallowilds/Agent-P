@@ -111,7 +111,7 @@ if (parachute_active) {
 	var jump_out_of_grapple = (((state == PS_JUMPSQUAT && prev_state == PS_ATTACK_GROUND) || state == PS_FIRST_JUMP) && attack == AT_FSPECIAL);
 	
 	// Also reset in got_hit, got_parried, and death.gml
-	if ((!free && grapple_hook_state < GRAPPLE_PLAYER_MOUNTED && !jump_out_of_grapple) || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
+	if ((!free && gh_state < GRAPPLE_PLAYER_MOUNTED && !jump_out_of_grapple) || state == PS_AIR_DODGE || state == PS_WALL_JUMP) {
 		parachute_active = false;
 		var despawn_parachute = instance_create(x+(1*spr_dir), y-15, "obj_article3");
 		despawn_parachute.state = 00;
@@ -171,38 +171,38 @@ else {
 // Undo sliding ground friction reduction
 if (ground_friction < base_ground_friction) ground_friction = clamp(ground_friction+0.05, 0, base_ground_friction);
 
-switch grapple_hook_state {
+switch gh_state {
 	
 	//#region Grapple active
 	case GRAPPLE_ACTIVE:
 		
-		grapple_hook_hsp -= (grapple_hook_timer / 12) * grapple_hook_dir;
-		// grapple_hook_vsp = vsp; // not really used yet
+		gh_hsp -= gh_timer * fspec_active_decel_factor * gh_dir;
+		// gh_vsp = vsp; // not really used yet
     	
     	// aim assist
-    	if (instance_exists(grapple_hook_aim_obj)) { 
+    	if (instance_exists(gh_aim_obj)) { 
     		// below offset is for rune M support (for ctrl-F navigation: has_rune("M"))
-    		var temp_y = grapple_hook_aim_obj.y - (grapple_hook_aim_obj.object_index == oPlayer ? grapple_hook_aim_obj.char_height/2 : 0);
-    		var dir = point_direction(grapple_hook_x, grapple_hook_y,  grapple_hook_aim_obj.x, temp_y);
-    		grapple_hook_x += lengthdir_x(abs(grapple_hook_hsp), dir) + hsp;
-    		grapple_hook_y += lengthdir_y(abs(grapple_hook_hsp), dir) + vsp;
+    		var temp_y = gh_aim_obj.y - (gh_aim_obj.object_index == oPlayer ? gh_aim_obj.char_height/2 : 0);
+    		var dir = point_direction(gh_x, gh_y,  gh_aim_obj.x, temp_y);
+    		gh_x += lengthdir_x(abs(gh_hsp), dir) + hsp;
+    		gh_y += lengthdir_y(abs(gh_hsp), dir) + vsp;
 		}
 		
 		else {
-			grapple_hook_aim_obj = noone;
-			grapple_hook_x += grapple_hook_hsp + hsp;
-			grapple_hook_y += vsp;
+			gh_aim_obj = noone;
+			gh_x += gh_hsp + hsp;
+			gh_y += vsp;
 		}
 		
 		var collided_article = noone;
 		var article_collision_list = ds_list_create();
 		
 		// non-solid base cast articles (so, just ranno)
-		collided_article = instance_position(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("frog_bubble_obj"));
+		collided_article = instance_position(floor(gh_x), floor(gh_y), asset_get("frog_bubble_obj"));
 		
 		// ws articles
 		if (collided_article == noone) {
-			instance_position_list(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("obj_article_parent"), article_collision_list, false);
+			instance_position_list(floor(gh_x), floor(gh_y), asset_get("obj_article_parent"), article_collision_list, false);
 			for (var i = 0; i < ds_list_size(article_collision_list); i++) {
 				if (instance_exists(article_collision_list[| i]) && "agent_p_grapplable" in article_collision_list[| i]) {
 					collided_article = article_collision_list[| i];
@@ -211,90 +211,90 @@ switch grapple_hook_state {
 			}
 		}
 		
-		var collided_wall = instance_position(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("par_block"));
-		if (collided_wall == noone) collided_wall = instance_position(floor(grapple_hook_x), floor(grapple_hook_y), asset_get("par_jumpthrough"));
+		var collided_wall = instance_position(floor(gh_x), floor(gh_y), asset_get("par_block"));
+		if (collided_wall == noone) collided_wall = instance_position(floor(gh_x), floor(gh_y), asset_get("par_jumpthrough"));
 		
-		if (position_meeting(grapple_hook_x, grapple_hook_y, asset_get("plasma_field_obj"))) {
-			grapple_hook_hitbox = noone;
-			grapple_hook_state = GRAPPLE_RETURNING;
-    		grapple_hook_timer = 0;
+		if (position_meeting(gh_x, gh_y, asset_get("plasma_field_obj"))) {
+			gh_hitbox = noone;
+			gh_state = GRAPPLE_RETURNING;
+    		gh_timer = 0;
     		
-    		spawn_hit_fx(grapple_hook_x, grapple_hook_y, (HFX_CLA_DSMASH_BREAK));
+    		spawn_hit_fx(gh_x, gh_y, (HFX_CLA_DSMASH_BREAK));
     		sound_play(asset_get("sfx_clairen_hit_weak"));
 		}
 		
 		else if (!was_parried && collided_wall != noone) {
 			
-			grapple_hook_state = GRAPPLE_WALL_MOUNTED;
-    		grapple_hook_timer = 0;
+			gh_state = GRAPPLE_WALL_MOUNTED;
+    		gh_timer = 0;
     		stored_hsp = hsp;
     		stored_vsp = vsp;
-    		if (instance_exists(grapple_hook_hitbox)) {
-    			grapple_hook_hitbox.destroyed = true;
-    			grapple_hook_hitbox = noone;
+    		if (instance_exists(gh_hitbox)) {
+    			gh_hitbox.destroyed = true;
+    			gh_hitbox = noone;
     		}
-    		grapple_hook_hsp = 0;
-    		grapple_hook_vsp = 0;
+    		gh_hsp = 0;
+    		gh_vsp = 0;
     		
-    		grapple_hook_target = collided_wall;
-			grapple_hook_target_x_offset = (grapple_hook_x - get_instance_x(grapple_hook_target));
-			grapple_hook_target_y_offset = (grapple_hook_y - get_instance_y(grapple_hook_target));
+    		gh_target = collided_wall;
+			gh_target_x_offset = (gh_x - get_instance_x(gh_target));
+			gh_target_y_offset = (gh_y - get_instance_y(gh_target));
 		}
 		
 		else if (!was_parried && collided_article != noone) {
-			grapple_hook_state = GRAPPLE_ARTICLE_MOUNTED;
-    		grapple_hook_timer = 0;
+			gh_state = GRAPPLE_ARTICLE_MOUNTED;
+    		gh_timer = 0;
     		stored_hsp = hsp;
     		stored_vsp = vsp;
-    		if (instance_exists(grapple_hook_hitbox)) {
-    			grapple_hook_hitbox.destroyed = true;
-    			grapple_hook_hitbox = noone;
+    		if (instance_exists(gh_hitbox)) {
+    			gh_hitbox.destroyed = true;
+    			gh_hitbox = noone;
     		}
-    		grapple_hook_hsp = 0;
-    		grapple_hook_vsp = 0;
+    		gh_hsp = 0;
+    		gh_vsp = 0;
     		
-    		grapple_hook_target = collided_article;
-			grapple_hook_target_x_offset = (grapple_hook_x - get_instance_x(grapple_hook_target));
-			grapple_hook_target_y_offset = (grapple_hook_y - get_instance_y(grapple_hook_target));
+    		gh_target = collided_article;
+			gh_target_x_offset = (gh_x - get_instance_x(gh_target));
+			gh_target_y_offset = (gh_y - get_instance_y(gh_target));
 		}
 		
-		else if (!was_parried && !instance_exists(grapple_hook_hitbox) && !grapple_hook_hboxless) {
-			grapple_hook_hitbox = noone;
-			grapple_hook_state = GRAPPLE_RETURNING;
-    		grapple_hook_timer = 0;
+		else if (!was_parried && !instance_exists(gh_hitbox) && !gh_hboxless) {
+			gh_hitbox = noone;
+			gh_state = GRAPPLE_RETURNING;
+    		gh_timer = 0;
     	}
     	
-    	else if (grapple_hook_hsp * grapple_hook_dir <= grapple_hook_end_hsp * grapple_hook_dir) {
-    		if (instance_exists(grapple_hook_hitbox)) {
-    			grapple_hook_hitbox.destroyed = true;
-    			grapple_hook_hitbox = noone;
+    	else if (gh_hsp * gh_dir <= gh_end_hsp * gh_dir) {
+    		if (instance_exists(gh_hitbox)) {
+    			gh_hitbox.destroyed = true;
+    			gh_hitbox = noone;
     		}
-    		grapple_hook_state = GRAPPLE_RETURNING;
-    		grapple_hook_timer = 0;
+    		gh_state = GRAPPLE_RETURNING;
+    		gh_timer = 0;
 		}
 		
-		else if (!was_parried && !grapple_hook_hboxless) {
+		else if (!was_parried && !gh_hboxless) {
 			
-			if (instance_exists(grapple_hook_aim_obj)) {
-	    		var temp_hsp = lengthdir_x(abs(grapple_hook_hsp), dir) + hsp;
-	    		var temp_vsp = lengthdir_y(abs(grapple_hook_hsp), dir) + vsp;
+			if (instance_exists(gh_aim_obj)) {
+	    		var temp_hsp = lengthdir_x(abs(gh_hsp), dir) + hsp;
+	    		var temp_vsp = lengthdir_y(abs(gh_hsp), dir) + vsp;
 			}
 			else {
-				var temp_hsp = grapple_hook_hsp + hsp;
+				var temp_hsp = gh_hsp + hsp;
 				var temp_vsp = vsp;
 			}
 			
-			grapple_hook_hitbox.hsp = temp_hsp;
-			grapple_hook_hitbox.vsp = temp_vsp;
+			gh_hitbox.hsp = temp_hsp;
+			gh_hitbox.vsp = temp_vsp;
 			
 			// safety check for grappleable base cast articles
-			if (   centered_rect_meeting(floor(grapple_hook_x+temp_hsp), floor(grapple_hook_y+temp_vsp), 12, 28, asset_get("pillar_obj"), false)
-				|| centered_rect_meeting(floor(grapple_hook_x+temp_hsp), floor(grapple_hook_y+temp_vsp), 12, 28, asset_get("rock_obj"), false)
-				|| centered_rect_meeting(floor(grapple_hook_x+temp_hsp), floor(grapple_hook_y+temp_vsp), 12, 28, asset_get("frog_bubble_obj"), true)
+			if (   centered_rect_meeting(floor(gh_x+temp_hsp), floor(gh_y+temp_vsp), 12, 28, asset_get("pillar_obj"), false)
+				|| centered_rect_meeting(floor(gh_x+temp_hsp), floor(gh_y+temp_vsp), 12, 28, asset_get("rock_obj"), false)
+				|| centered_rect_meeting(floor(gh_x+temp_hsp), floor(gh_y+temp_vsp), 12, 28, asset_get("frog_bubble_obj"), true)
 			) {
-				grapple_hook_hitbox.destroyed = true;
-    			grapple_hook_hitbox = noone;
-    			grapple_hook_hboxless = true;
+				gh_hitbox.destroyed = true;
+    			gh_hitbox = noone;
+    			gh_hboxless = true;
 			}
 		}
 		
@@ -306,17 +306,17 @@ switch grapple_hook_state {
     
     //#region Grapple returning
 	case GRAPPLE_RETURNING:
-		var gh_angle = point_direction(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin+grapple_hook_y_offset);
-		var gh_speed = min(grapple_hook_timer / 1.5, point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin+grapple_hook_y_offset));
-		grapple_hook_hsp = lengthdir_x(gh_speed, gh_angle);
-		grapple_hook_vsp = lengthdir_y(gh_speed, gh_angle);
+		var gh_angle = point_direction(gh_x, gh_y, x + (gh_x_origin+gh_x_offset)*spr_dir, y + gh_y_origin+gh_y_offset);
+		var gh_speed = min(gh_timer * fspec_return_vel_factor, point_distance(gh_x, gh_y, x + (gh_x_origin+gh_x_offset)*spr_dir, y + gh_y_origin+gh_y_offset));
+		gh_hsp = lengthdir_x(gh_speed, gh_angle);
+		gh_vsp = lengthdir_y(gh_speed, gh_angle);
 		
-		grapple_hook_x += grapple_hook_hsp;
-		grapple_hook_y += grapple_hook_vsp;
+		gh_x += gh_hsp;
+		gh_y += gh_vsp;
 		
-		if (point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin+grapple_hook_y_offset) < 0.1) {
-			grapple_hook_state = GRAPPLE_DISABLED;
-			grapple_hook_timer = 0;
+		if (point_distance(gh_x, gh_y, x + (gh_x_origin+gh_x_offset)*spr_dir, y + gh_y_origin+gh_y_offset) < 0.1) {
+			gh_state = GRAPPLE_DISABLED;
+			gh_timer = 0;
 		}
 		break;
 	
@@ -325,49 +325,49 @@ switch grapple_hook_state {
 	//#region Grappling to enemy player
 	case GRAPPLE_PLAYER_MOUNTED:
 		
-		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
-		grapple_hook_y = grapple_hook_target.y + grapple_hook_target_y_offset;
+		gh_x = gh_target.x + gh_target_x_offset;
+		gh_y = gh_target.y + gh_target_y_offset;
 		
-		var mov_angle = point_direction(x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
-		var mov_accel = 0.6;
+		var mov_angle = point_direction(x + (gh_x_origin+gh_x_offset)*spr_dir, y + gh_y_origin, gh_x, gh_y);
+		var mov_accel = fspec_player_mount_accel;
 		
 		// error state: not in fspecial
 		if  ((state != PS_ATTACK_AIR && state != PS_ATTACK_GROUND) || attack != AT_FSPECIAL) {
-			grapple_hook_state = GRAPPLE_DISABLED;
-			grapple_hook_timer = 0;
-			grapple_hook_target = noone;
+			gh_state = GRAPPLE_DISABLED;
+			gh_timer = 0;
+			gh_target = noone;
 			break;
 		}
 		
 		// error state: unlinked
-		if (!instance_exists(grapple_hook_target) || grapple_hook_target.state_cat != SC_HITSTUN) {
+		if (!instance_exists(gh_target) || gh_target.state_cat != SC_HITSTUN) {
 			if (vsp > -4) vsp = -4;
 			set_state(PS_IDLE_AIR);
 			attack_end();
-			grapple_hook_state = GRAPPLE_DISABLED;
-			grapple_hook_timer = 0;
-			grapple_hook_target = noone;
+			gh_state = GRAPPLE_DISABLED;
+			gh_timer = 0;
+			gh_target = noone;
 			break;
 		}
 		
 		// error state: unmoving
-		if (grapple_hook_timer > 6 && abs(point_distance(0, 0, hsp, vsp)) < 2*mov_accel) {
+		if (gh_timer > 6 && abs(point_distance(0, 0, hsp, vsp)) < 2*mov_accel) {
 			// Simply proceeding to the attack followup seems to feel best for now. May revisit
-			grapple_hook_state = GRAPPLE_DISABLED;
-			grapple_hook_timer = 0;
-			grapple_hook_target = noone;
+			gh_state = GRAPPLE_DISABLED;
+			gh_timer = 0;
+			gh_target = noone;
 			break;
 		}
 		
-		grapple_hook_target.hitstop++;
+		gh_target.hitstop++;
 		
 		hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 		vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		
-		if (abs(grapple_hook_x - x  - (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir) < abs(hsp)) {
-			grapple_hook_state = GRAPPLE_DISABLED;
-			grapple_hook_timer = 0;
-			grapple_hook_target = noone;
+		if (abs(gh_x - x  - (gh_x_origin+gh_x_offset)*spr_dir) < abs(hsp)) {
+			gh_state = GRAPPLE_DISABLED;
+			gh_timer = 0;
+			gh_target = noone;
 		}
 		
 		else {
@@ -383,23 +383,23 @@ switch grapple_hook_state {
 	case GRAPPLE_ARTICLE_MOUNTED:
 	
 		// error state: unlinked
-		if (!instance_exists(grapple_hook_target)) {
+		if (!instance_exists(gh_target)) {
 			if (vsp > -4) vsp = -4;
 			if (attack == AT_FSPECIAL && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
 				set_state(PS_IDLE_AIR);
 				attack_end();
-				grapple_hook_state = GRAPPLE_DISABLED;
-				grapple_hook_timer = 0;
-				grapple_hook_target = noone;
+				gh_state = GRAPPLE_DISABLED;
+				gh_timer = 0;
+				gh_target = noone;
 				break;
 			}
 		}
 		
-		grapple_hook_x = get_instance_x(grapple_hook_target) + grapple_hook_target_x_offset;
-		grapple_hook_y = get_instance_y(grapple_hook_target) + grapple_hook_target_y_offset;
+		gh_x = get_instance_x(gh_target) + gh_target_x_offset;
+		gh_y = get_instance_y(gh_target) + gh_target_y_offset;
 		
-		var mov_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
-		var mov_accel = 0.6;
+		var mov_angle = point_direction(x, y + gh_y_origin, gh_x, gh_y);
+		var mov_accel = fspec_object_mount_accel;
 		
 		if (!free  && (mov_angle < 0 || 180 < mov_angle)) {
 			var ldx = lengthdir_x(mov_accel, mov_angle);
@@ -422,11 +422,11 @@ switch grapple_hook_state {
 	
 		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
 			|| (attack != AT_FSPECIAL)
-			|| (point_distance(grapple_hook_x, grapple_hook_y, x, y + grapple_hook_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp) && !has_rune("G"))
-			|| (point_distance(0, 0, stored_hsp, stored_vsp) < grapple_hook_timer * 0.12 && grapple_hook_timer > 15 && !has_rune("G"))
+			|| (point_distance(gh_x, gh_y, x, y + gh_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp) && !has_rune("G")) // Break if too close
+			|| (point_distance(0, 0, stored_hsp, stored_vsp) < gh_timer * fspec_mount_limit_coefficient && gh_timer > fspec_mount_limit_min_time && !has_rune("G")) // Break if below min speed
 		) {
-			grapple_hook_state = GRAPPLE_DISABLED;
-			grapple_hook_timer = 0;
+			gh_state = GRAPPLE_DISABLED;
+			gh_timer = 0;
 		}
 		
 		else {
@@ -444,28 +444,28 @@ switch grapple_hook_state {
 		}
 		
 		// safe zone (walls and base cast articles won't run this)
-		if ("agent_p_grapplable" in grapple_hook_target) {
+		if ("agent_p_grapplable" in gh_target) {
 			
-			grapple_hook_target.agent_p_grappling = 1;
-			grapple_hook_target.agent_p_grapple_dir = 0;
+			gh_target.agent_p_grappling = 1;
+			gh_target.agent_p_grapple_dir = 0;
 			
-			if (grapple_hook_target.agent_p_pull_vel != 0) {
+			if (gh_target.agent_p_pull_vel != 0) {
 				
-				var x_change = -lengthdir_x(grapple_hook_target.agent_p_pull_vel, mov_angle); // inverted to pull article toward perry
-				var y_change = -lengthdir_y(grapple_hook_target.agent_p_pull_vel, mov_angle);
+				var x_change = -lengthdir_x(gh_target.agent_p_pull_vel, mov_angle); // inverted to pull article toward perry
+				var y_change = -lengthdir_y(gh_target.agent_p_pull_vel, mov_angle);
 				
 				// allow the article to handle this (for the sake of compat)
-				grapple_hook_target.agent_p_hsp = x_change;
-				grapple_hook_target.agent_p_vsp = y_change; 
+				gh_target.agent_p_hsp = x_change;
+				gh_target.agent_p_vsp = y_change; 
 				
-				if (x_change < (grapple_hook_target.agent_p_pull_vel/-6)) grapple_hook_target.agent_p_grapple_dir = -1;
-				else if (x_change > (grapple_hook_target.agent_p_pull_vel/6)) grapple_hook_target.agent_p_grapple_dir = 1;
+				if (x_change < (gh_target.agent_p_pull_vel/-6)) gh_target.agent_p_grapple_dir = -1;
+				else if (x_change > (gh_target.agent_p_pull_vel/6)) gh_target.agent_p_grapple_dir = 1;
 			}
 			
 			// While in this safe zone, apply the lifetime penalty to perry drones
-			if (grapple_hook_target.agent_p_grapplable == 2 && grapple_hook_target.last_decay_frame != get_gameplay_time()) {
-				grapple_hook_target.last_decay_frame = get_gameplay_time()
-				grapple_hook_target.lifetime_decayed += grapple_hook_target.lifetime_decay_step;
+			if (gh_target.agent_p_grapplable == 2 && gh_target.last_decay_frame != get_gameplay_time()) {
+				gh_target.last_decay_frame = get_gameplay_time()
+				gh_target.lifetime_decayed += gh_target.lifetime_decay_step;
 			}
 			
 		}
@@ -475,7 +475,7 @@ switch grapple_hook_state {
 	//#endregion
 	
 }
-grapple_hook_timer++;
+gh_timer++;
 
 //#endregion
 

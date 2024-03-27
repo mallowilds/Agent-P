@@ -13,7 +13,7 @@ if (parachute_active) {
 if (atk == AT_FSPECIAL && hbox == 1 && my_hitboxID.orig_player == player) {
     was_parried = 1;
     my_hitboxID.destroyed = true;
-    grapple_hook_hitbox = noone;
+    gh_hitbox = noone;
 }
 
 if (atk == AT_DSTRONG && my_hitboxID.orig_player == player) {

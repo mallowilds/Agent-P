@@ -75,7 +75,7 @@ if (attack == AT_FSPECIAL && window == 5 && (state == PS_ATTACK_GROUND || state 
 	if (!free) image_index = 1; // slide
 	
 	else {
-		var vis_angle = point_direction(x, y + grapple_hook_y_origin, grapple_hook_x, grapple_hook_y);
+		var vis_angle = point_direction(x, y + gh_y_origin, gh_x, gh_y);
 		if (spr_dir == -1) vis_angle = (vis_angle * -1 + 180) % 360;
 		if (vis_angle < 0) vis_angle += 360;
 		

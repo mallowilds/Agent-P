@@ -17,20 +17,20 @@ if (parachute_stats) {
 }
 
 
-if (grapple_hook_state != GRAPPLE_DISABLED) {
+if (gh_state != GRAPPLE_DISABLED) {
     
     shader_start();
     
-    var temp_x_origin = grapple_hook_x_origin + (grapple_hook_state < GRAPPLE_WALL_MOUNTED ? grapple_hook_x_offset : 0);
-    var temp_y_origin = grapple_hook_y_origin + (grapple_hook_state < GRAPPLE_PLAYER_MOUNTED ? grapple_hook_y_offset : 0);
+    var temp_x_origin = gh_x_origin + (gh_state < GRAPPLE_WALL_MOUNTED ? gh_x_offset : 0);
+    var temp_y_origin = gh_y_origin + (gh_state < GRAPPLE_PLAYER_MOUNTED ? gh_y_offset : 0);
     
-    var draw_angle = point_direction(x + temp_x_origin*spr_dir, y + temp_y_origin, grapple_hook_x, grapple_hook_y);
-    var draw_length = point_distance(x + temp_x_origin*spr_dir, y + temp_y_origin, grapple_hook_x, grapple_hook_y);
+    var draw_angle = point_direction(x + temp_x_origin*spr_dir, y + temp_y_origin, gh_x, gh_y);
+    var draw_length = point_distance(x + temp_x_origin*spr_dir, y + temp_y_origin, gh_x, gh_y);
     
-    draw_rope(sprite_get(is_ea ? "rope_ea" : "rope"), 0, grapple_hook_x, grapple_hook_y, draw_length, draw_angle+180, c_white, 1)
+    draw_rope(sprite_get(is_ea ? "rope_ea" : "rope"), 0, gh_x, gh_y, draw_length, draw_angle+180, c_white, 1)
 
-    if (grapple_hook_state != GRAPPLE_PLAYER_MOUNTED) draw_angle = 90 - (90 * grapple_hook_dir);
-    draw_sprite_ext(sprite_get(is_ea ? "fspec_proj_ea" : "fspec_proj"), (grapple_hook_state != GRAPPLE_ACTIVE), grapple_hook_x, grapple_hook_y, 1, 1, draw_angle, c_white, 1);
+    if (gh_state != GRAPPLE_PLAYER_MOUNTED) draw_angle = 90 - (90 * gh_dir);
+    draw_sprite_ext(sprite_get(is_ea ? "fspec_proj_ea" : "fspec_proj"), (gh_state != GRAPPLE_ACTIVE), gh_x, gh_y, 1, 1, draw_angle, c_white, 1);
     
     shader_end();
     

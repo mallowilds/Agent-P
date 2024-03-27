@@ -22,11 +22,11 @@ if (!hit_player_obj.clone) {
 
 // FSpec grapple
 if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR) && attack == AT_FSPECIAL) {
-	grapple_hook_state = GRAPPLE_PLAYER_MOUNTED;
-	grapple_hook_timer = 0;
-	grapple_hook_target = hit_player_obj;
-	grapple_hook_target_x_offset = (grapple_hook_x - hit_player_obj.x) / 2; // hitbox extension safety
-	grapple_hook_target_y_offset = (grapple_hook_y - hit_player_obj.y);
+	gh_state = GRAPPLE_PLAYER_MOUNTED;
+	gh_timer = 0;
+	gh_target = hit_player_obj;
+	gh_target_x_offset = (gh_x - hit_player_obj.x) / 2; // hitbox extension safety
+	gh_target_y_offset = (gh_y - hit_player_obj.y);
 	
 	hit_player_obj.hitstop = 2;
 	hit_player_obj.hitstop_full = 2;

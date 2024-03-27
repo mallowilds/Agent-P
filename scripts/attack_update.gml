@@ -231,34 +231,34 @@ switch(attack) {
     			if (window_timer == 1 && vsp > 0) vsp = 0;
     			
     			if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
-    				grapple_hook_state = GRAPPLE_ACTIVE;
-	        		grapple_hook_timer = 0;
-	        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir) + (grapple_hook_x_offset * spr_dir);
-	        		grapple_hook_y = y + grapple_hook_y_origin + grapple_hook_y_offset;
-	        		grapple_hook_dir = spr_dir;
-	        		grapple_hook_hsp = 20 * spr_dir;
-	        		grapple_hook_end_hsp = hsp;
-	        		grapple_hook_vsp = vsp;
+    				gh_state = GRAPPLE_ACTIVE;
+	        		gh_timer = 0;
+	        		gh_x = x + (gh_x_origin * spr_dir) + (gh_x_offset * spr_dir);
+	        		gh_y = y + gh_y_origin + gh_y_offset;
+	        		gh_dir = spr_dir;
+	        		gh_hsp = fspec_init_hsp * spr_dir;
+	        		gh_end_hsp = hsp;
+	        		gh_vsp = vsp;
 	        		
-	        		grapple_hook_hboxless = false;
-	        		grapple_hook_hitbox = create_hitbox(AT_FSPECIAL, 1, grapple_hook_x, grapple_hook_y);
-	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
-	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;
-	        		grapple_hook_hitbox.agent_p_ignore_drone = true; // for use by articles
+	        		gh_hboxless = false;
+	        		gh_hitbox = create_hitbox(AT_FSPECIAL, 1, gh_x, gh_y);
+	        		gh_hitbox.hsp = gh_hsp;
+	        		gh_hitbox.vsp = gh_vsp;
+	        		gh_hitbox.agent_p_ignore_drone = true; // for use by articles
 	        		
 	        		// aim assist for drones
-	        		grapple_hook_aim_obj = noone;
-	        		var donor_article = instance_create(floor(x+(grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir), floor(y+grapple_hook_y_origin + grapple_hook_y_offset), "obj_article3");
+	        		gh_aim_obj = noone;
+	        		var donor_article = instance_create(floor(x+(gh_x_origin+gh_x_offset)*spr_dir), floor(y+gh_y_origin + gh_y_offset), "obj_article3");
 	        		donor_article.mask_index = sprite_get("grapple_assist_mask_" + string(spr_dir));
 	        		with obj_article1 {
 	        			if ("agent_p_grapplable" in self && agent_p_grapplable == 2 && place_meeting(x, y, donor_article)) {
-	        				other.grapple_hook_aim_obj = self;
+	        				other.gh_aim_obj = self;
 	        				//print_debug("found " + string(self));
 	        			}
 	        		}
 	        		if (has_rune("M")) with oPlayer { // Rune M: player-targetted aim assist
 	        			if (other != self && place_meeting(x, y, donor_article)) {
-	        				other.grapple_hook_aim_obj = self;
+	        				other.gh_aim_obj = self;
 	        				//print_debug("found " + string(self));
 	        			}
 	        		}
@@ -277,7 +277,7 @@ switch(attack) {
         	// Loop (awaiting completed return)
         	case 3:
         	
-        		if (grapple_hook_state == GRAPPLE_WALL_MOUNTED || grapple_hook_state == GRAPPLE_ARTICLE_MOUNTED) {
+        		if (gh_state == GRAPPLE_WALL_MOUNTED || gh_state == GRAPPLE_ARTICLE_MOUNTED) {
         			set_attack_value(attack, AG_NUM_WINDOWS, 5);
         			window = 5;
         			window_timer = 0;
@@ -285,7 +285,7 @@ switch(attack) {
         			sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
         		}
         		
-        		else if (grapple_hook_state == GRAPPLE_DISABLED) {
+        		else if (gh_state == GRAPPLE_DISABLED) {
         			window = 4;
         			window_timer = 0;
         		}
@@ -309,7 +309,7 @@ switch(attack) {
 		    	can_jump = true;
 		    	//fall_through = true;
 		    	
-		    	if (grapple_hook_state = GRAPPLE_DISABLED) {
+		    	if (gh_state = GRAPPLE_DISABLED) {
         			set_state(free ? PS_IDLE_AIR : PS_IDLE);
         			if (vsp > -4 && free) vsp = -4;
         			attack_end();
@@ -336,7 +336,7 @@ switch(attack) {
         	case 6:
         		can_move = false;
         		can_fast_fall = false;
-        		if (grapple_hook_state == GRAPPLE_DISABLED) {
+        		if (gh_state == GRAPPLE_DISABLED) {
         			vsp = 0;
         			hsp = 2 * spr_dir;
         			window = 7;

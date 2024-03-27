@@ -6,51 +6,59 @@
 #macro GRAPPLE_WALL_MOUNTED 4
 #macro GRAPPLE_ARTICLE_MOUNTED 5
 
-
-//                                  debug                                     //
-should_debug                    = true;
-
-
 //=-(                     ~~//** CUSTOM VARIABLES **//~~                     )-=//
 
+// Constants
+nspec_max_drones = has_rune("C") ? 3 : 2;
+nspec_drone_cd_max = 180;
+
+fspec_init_hsp = 20;
+fspec_active_decel_factor = 1/12; // grapple hook velocity reduced by this * gh_timer each frame while active
+fspec_return_vel_factor = 2/3;    // grapple hook velocity set to this * gh_timer each frame while returning
+fspec_player_mount_accel = 0.6;   // player velocity increased by this each frame while moving toward a grappled player
+fspec_object_mount_accel = 0.6;   // player velocity increased by this each frame while moving toward an article or wall
+
+fspec_mount_limit_min_time = 15; // frames elapsed before minimum speed requirements kick in while moving toward an article or wall
+fspec_mount_limit_coefficient = 0.12 // minimum speed requirement = this * gh_timer while moving toward an article or wall
+
+gh_x_origin = 0;
+gh_x_offset = 28; // offset for firing
+gh_y_origin = -32;
+gh_y_offset = -4; // offset for firing
+
+// Drone vars
+nspec_num_drones = 0;
+nspec_drone_cd = 0
 // Parachute vars
 parachute_active = false;
 parachute_stats = false;
 vis_parachute_angle = 0;
 vis_parachute_frame = 0;
 
-grapple_hook_x_origin = 0;
-grapple_hook_x_offset = 28; // offset for firing
-grapple_hook_y_origin = -32;
-grapple_hook_y_offset = -4; // offset for firing
-
-grapple_hook_state = GRAPPLE_DISABLED;
-grapple_hook_x = x;
-grapple_hook_y = y;
-grapple_hook_aim_obj = noone;
-grapple_hook_target = noone;
-grapple_hook_hsp = 0;
-grapple_hook_vsp = 0;
-grapple_hook_end_hsp = 0;
-grapple_hook_stored_hsp = 0;
-grapple_hook_stored_vsp = 0;
-grapple_hook_dir = spr_dir;
-grapple_hook_timer = 0;
-grapple_hook_hitbox = noone;
-grapple_hook_hboxless = false; // used for safety on kragg/ranno articles
+// Grapple hook vars
+gh_state = GRAPPLE_DISABLED;
+gh_x = x;
+gh_y = y;
+gh_aim_obj = noone;
+gh_target = noone;
+gh_hsp = 0;
+gh_vsp = 0;
+gh_end_hsp = 0;
+gh_stored_hsp = 0;
+gh_stored_vsp = 0;
+gh_dir = spr_dir;
+gh_timer = 0;
+gh_hitbox = noone;
+gh_hboxless = false; // used for safety on kragg/ranno articles
 
 use_stored_vsp = false;
 
-// air limits
+// Air limits
 uspec_used = false;
 fspec_used = false;
 dspec_used = false;
 
-
-nspec_num_drones = 0;
-nspec_max_drones = has_rune("C") ? 3 : 2;
-nspec_drone_cd = 0;
-nspec_drone_cd_max = 180;
+// Other vars
 
 dspec_article_cooldown = 0;
 dspec_max_article_cooldown = 90;
@@ -67,6 +75,9 @@ dstrong_cancel_parry_stun = 0;
 taunt_loops = 0;
 
 plat_active = 0;
+
+
+
 
 // Colors
 is_default = (get_player_color(player) == 0 || get_player_color(player) == 13);
