@@ -19,7 +19,7 @@ if ("nspec_drone_cd" not in self) exit;
 
 var drone_spr = sprite_get("hud_drone");
 
-if (has_rune("B")) { // rune B unlocks third drone
+if (has_rune("C")) { // rune C unlocks third drone
     var h2 = sprite_get_height(drone_spr) * clamp((nspec_drone_cd/nspec_drone_cd_max)-nspec_max_drones+3, 0, 1) // cd appears on third-to-last drone
     var y2 = sprite_get_height(drone_spr) - h2;
     draw_sprite(drone_spr, 0, temp_x+170, temp_y-16);

@@ -14,269 +14,54 @@ if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || a
 // window length of the current window of the attack
 var window_length = get_window_value(attack, window, AG_WINDOW_LENGTH);
 
+// walljump code
+if (get_window_value(attack,window,AG_WINDOW_CAN_WALLJUMP)) {
+	can_wall_jump = true;
+}
+
+
 // specific attack behaviour
 switch(attack) {
+	
+	//#region Grounded Normals
+	
     case AT_JAB:
         // clear attack so jab2 doesn't automatically happen
     	if (window == 1 && window_timer == 1) {
     		clear_button_buffer(PC_ATTACK_PRESSED);
     	}
         break;
-    case AT_FTILT:
-        //a
-        break;
+    
+    case AT_UTILT:
+    	if (window == 2 || window == 3) hud_offset = 40
+    	break;
+        
     case AT_DTILT:
-        if window_timer == 12 && window == 1 && !hitpause {
+        if (window_timer == 12 && window == 1 && !hitpause) {
             sound_play(asset_get("sfx_bite"))
         }
         down_down = true 
         break;
-    case AT_UTILT:
-        //a
-        break;
-    case AT_DATTACK:
-        break;
-        
-    case AT_NAIR:
-        //a
-        break;
-    case AT_FAIR:
-        //a
-        break;
-    case AT_BAIR:
-        //a
-        break;
-    case AT_DAIR:
-        if window_timer == 7 && !hitpause && window == 1 {
-            sound_play(asset_get("sfx_ori_stomp_spin"))
-        }
-        //a
-        break;
-    case AT_UAIR:
-        //a
-        break;
     
-    case AT_NSPECIAL:
-        
-        if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
-        	var nspec_drone = instance_create(floor(x)+(40*spr_dir), floor(y)-40, "obj_article1");
-        	nspec_drone.throw_dir = clamp(down_down + down_stick_down - up_down - up_stick_down, -1, 1);
-        	
-        	nspec_num_drones++;
-        	nspec_drone_cd += nspec_drone_cd_max;
-        	
-        	if (free) vsp = (parachute_active ? -6 : -8);
-        }
-        
-        break;
-    case AT_FSPECIAL:
-		
-    	if (window < 4) {
-    		can_fast_fall = false;
-    		if (vsp > 2.5) vsp = 2.5;
-		    if (hsp > 0.5) hsp = lerp(hsp, 0.5, 0.1);
-		    if (hsp < -0.5) hsp = lerp(hsp, -0.5, 0.1);
-    	}
-    	
+    case AT_FSTRONG:
     	switch window {
     		case 1:
-    			if (free) fspec_used = true;
-    		
-    			if (window_timer == 1 && vsp > 0) vsp = 0;
-    			
-    			if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
-    				grapple_hook_state = GRAPPLE_ACTIVE;
-	        		grapple_hook_timer = 0;
-	        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir) + (grapple_hook_x_offset * spr_dir);
-	        		grapple_hook_y = y + grapple_hook_y_origin + grapple_hook_y_offset;
-	        		grapple_hook_dir = spr_dir;
-	        		grapple_hook_hsp = 20 * spr_dir;
-	        		grapple_hook_end_hsp = hsp;
-	        		grapple_hook_vsp = vsp;
-	        		
-	        		grapple_hook_hboxless = false;
-	        		grapple_hook_hitbox = create_hitbox(AT_FSPECIAL, 1, grapple_hook_x, grapple_hook_y);
-	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
-	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;
-	        		grapple_hook_hitbox.agent_p_ignore_drone = true; // for use by articles
-	        		
-	        		// aim assist for drones
-	        		grapple_hook_aim_obj = noone;
-	        		var donor_article = instance_create(floor(x+(grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir), floor(y+grapple_hook_y_origin + grapple_hook_y_offset), "obj_article3");
-	        		donor_article.mask_index = sprite_get("grapple_assist_mask_" + string(spr_dir));
-	        		with obj_article1 {
-	        			if ("agent_p_grapplable" in self && agent_p_grapplable == 2 && place_meeting(x, y, donor_article)) {
-	        				other.grapple_hook_aim_obj = self;
-	        				//print_debug("found " + string(self));
-	        			}
-	        		}
-	        		if (has_rune("M")) with oPlayer { // Rune M: player-targetted aim assist
-	        			if (other != self && place_meeting(x, y, donor_article)) {
-	        				other.grapple_hook_aim_obj = self;
-	        				//print_debug("found " + string(self));
-	        			}
-	        		}
- 	        		instance_destroy(donor_article);
- 	        		
- 	        		training_mode_alpha = 0.5;
-	        		
-    			}
-    			
+    			if (window_timer == 1) sound_play(asset_get("sfx_clairen_sword_deactivate"));
     			break;
-    		
     		case 2:
-        		// no break
-        	
-        	case 3:
-        	
-        		if (grapple_hook_state == GRAPPLE_WALL_MOUNTED || grapple_hook_state == GRAPPLE_ARTICLE_MOUNTED) {
-        			set_attack_value(attack, AG_NUM_WINDOWS, 5);
-        			window = 5;
-        			window_timer = 0;
-        			
-        			sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
-        		}
-        		
-        		else if (grapple_hook_state == GRAPPLE_DISABLED) {
-        			window = 4;
-        			window_timer = 0;
-        		}
-        		
-        		if (window == 3 && training_mode_alpha > 0) training_mode_alpha -= 0.05
-        		
-	        	break;
-	        
-	        case 4:
-	        	set_attack_value(attack, AG_NUM_WINDOWS, 4);
-	        	can_wall_jump = true;
-		    	break;
-		    
-		    // wall grapple
-		    case 5:
-		    	can_attack = true;
-		    	can_special = true;
-		    	can_shield = free; // so as to only permit air dodging
-		    	can_strong = true;
-		    	can_ustrong = true;
-		    	can_jump = true;
-		    	//fall_through = true;
-		    	
-		    	if (grapple_hook_state = GRAPPLE_DISABLED) {
-        			set_state(free ? PS_IDLE_AIR : PS_IDLE);
-        			if (vsp > -4 && free) vsp = -4;
-        			attack_end();
-        		}
-        		
-        		// slide behavior
-        		else if (!free) {
-        			
-        			// fspec_used will implicitly refresh via update.gml
-        			
-        			if (get_gameplay_time() % 3 == 0) spawn_base_dust(x, y, "dash");
-        			
-        			// grounded air dodge (mainly for wavedashes)
-        			if (shield_pressed) {
-        				clear_button_buffer(PC_SHIELD_PRESSED);
-        				set_state(PS_AIR_DODGE);
-        			}
-        			
-        		}
-        		
-        		break;
-        	
-        	case 6:
-        		can_move = false;
-        		can_fast_fall = false;
-        		if (grapple_hook_state == GRAPPLE_DISABLED) {
-        			vsp = 0;
-        			hsp = 2 * spr_dir;
-        			window = 7;
-        			window_timer = 0;
-        		}
-        		break;
-        	
-        	case 7:
-        		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -10;
-        		break;
-        	
-        	case 8:
-        	case 9:
-        		// manual gravity (for parachute safety)
-        		vsp += gravity_speed;
-        		break;
-	        
+    			if (window_timer == 7) sound_play(sound_get("sfx_perry_fstrong1"), 0, noone, .5);
+    			break;
+    		case 3:
+    			if (window_timer == 3 && has_hit) {
+					sound_play(sound_get("sfx_perry_fstrong1"), 0, noone, .5)
+				}
+				else if (window_timer == 7) {
+					sound_play(sound_get("sfx_perry_fstrong2"), 0, noone, .6)
+				}
+				break;
     	}
-        break;
-        
-	case AT_DSPECIAL_AIR: 
-		dspec_used = true;
-		can_fast_fall = false;
-		if (!free) {
-			attack_end();
-			attack = AT_DSPECIAL;
-			// deliberately avoid resetting window/timer
-		}
-		// no break
-	case AT_DSPECIAL:
-        
-        if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
-        	if (dspec_article_cooldown <= 0) {
-        		var dspec_button = instance_create(floor(x), floor(y), "obj_article2");
-        		if (!free) {
-        			dspec_button.sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
-        			dspec_button.state = 1;
-        			dspec_button.free = false;
-        		}
-        		else {
-        			vsp = (parachute_active ? -6 : -8);
-        			sound_play(asset_get("sfx_clairen_nspecial_grab_miss"), 0, noone, .5, 1.05)
-        		}
-        	}
-        	else if (free) vsp = (parachute_active ? -3.5 : -4);
-        }
-        
-        if (free) dspec_used = true; // anti-stall
-        
-        move_cooldown[AT_DSPECIAL] = 30; // not really necessary but telegraphs that this isn't spammable
-        
-        break;	
-        
-    case AT_USPECIAL:
-    	can_wall_jump = (window > 1);
-    	can_shield = (window > 1);
-    	if (window == 1) {
-    		dir_held = (left_down*-1) + (right_down);
-    		vis_parachute_frame = 0;
-    	}
-    	else if (window == 2 && window_timer == 1) {
-			sound_play(sound_get("sfx_per_hookend"))
-			hsp = 3 * dir_held;
-			vsp = (dir_held == 0 ? -9 : -8);
-			parachute_active = true;
-			vis_parachute_angle = hsp * 5 / air_max_speed;
-    	}
-    	if (window >= 2 && vis_parachute_frame < 2) vis_parachute_frame += 0.25;
-        break;
-    case AT_TAUNT: 
-		var is_on_plat = (state == PS_RESPAWN || (state == PS_ATTACK_GROUND && respawn_taunt > 0));
-		if window == 1 && window_timer == 1 {
-			if (is_on_plat) sound_play(sound_get("sfx_perry_hjonk"))
-		}
-    case AT_TAUNT_2:
-        if window == 2 {
-            if window_timer == 5 && taunt_loops < 15{ // WARN: Possible repetition during hitpause. Consider using window_time_is(frame) https://rivalslib.com/assistant/function_library/attacks/window_time_is.html
-                window_timer = 0
-                taunt_loops++;
-                //print("loop)")
-            }
-        }
-        if window == 3 {
-            taunt_loops = 0
-
-        }
-
-		if attack == AT_TAUNT_2 down_down = true
-        break;
+		break;
+    
     case AT_USTRONG: 
 		if (window == 2 || window == 3 || window == 4) hud_offset = 50
         can_move = false;
@@ -315,7 +100,7 @@ switch(attack) {
         can_fast_fall = (window == 5 && fall_timer > 33);
         can_wall_jump = (window == 5);
         fall_through = (window == 4 || window == 5 && fall_timer < 33) && !was_parried;
-    break;
+    	break;
     
     case AT_DSTRONG: // self-parry
     	
@@ -369,107 +154,318 @@ switch(attack) {
     	move_cooldown[AT_DSTRONG] = 20;
     	
     	break;
-	case AT_FSTRONG:
-		if window == 1 && window_timer == 1 {
-			sound_play(asset_get("sfx_clairen_sword_deactivate"))
-		} 
-		if window == 2 && window_timer == 7 {
-			sound_play(sound_get("sfx_perry_fstrong1"), 0, noone, .5)
-		}
-		if window == 3  {
-			if window_timer == 3 && has_hit {
-				sound_play(sound_get("sfx_perry_fstrong1"), 0, noone, .5)
-
-			}
-			if window_timer == 7 {
-				sound_play(sound_get("sfx_perry_fstrong2"), 0, noone, .6)
-			}
-
-		}
-	break;
-    
-}
-
-// walljump code
-if (get_window_value(attack,window,AG_WINDOW_CAN_WALLJUMP)) {
-	can_wall_jump = true;
-}
-
-// cosmetic attack fx
-switch(attack) {
-    case AT_JAB:
-    	//a
-        break;
+        
     case AT_FTILT:
-        //a
-        break;
-    case AT_DTILT:
-        //a
-        break;
-    case AT_UTILT:
-        if (window == 2 || window == 3) hud_offset = 40
-        break;
     case AT_DATTACK:
-        //a
         break;
         
-    case AT_NAIR:
-        //a
-        break;
+    //#endregion    
+    
+    //#region Aerials
+    
     case AT_FAIR:
-        //a
+    	// Rune B: loopable
+    	if (window == 2) num_loops = 0;
+    	if (window == 3 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
+    		if (has_rune("B") && num_loops <= 5 && (attack_down || strong_down || is_attack_pressed(DIR_SIDE) || is_strong_pressed(DIR_SIDE))) {
+	        	window = 2;
+	        	window_timer = get_window_value(attack, window, AG_WINDOW_LENGTH);
+	        }
+	        num_loops++;
+    	}
         break;
-    case AT_BAIR:
-        //a
-        break;
+    
     case AT_DAIR:
-        //a
+        if window_timer == 7 && !hitpause && window == 1 {
+            sound_play(asset_get("sfx_ori_stomp_spin"))
+        }
         break;
+        
     case AT_UAIR:
-		if window != 1  && !parachute_active{
+    	if window != 1  && !parachute_active{
 			hud_offset = 30
 		}
+		break;
+    
+    case AT_NAIR:
+    case AT_BAIR:
         break;
+    
+    //#endregion
+    
+    //#region NSpecial
     
     case AT_NSPECIAL:
-        //a
-        break;
-    case AT_FSPECIAL:
-        //a
-        break;
-    case AT_DSPECIAL:
-        //a
-        break;
-    case AT_USPECIAL:
-        //a
+        
+        if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
+        	var nspec_drone = instance_create(floor(x)+(40*spr_dir), floor(y)-40, "obj_article1");
+        	nspec_drone.throw_dir = clamp(down_down + down_stick_down - up_down - up_stick_down, -1, 1);
+        	
+        	nspec_num_drones++;
+        	nspec_drone_cd += nspec_drone_cd_max;
+        	
+        	if (free) vsp = (parachute_active ? -6 : -8);
+        }
+        
         break;
     
-    case AT_TAUNT:
-		//a
-    	break;
+    //#endregion
+    
+    //#region FSpecial
+    
+    case AT_FSPECIAL:
+		
+    	if (window < 4) {
+    		can_fast_fall = false;
+    		if (vsp > 2.5) vsp = 2.5;
+		    if (hsp > 0.5) hsp = lerp(hsp, 0.5, 0.1);
+		    if (hsp < -0.5) hsp = lerp(hsp, -0.5, 0.1);
+    	}
+    	
+    	switch window {
+    		
+    		// Startup
+    		case 1:
+    			if (free) fspec_used = true;
+    		
+    			if (window_timer == 1 && vsp > 0) vsp = 0;
+    			
+    			if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
+    				grapple_hook_state = GRAPPLE_ACTIVE;
+	        		grapple_hook_timer = 0;
+	        		grapple_hook_x = x + (grapple_hook_x_origin * spr_dir) + (grapple_hook_x_offset * spr_dir);
+	        		grapple_hook_y = y + grapple_hook_y_origin + grapple_hook_y_offset;
+	        		grapple_hook_dir = spr_dir;
+	        		grapple_hook_hsp = 20 * spr_dir;
+	        		grapple_hook_end_hsp = hsp;
+	        		grapple_hook_vsp = vsp;
+	        		
+	        		grapple_hook_hboxless = false;
+	        		grapple_hook_hitbox = create_hitbox(AT_FSPECIAL, 1, grapple_hook_x, grapple_hook_y);
+	        		grapple_hook_hitbox.hsp = grapple_hook_hsp;
+	        		grapple_hook_hitbox.vsp = grapple_hook_vsp;
+	        		grapple_hook_hitbox.agent_p_ignore_drone = true; // for use by articles
+	        		
+	        		// aim assist for drones
+	        		grapple_hook_aim_obj = noone;
+	        		var donor_article = instance_create(floor(x+(grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir), floor(y+grapple_hook_y_origin + grapple_hook_y_offset), "obj_article3");
+	        		donor_article.mask_index = sprite_get("grapple_assist_mask_" + string(spr_dir));
+	        		with obj_article1 {
+	        			if ("agent_p_grapplable" in self && agent_p_grapplable == 2 && place_meeting(x, y, donor_article)) {
+	        				other.grapple_hook_aim_obj = self;
+	        				//print_debug("found " + string(self));
+	        			}
+	        		}
+	        		if (has_rune("M")) with oPlayer { // Rune M: player-targetted aim assist
+	        			if (other != self && place_meeting(x, y, donor_article)) {
+	        				other.grapple_hook_aim_obj = self;
+	        				//print_debug("found " + string(self));
+	        			}
+	        		}
+ 	        		instance_destroy(donor_article);
+ 	        		
+ 	        		training_mode_alpha = 0.5;
+	        		
+    			}
+    			
+    			break;
+    		
+    		// Fire hook
+    		case 2:
+        		// no break
+        	
+        	// Loop (awaiting completed return)
+        	case 3:
+        	
+        		if (grapple_hook_state == GRAPPLE_WALL_MOUNTED || grapple_hook_state == GRAPPLE_ARTICLE_MOUNTED) {
+        			set_attack_value(attack, AG_NUM_WINDOWS, 5);
+        			window = 5;
+        			window_timer = 0;
+        			
+        			sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
+        		}
+        		
+        		else if (grapple_hook_state == GRAPPLE_DISABLED) {
+        			window = 4;
+        			window_timer = 0;
+        		}
+        		
+        		if (window == 3 && training_mode_alpha > 0) training_mode_alpha -= 0.05
+        		
+	        	break;
+	        
+	        case 4:
+	        	set_attack_value(attack, AG_NUM_WINDOWS, 4);
+	        	can_wall_jump = true;
+		    	break;
+		    
+		    // Wall/article grapple
+		    case 5:
+		    	can_attack = true;
+		    	can_special = true;
+		    	can_shield = free; // so as to only permit air dodging
+		    	can_strong = true;
+		    	can_ustrong = true;
+		    	can_jump = true;
+		    	//fall_through = true;
+		    	
+		    	if (grapple_hook_state = GRAPPLE_DISABLED) {
+        			set_state(free ? PS_IDLE_AIR : PS_IDLE);
+        			if (vsp > -4 && free) vsp = -4;
+        			attack_end();
+        		}
+        		
+        		// slide behavior
+        		else if (!free) {
+        			
+        			// fspec_used will implicitly refresh via update.gml
+        			
+        			if (get_gameplay_time() % 3 == 0) spawn_base_dust(x, y, "dash");
+        			
+        			// grounded air dodge (mainly for wavedashes)
+        			if (shield_pressed) {
+        				clear_button_buffer(PC_SHIELD_PRESSED);
+        				set_state(PS_AIR_DODGE);
+        			}
+        			
+        		}
+        		
+        		break;
+        	
+        	// Player grapple: pull
+        	case 6:
+        		can_move = false;
+        		can_fast_fall = false;
+        		if (grapple_hook_state == GRAPPLE_DISABLED) {
+        			vsp = 0;
+        			hsp = 2 * spr_dir;
+        			window = 7;
+        			window_timer = 0;
+        		}
+        		break;
+        	
+        	// Player grapple: attack startup
+        	case 7:
+        		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -10;
+        		break;
+        	
+        	// Player grapple: attack active, endlag
+        	case 8:
+        	case 9:
+        		// manual gravity (for parachute safety)
+        		vsp += gravity_speed;
+        		break;
+	        
+    	}
+        break;
+        
+    //#endregion
+        
+    //#region DSpecial
+    
+	case AT_DSPECIAL_AIR: 
+		dspec_used = true;
+		can_fast_fall = false;
+		if (!free) {
+			attack_end();
+			attack = AT_DSPECIAL;
+			// deliberately avoid resetting window/timer
+		}
+		// no break
+	case AT_DSPECIAL:
+        
+        if (window == 1 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
+        	if (dspec_article_cooldown <= 0) {
+        		var dspec_button = instance_create(floor(x), floor(y), "obj_article2");
+        		if (!free) {
+        			dspec_button.sprite_index = sprite_get(is_ea ? "dspecial_art_ea" : "dspecial_art")
+        			dspec_button.state = 1;
+        			dspec_button.free = false;
+        		}
+        		else {
+        			vsp = (parachute_active ? -6 : -8);
+        			sound_play(asset_get("sfx_clairen_nspecial_grab_miss"), 0, noone, .5, 1.05)
+        		}
+        	}
+        	else if (free) vsp = (parachute_active ? -3.5 : -4);
+        }
+        
+        if (free) dspec_used = true; // anti-stall
+        
+        move_cooldown[AT_DSPECIAL] = 30; // not really necessary but telegraphs that this isn't spammable
+        
+        break;	
+    
+    //#endregion
+    
+    //#region USpecial
+    
+    case AT_USPECIAL:
+    	can_wall_jump = (window > 1);
+    	can_shield = (window > 1);
+    	if (window == 1) {
+    		dir_held = (left_down*-1) + (right_down);
+    		vis_parachute_frame = 0;
+    	}
+    	else if (window == 2 && window_timer == 1) {
+			sound_play(sound_get("sfx_per_hookend"))
+			hsp = 3 * dir_held;
+			vsp = (dir_held == 0 ? -9 : -8);
+			parachute_active = true;
+			vis_parachute_angle = hsp * 5 / air_max_speed;
+    	}
+    	if (window >= 2 && vis_parachute_frame < 2) vis_parachute_frame += 0.25;
+        break;
+    
+    //#endregion
+        
+    //#region Taunts
+    
+    case AT_TAUNT_2:
+    	down_down = true;
+    	// no break
+    
+    case AT_TAUNT: 
+    	switch window {
+    		case 1:
+				if (window == 1 && window_timer == 1) {
+					var is_on_plat = (state == PS_RESPAWN || (state == PS_ATTACK_GROUND && respawn_taunt > 0));
+					if (is_on_plat) sound_play(sound_get("sfx_perry_hjonk"))
+					taunt_loops = 0;
+				}
+				break;
+			case 2:
+				if (window_timer == 5 && taunt_loops < 15) {
+		            window_timer = 0;
+		            taunt_loops++;
+		        }
+		        break;
+    	}
+
+        break;
+    
+    //#endregion
+    
+    //#region Intros
+    
     case 2: //intro
 		switch (window) {
 			case 1:
-				char_height = -1000 
+				char_height = -1000;
 				break;
 			case 3: 
 				if (window_timer == 1) char_height = 42;
 				hud_offset = 180;
 				break;
+			case 4:
+				if (window_timer == 1) {
+					sound_play(sound_get("sfx_perry_stinger"));
+					spawn_base_dust(x, y, "land", spr_dir);
+				}
 		}
-		
-		if window == 1 {
-			if get_gameplay_time() > 300 && !attack_down {
-				set_window_value(AT_INTRO_1, 1                        , AG_WINDOW_TYPE, 9); //Idle, waiting for stuff
-			} else {
-				set_window_value(AT_INTRO_1, 1                        , AG_WINDOW_TYPE, 0); //Idle, waiting for stuff
-			}
-		}
-		if window == 4 && window_timer == 1 {
-			sound_play(sound_get("sfx_perry_stinger"))
-			spawn_base_dust(x, y, "land", spr_dir)
-		}
+
 		break;
+	
 	case 3: //intro 2
 		if window < 4 {
 			hud_offset = 1000
@@ -481,7 +477,13 @@ switch(attack) {
 		}
 		
 		break;
+		
+	//#endregion
+    
 }
+
+
+
 
 // Defines
 

@@ -48,7 +48,7 @@ dspec_used = false;
 
 
 nspec_num_drones = 0;
-nspec_max_drones = has_rune("B") ? 3 : 2;
+nspec_max_drones = has_rune("C") ? 3 : 2;
 nspec_drone_cd = 0;
 nspec_drone_cd_max = 180;
 

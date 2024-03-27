@@ -6,7 +6,8 @@
 #macro GRAPPLE_WALL_MOUNTED 4
 #macro GRAPPLE_ARTICLE_MOUNTED 5
 
-//intro
+//#region Intro / Respawn
+// Intro
 if get_gameplay_time() == 2 {
 	if freemd == 1 {
 		set_state(PS_ATTACK_GROUND)
@@ -27,8 +28,83 @@ else if (!is_on_plat && plat_active) {
 	despawn_plat.state = 01;
 	despawn_plat.vis_alpha = 1;
 }
+//#endregion
 
-// Parachute
+
+//#region Cooldown management
+// NSpec cooldown management
+if (nspec_drone_cd > nspec_num_drones * nspec_drone_cd_max) nspec_drone_cd--;
+
+// Attack air limit (uspec handled below under parachute code)
+if (!free || state == PS_RESPAWN || state == PS_WALL_JUMP || state_cat = SC_HITSTUN) {
+	fspec_used = false;
+	dspec_used = false;
+}
+
+// DSpec article cooldown
+if (dspec_article_cooldown > 0) dspec_article_cooldown--;
+//#endregion
+
+
+//#region SFX management
+// Galaxy stinger SFX
+for (var i = 0; i < num_hit_last_frame; i++) {
+	if (hit_last_frame[i].activated_kill_effect && hit_last_frame[i].should_make_shockwave && stinger_cooldown == 0) {
+		if (attack == AT_DTILT || attack == AT_DSTRONG || random_func(0, 1, false) < 0.7) {
+			sound_play(sound_get("sfx_perry_stinger"), 0, 0, 1.5);
+			stinger_cooldown = 110;
+		} else {
+			sound_play(sound_get("sfx_perry_stinger_2"), 0, 0, 1.3);
+			stinger_cooldown = 130;
+		}
+	}
+	hit_last_frame[i] = noone;
+}
+num_hit_last_frame = 0;
+if (stinger_cooldown > 0) {
+	stinger_cooldown--;
+	if stinger_cooldown > 20 {
+		suppress_stage_music( .2, 1)
+	} else {
+		suppress_stage_music( 1, .1)
+	}
+}
+
+if state == PS_WAVELAND && state_timer == 1 && !hitpause {
+    sound_play(asset_get("sfx_waveland_hod"), 0, noone, .8, 1.1)
+}
+if state == PS_DOUBLE_JUMP && (state_timer == 1 || state_timer == 8 || state_timer == 16) && !hitpause {
+    sound_play(asset_get("sfx_swipe_weak1"), 0, noone, .5, 1.2)
+}
+if state == PS_FIRST_JUMP &&  state_timer == 0 && !hitpause {
+    sound_play(asset_get("sfx_swipe_weak1"), 0, noone, .5, 1)
+}
+
+//#endregion
+
+
+//#region Anim/visual management
+// reset idle_air_looping if the character isn't in air idle anymore
+if (!(state == PS_FIRST_JUMP || state == PS_IDLE_AIR)) {
+	idle_air_looping = false;
+	idle_air_platfalling = false;
+}
+
+// Rune A transparancy management
+if (has_rune("A")) {
+	// index 49 is walkturn
+	if (state == PS_CROUCH || state == PS_ATTACK_GROUND && (attack == 49 || attack == AT_DTILT || attack == AT_TAUNT_2)) {
+		rune_a_alpha = clamp(rune_a_alpha-0.05, 0, 1);
+	}
+	else {
+		rune_a_alpha = clamp(rune_a_alpha+0.05, 0, 1);
+	}
+	visible = (rune_a_alpha == 1);
+}
+//#endregion
+
+
+//#region Parachute
 if (parachute_active) {
 	hud_offset = 100
 	
@@ -70,7 +146,7 @@ if (parachute_active) {
 	
 }
 else {
-	if (!free || state == PS_RESPAWN || state == PS_WALL_JUMP || state_cat = SC_HITSTUN || (has_rune("E") && state == PS_AIR_DODGE)) {
+	if (!free || state == PS_RESPAWN || state == PS_WALL_JUMP || state_cat = SC_HITSTUN || (has_rune("F") && state == PS_AIR_DODGE)) {
 		uspec_used = false;
 	}
 	
@@ -87,19 +163,7 @@ else {
 	}
 	
 }
-
-
-// NSpec cooldown management
-if (nspec_drone_cd > nspec_num_drones * nspec_drone_cd_max) nspec_drone_cd--;
-
-// Attack air limit (uspec handled above under parachute code)
-if (!free || state == PS_RESPAWN || state == PS_WALL_JUMP || state_cat = SC_HITSTUN) {
-	fspec_used = false;
-	dspec_used = false;
-}
-
-// DSpec article cooldown
-if (dspec_article_cooldown > 0) dspec_article_cooldown--;
+//#endregion
 
 
 //#region Grapple handling
@@ -109,6 +173,7 @@ if (ground_friction < base_ground_friction) ground_friction = clamp(ground_frict
 
 switch grapple_hook_state {
 	
+	//#region Grapple active
 	case GRAPPLE_ACTIVE:
 		
 		grapple_hook_hsp -= (grapple_hook_timer / 12) * grapple_hook_dir;
@@ -236,7 +301,10 @@ switch grapple_hook_state {
 		ds_list_destroy(article_collision_list);
 		
     	break;
-    	
+    
+    //#endregion
+    
+    //#region Grapple returning
 	case GRAPPLE_RETURNING:
 		var gh_angle = point_direction(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin+grapple_hook_y_offset);
 		var gh_speed = min(grapple_hook_timer / 1.5, point_distance(grapple_hook_x, grapple_hook_y, x + (grapple_hook_x_origin+grapple_hook_x_offset)*spr_dir, y + grapple_hook_y_origin+grapple_hook_y_offset));
@@ -252,6 +320,9 @@ switch grapple_hook_state {
 		}
 		break;
 	
+	//#endregion
+	
+	//#region Grappling to enemy player
 	case GRAPPLE_PLAYER_MOUNTED:
 		
 		grapple_hook_x = grapple_hook_target.x + grapple_hook_target_x_offset;
@@ -304,7 +375,10 @@ switch grapple_hook_state {
 		}
 		
 		break;
+		
+	//#endregion
 	
+	//#region Grappling to wall or article
 	case GRAPPLE_WALL_MOUNTED:
 	case GRAPPLE_ARTICLE_MOUNTED:
 	
@@ -397,6 +471,8 @@ switch grapple_hook_state {
 		}
 		
 		break;
+		
+	//#endregion
 	
 }
 grapple_hook_timer++;
@@ -404,63 +480,7 @@ grapple_hook_timer++;
 //#endregion
 
 
-// Galaxy stinger SFX
-for (var i = 0; i < num_hit_last_frame; i++) {
-	if (hit_last_frame[i].activated_kill_effect && hit_last_frame[i].should_make_shockwave && stinger_cooldown == 0) {
-		if (attack == AT_DTILT || attack == AT_DSTRONG || random_func(0, 1, false) < 0.7) {
-			sound_play(sound_get("sfx_perry_stinger"), 0, 0, 1.5);
-			stinger_cooldown = 110;
-		} else {
-			sound_play(sound_get("sfx_perry_stinger_2"), 0, 0, 1.3);
-			stinger_cooldown = 130;
-		}
-	}
-	hit_last_frame[i] = noone;
-}
-num_hit_last_frame = 0;
-if (stinger_cooldown > 0) {
-	stinger_cooldown--;
-	if stinger_cooldown > 20 {
-		suppress_stage_music( .2, 1)
-	} else {
-		suppress_stage_music( 1, .1)
-	}
-}
 
-
-// Rune A management
-if (has_rune("A")) {
-	// index 49 is walkturn
-	if (state == PS_CROUCH || state == PS_ATTACK_GROUND && (attack == 49 || attack == AT_DTILT || attack == AT_TAUNT_2)) {
-		rune_a_alpha = clamp(rune_a_alpha-0.05, 0, 1);
-	}
-	else {
-		rune_a_alpha = clamp(rune_a_alpha+0.05, 0, 1);
-	}
-	visible = (rune_a_alpha == 1);
-}
-
-
-
-if state == PS_WAVELAND && state_timer == 1 && !hitpause {
-    sound_play(asset_get("sfx_waveland_hod"), 0, noone, .8, 1.1)
-}
-if state == PS_DOUBLE_JUMP && (state_timer == 1 || state_timer == 8 || state_timer == 16) && !hitpause {
-    sound_play(asset_get("sfx_swipe_weak1"), 0, noone, .5, 1.2)
-}
-if state == PS_FIRST_JUMP &&  state_timer == 0 && !hitpause {
-    sound_play(asset_get("sfx_swipe_weak1"), 0, noone, .5, 1)
-}
-
-// reset idle_air_looping if the character isn't in air idle anymore
-if (!(state == PS_FIRST_JUMP || state == PS_IDLE_AIR)) {
-	idle_air_looping = false;
-	idle_air_platfalling = false;
-}
-
-
-// character recoloring / applying shade values
-// init_shader(); //unused for now
 
 
 #define wall_snap(dir, max_height, x_offset)
