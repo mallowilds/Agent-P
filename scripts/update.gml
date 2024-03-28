@@ -422,8 +422,9 @@ switch gh_state {
 	
 		if (   (state != PS_ATTACK_GROUND && state != PS_ATTACK_AIR)
 			|| (attack != AT_FSPECIAL)
-			|| (point_distance(gh_x, gh_y, x, y + gh_y_origin) < point_distance(0, 0, stored_hsp, stored_vsp) && !has_rune("G")) // Break if too close
+			|| (point_distance(gh_x, gh_y, x, y + gh_y_origin) < max(point_distance(0, 0, stored_hsp, stored_vsp), 2) && !has_rune("G")) // Break if too close
 			|| (point_distance(0, 0, stored_hsp, stored_vsp) < gh_timer * fspec_mount_limit_coefficient && gh_timer > fspec_mount_limit_min_time && !has_rune("G")) // Break if below min speed
+			|| (point_distance(0, 0, stored_hsp, stored_vsp) < fspec_mount_limit_grounded && !free && gh_timer > 3) // failsafe/anti-stall
 		) {
 			gh_state = GRAPPLE_DISABLED;
 			gh_timer = 0;

@@ -18,7 +18,8 @@ fspec_return_vel_factor = 2/3;    // grapple hook velocity set to this * gh_time
 fspec_player_mount_accel = 0.6;   // player velocity increased by this each frame while moving toward a grappled player
 fspec_object_mount_accel = 0.6;   // player velocity increased by this each frame while moving toward an article or wall
 
-fspec_mount_limit_min_time = 15; // frames elapsed before minimum speed requirements kick in while moving toward an article or wall
+fspec_mount_limit_grounded = 2; // absolute ninimum sfec speed while grounded and moving towards article or wall. enforced even before min_time has elapsed. More of a failsafe, really.
+fspec_mount_limit_min_time = 15; // frames elapsed before scaling minimum speed requirements kick in while moving toward an article or wall
 fspec_mount_limit_coefficient = 0.12 // minimum speed requirement = this * gh_timer while moving toward an article or wall
 
 gh_x_origin = 0;

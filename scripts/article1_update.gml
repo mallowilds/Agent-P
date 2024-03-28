@@ -227,6 +227,10 @@ switch(state) { // use this one for doing actual article behavior
             hbox.hsp = hsp;
             hbox.vsp = vsp;
     		hbox.enemies = 1; // go through enemies
+    		
+    		sound_play(asset_get("sfx_ori_glide_featherout"), 0, noone, 0.6);
+    		return_sound_played = false;
+    		sfx_instance = noone;
     	}
     	break;
 	
@@ -245,10 +249,26 @@ switch(state) { // use this one for doing actual article behavior
     			set_state(4);
     			do_air_friction(rune_recall_speed*2/3);
     			hitstun_triggered = true;
+    			sound_stop(sfx_instance);
     		}
 		}
 		
-		if (state == 7 && point_distance(x+hsp/2, y+vsp/2, player_id.x, player_id.y - (player_id.char_height/2)) < rune_recall_speed) should_die = true;
+		if (state == 7 && !return_sound_played && point_distance(x+hsp/2, y+vsp/2, player_id.x, player_id.y - (player_id.char_height/2)) < 4*rune_recall_speed) {
+			sfx_instance = sound_play(asset_get("sfx_clairen_hair"), 0, noone, 0.7);
+			return_sound_played = false;
+		}
+		
+		if (state == 7 && point_distance(x+hsp/2, y+vsp/2, player_id.x, player_id.y - (player_id.char_height/2)) < rune_recall_speed) {
+			if (has_rune("K") && player_id.attack == AT_DSTRONG && (player_id.state = clamp(player_id.state, PS_ATTACK_AIR, PS_ATTACK_GROUND))) { // leniency
+				hsp = 0;
+				vsp = 0;
+				hbox.destroyed = true;
+				set_state(1);
+			}
+			else {
+				should_die = true;
+			}
+		}
 		
 		break;
 	
