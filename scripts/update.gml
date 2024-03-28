@@ -262,6 +262,8 @@ switch gh_state {
 			gh_hitbox = noone;
 			gh_state = GRAPPLE_RETURNING;
     		gh_timer = 0;
+    		spawn_hit_fx(floor(gh_x), floor(gh_y), HFX_GEN_OMNI);
+    		sound_play(asset_get("sfx_oly_dspecial_armorhit"));
     	}
     	
     	else if (gh_hsp * gh_dir <= gh_end_hsp * gh_dir) {

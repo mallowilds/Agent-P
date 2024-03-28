@@ -209,6 +209,8 @@ switch(state) { // use this one for doing actual article behavior
     	
     case 6: // Rune N: drone recall ~ startup
     	
+    	mask_index = sprite_get("drone");
+    	
     	ignores_walls = true;
     	
     	rune_recall_angle = point_direction(x, y, player_id.x, player_id.y - (player_id.char_height/2));
@@ -232,9 +234,14 @@ switch(state) { // use this one for doing actual article behavior
     		return_sound_played = false;
     		sfx_instance = noone;
     	}
+    	
+    	hit_detection();
+    	
     	break;
 	
 	case 7: // Rune N: drone recall ~ active
+    	
+    	mask_index = sprite_get("drone");
     	
 		rune_recall_angle = point_direction(x, y, player_id.x, player_id.y - (player_id.char_height/2));
 		hsp = lengthdir_x(rune_recall_speed, rune_recall_angle);
@@ -269,6 +276,8 @@ switch(state) { // use this one for doing actual article behavior
 				should_die = true;
 			}
 		}
+		
+		else hit_detection();
 		
 		break;
 	
