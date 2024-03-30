@@ -97,7 +97,7 @@ switch(attack) {
         	ustrong_smear.step_timer--;
         }
         
-        can_fast_fall = (window == 5 && fall_timer > 33);
+        can_fast_fall = (window >= 4 && (has_rune("D") ? vsp > 1 : fall_timer > 33));
         can_wall_jump = (window == 5);
         fall_through = (window == 4 || window == 5 && fall_timer < 33) && !was_parried;
     	break;

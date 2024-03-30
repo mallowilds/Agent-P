@@ -99,7 +99,7 @@ if (has_rune("A")) {
 	else {
 		rune_a_alpha = clamp(rune_a_alpha+0.05, 0, 1);
 	}
-	visible = (rune_a_alpha == 1);
+	if (state != PS_RESPAWN) visible = (rune_a_alpha == 1);
 }
 //#endregion
 
