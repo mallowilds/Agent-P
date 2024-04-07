@@ -90,11 +90,13 @@ if (has_rune("L") && parachute_active) {
 
 switch(my_hitboxID.attack) {
     case AT_DTILT:
-        sound_play(asset_get("sfx_syl_fspecial_bite"), 0, noone, .4, 1.05)
-		sound_play(sound_get("sfx_per_chomp"), 0, noone, .8, 1.01)
-        var _x = get_effect_offset_x();
-        var _y = get_effect_offset_y();
-        var dir_fx = spawn_hit_fx(_x, _y, 303);
+		if hbox == 1 {
+        	sound_play(asset_get("sfx_syl_fspecial_bite"), 0, noone, .4, 1.05)
+			sound_play(sound_get("sfx_per_chomp"), 0, noone, .8, 1.01)
+			var _x = get_effect_offset_x();
+			var _y = get_effect_offset_y();
+			var dir_fx = spawn_hit_fx(_x, _y, 303);
+		}
         break;
 
     case AT_FAIR:

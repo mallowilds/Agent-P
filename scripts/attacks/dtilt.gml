@@ -34,7 +34,7 @@ set_window_value(atk, window_num                        , AG_WINDOW_HAS_WHIFFLAG
 window_num++;
 
 //                        --attack hitboxes--                                 //
-set_num_hitboxes(atk, 1);
+set_num_hitboxes(atk, 2);
 var hbox_num = 1;
 
 set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE              , 1);
@@ -50,10 +50,30 @@ set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 12);
 set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 80);
 set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 9);
 set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0.9);
-set_hitbox_value(atk, hbox_num, HG_HITSTUN_MULTIPLIER       , 1.1);
 set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 9);
 set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , 0.6);
 //set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT          , 303); // moved to hit_player for direction control
 set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT_X_OFFSET   , 30);
 set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT_Y_OFFSET   , 10);
 set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , asset_get("sfx_blow_medium3"));
+
+hbox_num++;
+set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE              , 1);
+set_hitbox_value(atk, hbox_num, HG_WINDOW                   , 2);
+set_hitbox_value(atk, hbox_num, HG_WINDOW_CREATION_FRAME    , 0);
+set_hitbox_value(atk, hbox_num, HG_LIFETIME                 , get_window_value(atk, get_hitbox_value(atk,hbox_num,HG_WINDOW), AG_WINDOW_LENGTH));
+set_hitbox_value(atk, hbox_num, HG_HITBOX_X                 , -20);
+set_hitbox_value(atk, hbox_num, HG_HITBOX_Y                 , -20);
+set_hitbox_value(atk, hbox_num, HG_WIDTH                    , 55);
+set_hitbox_value(atk, hbox_num, HG_HEIGHT                   , 45);
+set_hitbox_value(atk, hbox_num, HG_PRIORITY                 , 1);
+set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 8);
+set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 70);
+set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 7);
+set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0.4);
+set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 6);
+set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , 0.4);
+//set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT          , 303); // moved to hit_player for direction control
+set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT_X_OFFSET   , 30);
+set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT_Y_OFFSET   , 10);
+set_hitbox_value(atk, hbox_num, HG_HIT_SFX                  , asset_get("sfx_blow_medium1"));

@@ -137,13 +137,13 @@ set_color_profile_slot( 10, 6, 194, 157, 109 ); //Beak
 set_color_profile_slot( 10, 7, 255, 255, 255 ); //VFX
 
 // Courageous
-set_color_profile_slot( 11, 0, 140, 180, 255 ); //FurLight
-set_color_profile_slot( 11, 1, 123, 154, 232 ); //FurDark
+set_color_profile_slot( 11, 0, 234, 162, 202 ); //FurLight
+set_color_profile_slot( 11, 1, 196, 118, 160 ); //FurDark
 set_color_profile_slot( 11, 2, 255, 255, 255 ); //Eyes
 set_color_profile_slot( 11, 3, 0, 0, 0 ); //Eyes2
 set_color_profile_slot( 11, 4, 38, 38, 38 ); //Hat
 set_color_profile_slot( 11, 5, 38, 38, 38 ); //Tail
-set_color_profile_slot( 11, 6, 77, 96, 145 ); //Beak
+set_color_profile_slot( 11, 6, 38, 38, 38 ); //Beak
 set_color_profile_slot( 11, 7, 255, 255, 255 ); //VFX
 
 // Ravenous

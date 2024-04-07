@@ -4,7 +4,7 @@ set_attack_value(atk, AG_CATEGORY, 1);
 set_attack_value(atk, AG_SPRITE, sprite_get("bair"));
 set_attack_value(atk, AG_NUM_WINDOWS, 4);
 set_attack_value(atk, AG_HAS_LANDING_LAG, 1);
-set_attack_value(atk, AG_LANDING_LAG, 4);
+set_attack_value(atk, AG_LANDING_LAG, 6);
 set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("bair_hurt"));
 
 var i = 1; //current window
