@@ -35,7 +35,7 @@ if (attack == AT_FSPECIAL && (fspec_used || gh_state != 0)) move_cooldown[AT_FSP
 if (attack == AT_DSPECIAL_AIR && dspec_used) move_cooldown[AT_DSPECIAL_AIR] = 2;
 
 // Alternate attack handling (Runes I, J)
-if (attack == AT_FSTRONG && has_rune("I")) attack = AT_USTRONG_2;
+if (attack == AT_FSTRONG && has_rune("I")) attack = AT_FSTRONG_2;
 if (attack == AT_UTILT && has_rune("J")) attack = AT_EXTRA_1;
 
 

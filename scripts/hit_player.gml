@@ -119,6 +119,7 @@ switch(my_hitboxID.attack) {
         break;
         
     case AT_FSTRONG:
+    case AT_FSTRONG_2:
     	sound_play(asset_get("sfx_absa_singlezap2"));
     	break;
     	
