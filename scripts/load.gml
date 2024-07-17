@@ -86,13 +86,16 @@ sprite_change_offset("dspecial_air_strap", load_x, load_y);
 sprite_change_offset("taunt", load_x, load_y);
 sprite_change_offset("taunt_2", load_x, load_y);
 
+sprite_change_offset("utilt_abyss", load_x, load_y);
+sprite_change_offset("utilt_abyss_proj", 20, 20);
+sprite_change_offset("fstrong_abyss", load_x, load_y);
+
 // plat is a null texture
 sprite_change_offset("plat_idle", load_x, load_y);
 sprite_change_offset("plat_idle_ea", load_x, load_y);
 sprite_change_offset("plat_fly", load_x, load_y);
 sprite_change_offset("plat_fly_ea", load_x, load_y);
 
-sprite_change_offset("nspecial_proj", 64, 94);
 
 //                  --other sprite offsets (no small_sprites)--               //
 // includes projectiles, vfx, articles

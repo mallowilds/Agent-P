@@ -4,7 +4,6 @@
 reset_attack_value(attack,AG_NUM_WINDOWS);
 
 
-
 // Air strong handling (rune O)
 if ((has_rune("O") && gh_state >= 4)) {
     var st_side_pressed = is_strong_really_pressed(DIR_SIDE) || is_strong_really_pressed(DIR_NONE) || left_strong_pressed || right_strong_pressed;
@@ -21,7 +20,6 @@ if ((has_rune("O") && gh_state >= 4)) {
 else if (attack == clamp(attack, AT_FSTRONG, AT_USTRONG)) set_attack_value(attack, AG_CATEGORY, 0);
 
 
-
 if (attack == AT_DSPECIAL && free) attack = AT_DSPECIAL_AIR
 
 if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;
@@ -36,17 +34,9 @@ if (attack == AT_USPECIAL && uspec_used) move_cooldown[AT_USPECIAL] = 2;
 if (attack == AT_FSPECIAL && (fspec_used || gh_state != 0)) move_cooldown[AT_FSPECIAL] = 2;
 if (attack == AT_DSPECIAL_AIR && dspec_used) move_cooldown[AT_DSPECIAL_AIR] = 2;
 
-
-
-//debug, restore this vers after trailer clip is made
-if (attack == AT_TAUNT && shield_down) attack = AT_INTRO_1;
-
-if (attack == AT_TAUNT && down_down) attack = AT_TAUNT_2;
-
-
-if (attack == AT_DSPECIAL && free) attack = AT_DSPECIAL_AIR;
-
-
+// Alternate attack handling (Runes I, J)
+if (attack == AT_FSTRONG && has_rune("I")) attack = AT_USTRONG_2;
+if (attack == AT_UTILT && has_rune("J")) attack = AT_EXTRA_1;
 
 
 // this should not be necessary :|

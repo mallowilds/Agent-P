@@ -15,6 +15,8 @@
 - 20-21: DSpec parry cooldown manager
 - 22-23: DSpec empowered parry cooldown (rune K) parry cooldown
 
+- 30: Abyss UTilt Hat
+
 */
 
 
@@ -123,13 +125,75 @@ switch state {
     
     // DSpec empowered parry cooldown: explode!
     case 23:
-        if (state_timer == 3) {
+        if (state_timer == 4) {
             for (var i = 0; i < 4; i++) create_hitbox(AT_DSPECIAL, 3, x+x_offs[floor(i/2)], y-4+y_offs[i%2]); // Rune drone explosion
             instance_destroy();
             exit;
         }
         
         break;
+    
+    
+    // Abyss UTilt Hat
+    // Init
+    case 30:
+        sprite_index = sprite_get("utilt_abyss_proj");
+        state = 31;
+        state_timer = 3;
+        player_grabbed = false;
+        grabbed_player_objs = [];
+        hat_hitbox = create_hitbox(AT_EXTRA_1, 1, x, y);
+        hat_hitbox.owner_hat = self;
+        // proceed to first frame of state 31
+    
+    // Spawn
+    case 31:
+        hsp = 10*cos(pi*state_timer/20)*spr_dir;
+        vsp = -10*sin(pi*state_timer/20);
+        
+        if (state_timer == 37) {
+            player_id.hat_obj = noone;
+            instance_destroy();
+            exit;
+        }
+        
+        if (instance_exists(hat_hitbox)) {
+            hat_hitbox.hsp = hsp;
+            hat_hitbox.vsp = vsp;
+        } else {
+            spawn_hit_fx(x, y, HFX_SYL_WOOD_SMALL); // since this is most likely from clashing with a hitbox
+            player_id.hat_obj = noone;
+            instance_destroy();
+            exit;
+        }
+        
+        if (state_timer % 6 == 0) {
+            if (state_timer == 36) {
+                if (player_id.state == PS_ATTACK_GROUND && player_id.attack == AT_EXTRA_1 && player_id.window == 3) {
+                    create_hitbox(AT_EXTRA_1, 2, x, y); // melee hitbox
+                }
+                sound_play(asset_get("sfx_land"));
+                hat_hitbox.destroyed = true;
+                player_grabbed = false;
+            }
+            else {
+                hat_hitbox = create_hitbox(AT_EXTRA_1, 1, x, y);
+                hat_hitbox.owner_hat = self;
+            }
+        }
+        
+        if (player_grabbed) {
+            var total = array_length(grabbed_player_objs);
+            for (var i = 0; i < total; i++) {
+                grabbed_player_objs[i].hitstop = 2;
+                grabbed_player_objs[i].x = x;
+                grabbed_player_objs[i].y = y+20;
+            }
+        }
+        
+        break;
+    
+    // Interrupted
     
     //#region Failed initialization
     default:

@@ -18,6 +18,12 @@ if (atk == AT_FSPECIAL && hbox == 1 && my_hitboxID.orig_player == player) {
     gh_hitbox = noone;
 }
 
+// Abyss UTilt: ditto
+if (atk == AT_EXTRA_1 && "owner_hat" in my_hitboxID) {
+    was_parried = 1;
+    my_hitboxID.destroyed = true;
+}
+
 // DStrong: cancel parrystun if enemy didn't parry
 if (atk == AT_DSTRONG && my_hitboxID.orig_player == player) {
     if (hit_player_obj == self) {

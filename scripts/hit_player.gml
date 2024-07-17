@@ -58,6 +58,15 @@ if (atk == AT_USTRONG && hbox == 2) {
 }
 
 
+//#region Rune J: hat carry
+if (atk == AT_EXTRA_1 && "owner_hat" in my_hitboxID) {
+	var owner_hat = my_hitboxID.owner_hat;
+	array_push(owner_hat.grabbed_player_objs, hit_player_obj);
+	owner_hat.player_grabbed = true;
+	owner_hat.depth = hit_player_obj.depth-1;
+}
+
+
 //#region Rune L: parachute momentum
 if (has_rune("L") && parachute_active) {
 	switch(my_hitboxID.attack) {

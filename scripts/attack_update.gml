@@ -35,6 +35,20 @@ switch(attack) {
     case AT_UTILT:
     	if (window == 2 || window == 3) hud_offset = 40
     	break;
+    
+    // Abyss UTilt
+    case AT_EXTRA_1:
+    	if (window = 1 && window_timer == window_length) {
+    		hat_obj = instance_create(x+20*spr_dir, y-20, "obj_article3");
+    		hat_obj.state = 30;
+    		sound_play(asset_get("sfx_fishgirl_spin"))
+    	}
+    	if (window == 3 && !instance_exists(hat_obj) && !was_parried) {
+    		window = 4;
+    		window_timer = 0;
+    	}
+    	move_cooldown[AT_EXTRA_1] = 15;
+    	break;
         
     case AT_DTILT:
         if (window_timer == 12 && window == 1 && !hitpause) {
