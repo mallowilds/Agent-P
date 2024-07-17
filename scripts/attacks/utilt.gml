@@ -5,7 +5,7 @@ var window_length   = 0;
 //                        --attack windows--                                  //
 set_attack_value(atk, AG_SPRITE                         , sprite_get("utilt"));
 set_attack_value(atk, AG_HURTBOX_SPRITE                 , sprite_get("utilt_hurt"));
-set_attack_value(atk, AG_NUM_WINDOWS                    , 4);
+set_attack_value(atk, AG_NUM_WINDOWS                    , 3);
 set_attack_value(atk, AG_CATEGORY                       , 0);
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
@@ -26,17 +26,10 @@ set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES,
 window_num++;
 
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 24);
-    var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 3);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 1);
-window_num++;
-
-set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 12);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 5);
-set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 3);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 3);
+set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 5);
 set_window_value(atk, window_num                        , AG_WINDOW_HAS_WHIFFLAG, 1);
 window_num++;
 
