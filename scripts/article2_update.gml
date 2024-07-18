@@ -23,10 +23,12 @@ if (player != orig_player) { // bash release
 }
 
 // Venus compat
-if (venus_reflected) { // this variable gets reset at the bottom of the script for safety
+if (venus_reflected == 1) { // denotes a fresh reflect, operation at the bottom of the script accomodates this
 	venus_was_reflected = true;
-	venus_rune_ID.hp -= 0.5;
-	reflected_player_id = venus_rune_ID.player_id;
+	if (instance_exists(venus_rune_ID)) {
+		venus_rune_ID.hp -= 0.5;
+		reflected_player_id = venus_rune_ID.player_id;
+	}
 }
 
 // Timer / CD management
@@ -93,7 +95,7 @@ switch(state) { // use this one for doing actual article behavior
 				falling_hitbox.hsp = hsp;
 				falling_hitbox.vsp = vsp;
 				falling_hitbox.length++;
-				if (venus_reflected) { // fake reflect
+				if (venus_reflected == 1) { // fake reflect
 					if (falling_hitbox.can_hit_self ) for (var i = 0; i < 20; i++) falling_hitbox.can_hit[i] = true;
 					falling_hitbox.can_hit_self = true;
 					falling_hitbox.can_hit[reflected_player_id.player] = false;
@@ -227,14 +229,15 @@ switch(state) { // use this one for doing actual article behavior
         	hbox.hsp = hsp;
         	hbox.vsp = vsp;
         	hbox.length++;
-        	if (venus_reflected) { // fake reflect
+        	if (venus_reflected == 1) { // fake reflect
+        		if (hbox.can_hit_self) for (var i = 0; i < 20; i++) falling_hitbox.can_hit[i] = true;
 				hbox.can_hit_self = true;
 				hbox.enemies = 0;
 				hbox.can_hit[reflected_player_id.player] = false;
 			}
         }
         
-        if (venus_reflected) {
+        if (venus_reflected == 1) {
         	reflect_dir = point_direction(0, 0, hsp, vsp);
         	state_timer = 2;
         }
@@ -309,9 +312,8 @@ if (should_die) { //despawn and exit script
     exit;
 }
 
-
-// compat
-venus_reflected = 0;
+// compat / logical operator abuse
+if (venus_reflected == 1) venus_reflected++;
 
 #define set_state
 var _state = argument0;

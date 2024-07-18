@@ -15,10 +15,12 @@ if (player != orig_player) { // bash release
 }
 
 // Venus compat
-if (venus_reflected) { // this variable gets reset at the bottom of the script for safety
+if (venus_reflected == 1) { // denotes a fresh reflect, operation at the bottom of the script accomodates this
 	venus_was_reflected = true;
-	venus_rune_ID.hp -= 0.5;
-	reflected_player_id = venus_rune_ID.player_id;
+	if (instance_exists(venus_rune_ID)) {
+		venus_rune_ID.hp -= 0.5;
+		reflected_player_id = venus_rune_ID.player_id;
+	}
 }
 
 // Maintain timers/cooldowns
@@ -96,7 +98,7 @@ switch(state) { // use this one for doing actual article behavior
             hbox.hsp = hsp;
             hbox.vsp = vsp;
             hbox.length++;
-            if (venus_reflected) {
+            if (venus_reflected == 1) {
             	if (hbox.can_hit_self) for (var i = 0; i < 20; i++) hbox.can_hit[i] = true;
             	hbox.can_hit_self = true;
             	hbox.can_hit[reflected_player_id.player] = false;
@@ -364,8 +366,8 @@ if (should_die) { //despawn and exit script
 // Reset grappling var
 agent_p_grappling = 0;
 
-// more compat
-venus_reflected = 0;
+// compat / logical operator abuse
+if (venus_reflected == 1) venus_reflected++;
 
 #define set_state
 var _state = argument0;
