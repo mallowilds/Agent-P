@@ -1,16 +1,32 @@
 
 if (hitstop > 0) exit;
+if (!free) hsp = 0;
 
 // Bash handling
 if (getting_bashed) { // halt time progress
+	venus_article_reflect = 0;
 	reflected_player_id = bashed_id;
 	vis_warn_phase = -1;
+	hsp = 0;
+	vsp = 0;
 	exit;
 }
 if (player != orig_player) { // bash release
-	player = orig_player
+	venus_article_reflect = 1;
+	player = orig_player;
 	reflect_dir = point_direction(0, 0, hsp, vsp);
-	set_state(6)
+	set_state(6);
+	if (!free) {
+		free = true;
+		y -= 1;
+	}
+}
+
+// Venus compat
+if (venus_reflected) { // this variable gets reset at the bottom of the script for safety
+	venus_was_reflected = true;
+	venus_rune_ID.hp -= 0.5;
+	reflected_player_id = venus_rune_ID.player_id;
 }
 
 // Timer / CD management
@@ -38,7 +54,6 @@ if (player_id.object_index != oTestPlayer) {
 switch(state) { // use this one for doing actual article behavior
 	
 	case 0: // falling
-		vsp = clamp(vsp+0.4, 10, 16); 
 
 		if (!free) {
 			if (falling_hitbox_hit) {
@@ -48,25 +63,44 @@ switch(state) { // use this one for doing actual article behavior
 			else set_state(1); // idle
 			if (instance_exists(falling_hitbox)) falling_hitbox.destroyed = true;
 			sound_play(asset_get("sfx_springswitch"));
+			venus_was_reflected = false;
+			
 		}
 		else {
+			
+			vsp = clamp(vsp+0.4, -16, 16); 
+			
 			if (state_timer == 1) {
 				falling_hitbox = create_hitbox(AT_DSPECIAL_AIR, 1, x, y-30);
 				falling_hitbox.agent_p_ignore_drone = true;
 				falling_hitbox.owner_button = self;
 				falling_hitbox.hsp = hsp;
 				falling_hitbox.vsp = vsp;
+				falling_hitbox.venus_article_proj_ignore = true;
 			}
 			if (!instance_exists(falling_hitbox)) { // hitbox was destroyed, so despawn article
-				var vfx = spawn_hit_fx(x+spr_dir, y, player_id.vfx_dspec_button);
-        		vfx.depth = depth-1;
-        		should_die = true;
+				if (venus_was_reflected) {
+					set_state(7);
+				} else {
+					var vfx = spawn_hit_fx(x+spr_dir, y, player_id.vfx_dspec_button);
+	        		vfx.depth = depth-1;
+	        		should_die = true;
+				}
 			}
 			else {
+				falling_hitbox.x = x;
+				falling_hitbox.y = y;
 				falling_hitbox.hsp = hsp;
 				falling_hitbox.vsp = vsp;
 				falling_hitbox.length++;
+				if (venus_reflected) { // fake reflect
+					if (falling_hitbox.can_hit_self ) for (var i = 0; i < 20; i++) falling_hitbox.can_hit[i] = true;
+					falling_hitbox.can_hit_self = true;
+					falling_hitbox.can_hit[reflected_player_id.player] = false;
+					falling_hitbox.enemies = 0;
+				}
 			}
+			
 		}
 		
 		with (obj_article1) {
@@ -91,7 +125,12 @@ switch(state) { // use this one for doing actual article behavior
 		
     case 1: // prep
         
-        if (free) set_state(0);
+        venus_article_reflect = 0;
+        
+        if (free) {
+        	set_state(0);
+        	venus_article_reflect = 1;
+        }
     	
         if (state_timer == 23) sound_play(asset_get("sfx_ell_dspecial_drop"));
         if (state_timer >= 25) {
@@ -139,6 +178,7 @@ switch(state) { // use this one for doing actual article behavior
     	if (state_timer == 3) {
     		var boom = create_hitbox(AT_DSPECIAL, hitbox_type, x, y-4);
     		boom.can_hit_self = rune_can_hit_self
+    		boom.venus_article_proj_ignore = true;
     		should_die = true;
     	}
     	break;
@@ -155,17 +195,22 @@ switch(state) { // use this one for doing actual article behavior
     	
     case 6: // parried / bashed
     	if (state_timer == 1) {
-            hbox = create_hitbox(AT_DSPECIAL, 1, x, y);
+            hbox = create_hitbox(AT_DSPECIAL_AIR, 1, x, y);
             hbox.agent_p_ignore_drone = true;
             hbox.owner_button = self;
             hbox.hit_angle = 90;
+            hbox.venus_article_proj_ignore = true;
             
         	// fake reflect
+        	if (hbox.can_hit_self) for (var i = 0; i < 20; i++) hbox.can_hit[i] = true;
             hbox.can_hit_self = true;
             hbox.can_hit[reflected_player_id.player] = false;
+            hbox.venus_article_proj_ignore = true;
             
             hsp = lengthdir_x(12, reflect_dir);
             vsp = lengthdir_y(12, reflect_dir);
+            
+            venus_article_reflect = 1;
         }
         
         if (!instance_exists(hbox) || state_timer > 20 || hit_wall || !free) {
@@ -173,11 +218,25 @@ switch(state) { // use this one for doing actual article behavior
         	sound_play(asset_get("sfx_ell_small_missile_ground"));
             spawn_hit_fx(x, y+6, player_id.vfx_dspec_explode);
         	if (instance_exists(hbox)) hbox.destroyed = true;
+        	hsp = 0;
+        	vsp = 0;
         }
         else {
+        	hbox.x = x;
+			hbox.y = y;
         	hbox.hsp = hsp;
         	hbox.vsp = vsp;
         	hbox.length++;
+        	if (venus_reflected) { // fake reflect
+				hbox.can_hit_self = true;
+				hbox.enemies = 0;
+				hbox.can_hit[reflected_player_id.player] = false;
+			}
+        }
+        
+        if (venus_reflected) {
+        	reflect_dir = point_direction(0, 0, hsp, vsp);
+        	state_timer = 2;
         }
         break;
         
@@ -187,6 +246,7 @@ switch(state) { // use this one for doing actual article behavior
     		var boom = create_hitbox(AT_DSPECIAL, hitbox_type, x, y-4);
     		boom.can_hit_self = true;
             boom.can_hit[reflected_player_id.player] = false;
+            boom.venus_article_proj_ignore = true;
     		should_die = true;
     	}
     	break;
@@ -196,6 +256,7 @@ switch(state) { // use this one for doing actual article behavior
 switch(state) { // use this one for changing sprites and animating
 	case 0: // falling
 		sprite_index = sprite_get(is_ea ? "dspec_proj_ea" : "dspec_proj")
+		if (venus_was_reflected) sprite_index = sprite_get("null");
 		vis_warn_phase = -1;
 		break;
     case 1: // prepping
@@ -249,6 +310,8 @@ if (should_die) { //despawn and exit script
 }
 
 
+// compat
+venus_reflected = 0;
 
 #define set_state
 var _state = argument0;

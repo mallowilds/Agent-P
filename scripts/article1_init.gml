@@ -8,6 +8,7 @@ ignores_walls = false;
 spr_dir = player_id.spr_dir;
 uses_shader = true;
 
+
 // State machine variables
 state = 0;
 state_timer = 0;
@@ -59,6 +60,12 @@ reflect_dir = 0;
 rune_can_hit_self = false; // Rune K
 rune_recall_angle = 0;     // Rune N
 rune_recall_speed = 24;    // Rune N, constant
+
+
+// compat
+venus_article_reflect = 1;
+venus_reflected = false; // managed externally
+venus_was_reflected = false; // managed internally
 
 
 // Supersonic Hit Detection Template

@@ -55,6 +55,7 @@ gh_dir = spr_dir;
 gh_timer = 0;
 gh_hitbox = noone;
 gh_hboxless = false; // used for safety on kragg/ranno articles
+gh_versus_venus = false;
 
 use_stored_vsp = false;
 

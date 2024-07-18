@@ -20,3 +20,7 @@ if (get_match_setting(SET_HITBOX_VIS) && state == 2) {
     draw_set_alpha(1);
     
 }
+
+if (venus_was_reflected && state == 0) {
+    draw_sprite_ext(sprite_get(player_id.is_ea ? "dspec_proj_ea" : "dspec_proj"), 0, x, y, 1, 1, point_direction(0, 0, hsp, vsp)-270, c_white, 1);
+}

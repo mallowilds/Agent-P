@@ -43,7 +43,7 @@ var hbox_num = 1;
 set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE             , 2); //projectile falling hitbox
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_SPRITE       , sprite_get("null")); 
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK         , -1); 
-set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 1); 
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 0); 
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR, 1); 
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 1); 
 

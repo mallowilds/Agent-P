@@ -16,6 +16,10 @@ if get_gameplay_time() == 2 {
 		set_state(PS_ATTACK_GROUND)
 		attack = AT_INTRO_2
 	}
+	
+	with oPlayer {
+		if (url == "3160108357") other.gh_versus_venus = true; // TODO: not reload-safe
+	}
 }
 
 // Respawn platform
@@ -204,7 +208,7 @@ switch gh_state {
 		if (collided_article == noone) {
 			instance_position_list(floor(gh_x), floor(gh_y), asset_get("obj_article_parent"), article_collision_list, false);
 			for (var i = 0; i < ds_list_size(article_collision_list); i++) {
-				if (instance_exists(article_collision_list[| i]) && "agent_p_grapplable" in article_collision_list[| i]) {
+				if (instance_exists(article_collision_list[| i]) && ("agent_p_grapplable" in article_collision_list[| i] || "is_venus_rune" in article_collision_list[| i]) ) {
 					collided_article = article_collision_list[| i];
 					break;
 				}
@@ -428,6 +432,7 @@ switch gh_state {
 			|| (point_distance(0, 0, stored_hsp, stored_vsp) < gh_timer * fspec_mount_limit_coefficient && gh_timer > fspec_mount_limit_min_time && !has_rune("G")) // Break if below min speed
 			|| (point_distance(0, 0, stored_hsp, stored_vsp) < fspec_mount_limit_grounded && !free && gh_timer > 3) // failsafe/anti-stall
 		) {
+			
 			gh_state = GRAPPLE_DISABLED;
 			gh_timer = 0;
 		}
@@ -444,6 +449,36 @@ switch gh_state {
 			can_move = false;
 			hsp += lengthdir_x(air_accel, joy_dir)
 			vsp += lengthdir_y(air_accel, joy_dir)
+		}
+		
+		// venus compat
+		if (gh_versus_venus) {
+			print_debug("me when I check")
+			with (obj_article1) if ("is_venus_rune" in self) {
+				var is_on_team = (get_player_team(player) == get_player_team(other.player));
+				if (place_meeting(x, y, other)) with other {
+					if (!free) {
+						y -= 1;
+						free = true;
+					}
+					hit_player_obj = other.player_id;
+					hit_player = other.player;
+					last_player = hit_player;
+					last_player_hit_me = hit_player;
+					last_attack = AT_NSPECIAL;
+					hit_dir = (hsp > 0) ? -1 : 1;
+					
+					set_state(PS_HITSTUN);
+					venus_reflected = false;
+					
+					hitstun = (is_on_team) ? 5 : 25;
+					hitstun_full = hitstun;
+					
+					gh_state = GRAPPLE_DISABLED;
+					gh_timer = 0;
+					
+				}
+			}
 		}
 		
 		// safe zone (walls and base cast articles won't run this)

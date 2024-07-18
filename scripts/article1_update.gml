@@ -3,13 +3,22 @@ if (hitstop > 0) exit;
 
 // Bash handling
 if (getting_bashed) { // halt time progress
+	venus_article_reflect = 0;
 	reflected_player_id = bashed_id;
 	exit;
 }
 if (player != orig_player) { // bash release
+	venus_article_reflect = 1;
 	player = orig_player
 	reflect_dir = point_direction(0, 0, hsp, vsp);
 	set_state(5)
+}
+
+// Venus compat
+if (venus_reflected) { // this variable gets reset at the bottom of the script for safety
+	venus_was_reflected = true;
+	venus_rune_ID.hp -= 0.5;
+	reflected_player_id = venus_rune_ID.player_id;
 }
 
 // Maintain timers/cooldowns
@@ -59,6 +68,7 @@ switch(state) { // use this one for doing actual article behavior
             hbox = create_hitbox(AT_NSPECIAL, 1, x, y);
             hbox.agent_p_ignore_drone = true;
             hbox.owner_drone = self
+            hbox.venus_article_proj_ignore = true;
         }
         
         if (hit_wall) {
@@ -86,6 +96,13 @@ switch(state) { // use this one for doing actual article behavior
             hbox.hsp = hsp;
             hbox.vsp = vsp;
             hbox.length++;
+            if (venus_reflected) {
+            	if (hbox.can_hit_self) for (var i = 0; i < 20; i++) hbox.can_hit[i] = true;
+            	hbox.can_hit_self = true;
+            	hbox.can_hit[reflected_player_id.player] = false;
+            	if (hsp != 0) hbox.spr_dir = (hsp > 0) ? 1 : -1;
+            	else hbox.spr_dir *= -1;
+            }
         }
         break;
         
@@ -113,6 +130,7 @@ switch(state) { // use this one for doing actual article behavior
         	}
         }
         
+        reflected_player_id = noone;
         hit_detection();
         break;
         
@@ -174,8 +192,10 @@ switch(state) { // use this one for doing actual article behavior
             hbox.owner_drone = self
             
         	// fake reflect
-            hbox.can_hit_self = true;
-            hbox.can_hit[reflected_player_id.player] = false;
+            if (hbox.can_hit_self) for (var i = 0; i < 20; i++) hbox.can_hit[i] = true;
+        	hbox.can_hit_self = true;
+        	hbox.can_hit[reflected_player_id.player] = false;
+            hbox.venus_article_proj_ignore = true;
             
             if (!is_primed & !has_rune("H")) hbox.enemies = 1; // go through enemies
             
@@ -192,6 +212,7 @@ switch(state) { // use this one for doing actual article behavior
         			boom.was_parried = true;
             		boom.last_player_id = reflected_player_id;
             		boom.player = reflected_player_id.player;
+            		boom.venus_article_proj_ignore = true;
         		}
             	sound_play(asset_get("sfx_ell_small_missile_ground"));
             	spawn_hit_fx(x, y, HFX_ELL_FSPEC_BREAK);
@@ -208,6 +229,8 @@ switch(state) { // use this one for doing actual article behavior
     	break;
     	
     case 6: // Rune N: drone recall ~ startup
+    
+    	venus_article_reflect = 0;
     	
     	mask_index = sprite_get("drone");
     	
@@ -225,6 +248,7 @@ switch(state) { // use this one for doing actual article behavior
     		hbox = create_hitbox(AT_NSPECIAL, 1, floor(x), floor(y));
             hbox.agent_p_ignore_drone = true;
             hbox.owner_drone = self
+            hbox.venus_article_proj_ignore = true;
             
             hbox.hsp = hsp;
             hbox.vsp = vsp;
@@ -340,6 +364,8 @@ if (should_die) { //despawn and exit script
 // Reset grappling var
 agent_p_grappling = 0;
 
+// more compat
+venus_reflected = 0;
 
 #define set_state
 var _state = argument0;
@@ -361,7 +387,7 @@ state_timer = 0;
 	button.state = 4;
 	button.sprite_index = sprite_get("null");
 	button.hitbox_type = (has_rune("H")) ? button.HB_RUNE_DRONE : button.HB_DRONE;
-	if (state == 5) {
+	if (reflected_player_id != noone) {
 		button.state = 7;
 		button.reflected_player_id = reflected_player_id;
 	}

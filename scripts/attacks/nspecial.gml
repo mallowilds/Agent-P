@@ -70,7 +70,7 @@ set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK          , -1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DESTROY_EFFECT, hfx_null);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR , 1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 1);
-set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 0);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_UNBASHABLE    , true);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , false);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DOES_NOT_REFLECT, true);
@@ -106,7 +106,7 @@ set_hitbox_value(atk, hbox_num, HG_PROJECTILE_MASK          , -1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DESTROY_EFFECT, hfx_null);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_WALL_BEHAVIOR , 1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_GROUND_BEHAVIOR, 1);
-set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 0);
+set_hitbox_value(atk, hbox_num, HG_PROJECTILE_ENEMY_BEHAVIOR, 1);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_UNBASHABLE    , true);
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , false); // slightly evil but it's abyss so hey
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DOES_NOT_REFLECT, true);

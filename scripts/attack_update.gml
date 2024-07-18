@@ -259,6 +259,7 @@ switch(attack) {
 	        		gh_hitbox.hsp = gh_hsp;
 	        		gh_hitbox.vsp = gh_vsp;
 	        		gh_hitbox.agent_p_ignore_drone = true; // for use by articles
+	        		gh_hitbox.venus_article_proj_ignore = true; // compat
 	        		
 	        		// aim assist for drones
 	        		gh_aim_obj = noone;

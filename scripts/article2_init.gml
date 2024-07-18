@@ -10,6 +10,9 @@ depth = -10;
 
 uses_shader = false;
 
+hsp = 0;
+vsp = 10;
+
 // state machine variables
 state = 0;
 state_timer = 0;
@@ -47,3 +50,8 @@ was_parried = false;
 // Abyss rune support
 player_id.button_obj = self; // Rune K
 rune_can_hit_self = false; // Rune K
+
+// compat
+venus_article_reflect = 1;
+venus_reflected = false; // managed externally
+venus_was_reflected = false; // managed internally
