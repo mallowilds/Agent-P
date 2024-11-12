@@ -103,7 +103,7 @@ if (has_rune("A")) {
 	else {
 		rune_a_alpha = clamp(rune_a_alpha+0.05, 0, 1);
 	}
-	if (state != PS_RESPAWN) visible = (rune_a_alpha == 1);
+	if (rune_a_alpha < 1 && state != PS_RESPAWN) grabbed_invisible = 1;
 }
 //#endregion
 
