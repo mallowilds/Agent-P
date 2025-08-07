@@ -346,7 +346,7 @@ switch gh_state {
 		}
 		
 		// error state: unlinked
-		if (!instance_exists(gh_target) || gh_target.state_cat != SC_HITSTUN) {
+		/*if (!instance_exists(gh_target) || gh_target.state_cat != SC_HITSTUN) {
 			if (vsp > -4) vsp = -4;
 			set_state(PS_IDLE_AIR);
 			attack_end();
@@ -354,7 +354,7 @@ switch gh_state {
 			gh_timer = 0;
 			gh_target = noone;
 			break;
-		}
+		}*/
 		
 		// error state: unmoving
 		if (gh_timer > 6 && abs(point_distance(0, 0, hsp, vsp)) < 2*mov_accel) {
@@ -365,7 +365,7 @@ switch gh_state {
 			break;
 		}
 		
-		gh_target.hitstop++;
+		//gh_target.hitstop++;
 		
 		hsp = hsp + lengthdir_x(mov_accel, mov_angle);
 		vsp = vsp + lengthdir_y(mov_accel, mov_angle);

@@ -35,7 +35,7 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 	window = 6;
 	window_timer = 6;
 	
-	hsp = 0;
+	hsp = 4*spr_dir;
 	vsp = 0;
 	
 	// djumps = 0; // reset djumps //you are fucked up and evil

@@ -361,12 +361,13 @@ switch(attack) {
         	
         	// Player grapple: attack startup
         	case 7:
-        		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -10;
+        		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -8;
         		break;
         	
         	// Player grapple: attack active, endlag
         	case 8:
         	case 9:
+        		iasa_script();
         		// manual gravity (for parachute safety)
         		vsp += gravity_speed;
         		break;

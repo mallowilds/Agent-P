@@ -24,7 +24,7 @@ set_attack_value(atk, AG_OFF_LEDGE                      , true);
 
 // startup
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 11);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 6);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 0);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
@@ -56,7 +56,7 @@ window_num++;
 
 // endlag
 set_window_value(atk, window_num                        , AG_WINDOW_TYPE, 0);
-set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 30);
+set_window_value(atk, window_num                        , AG_WINDOW_LENGTH, 20);
     var window_length = get_window_value(atk,window_num , AG_WINDOW_LENGTH);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAME_START, 7);
 set_window_value(atk, window_num                        , AG_WINDOW_ANIM_FRAMES, 4);
@@ -131,10 +131,12 @@ set_hitbox_value(atk, hbox_num, HG_SHAPE                    , 2);
 set_hitbox_value(atk, hbox_num, HG_WIDTH                    , 12);
 set_hitbox_value(atk, hbox_num, HG_HEIGHT                   , 28);
 set_hitbox_value(atk, hbox_num, HG_PRIORITY                 , 1);
-set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 2);
+set_hitbox_value(atk, hbox_num, HG_DAMAGE                   , 1);
 set_hitbox_value(atk, hbox_num, HG_ANGLE                    , 90);
-set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 6);
-set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0.3);
+set_hitbox_value(atk, hbox_num, HG_BASE_KNOCKBACK           , 0);
+set_hitbox_value(atk, hbox_num, HG_KNOCKBACK_SCALING        , 0);
+set_hitbox_value(atk, hbox_num, HG_HITSTUN_MULTIPLIER        , 0);
+
 set_hitbox_value(atk, hbox_num, HG_BASE_HITPAUSE            , 6);
 set_hitbox_value(atk, hbox_num, HG_HITPAUSE_SCALING         , 0.3);
 set_hitbox_value(atk, hbox_num, HG_VISUAL_EFFECT            , 1);
@@ -149,7 +151,7 @@ set_hitbox_value(atk, hbox_num, HG_PROJECTILE_UNBASHABLE    , true);
 //set_hitbox_value(atk, hbox_num, HG_PROJECTILE_PARRY_STUN    , true); // needs to be handled manually
 set_hitbox_value(atk, hbox_num, HG_PROJECTILE_DOES_NOT_REFLECT, true);
 hbox_num++;
-
+/*
 set_hitbox_value(atk, hbox_num, HG_HITBOX_TYPE, 1);
 set_hitbox_value(atk, hbox_num, HG_WINDOW, 8);
 set_hitbox_value(atk, hbox_num, HG_LIFETIME, 3);
