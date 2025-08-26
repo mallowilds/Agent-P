@@ -26,10 +26,16 @@ Changes (1.1, 3/30/24):
 ~ Fixed AI not attacking ever
 ~ Adjusted the "Courageous" alt to look a bit more, uh ... Courage-y.
 
+
+
+v2.0
+// FSpecial felt really committal and zoner-ish before, so it's being taken in a new direction.
+- FSpecial no longer places opponents into hitstun
+- FSpecial follow-up hit removed
++ FSpecial is now entirely actionable while grappling to opponents
++ When grappling to opponents, Perry will try to remain grounded
+~ Wall/article grapple gravity and acceleration reduced (0.3 -> 0.2, 0.8 -> 0.6)
++ FSpecial is now dramatically faster, but a bit shorter
+* General FSpecial VFX/SFX improvements
 */
 
-
-/* Changes (1.2, pending):
-
-
-/*

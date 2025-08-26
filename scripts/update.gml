@@ -94,7 +94,7 @@ if (!(state == PS_FIRST_JUMP || state == PS_IDLE_AIR)) {
 	idle_air_platfalling = false;
 }
 
-// Rune A transparancy management
+// Rune A transparency management
 if (has_rune("A")) {
 	// index 49 is walkturn
 	if (state == PS_CROUCH || state == PS_ATTACK_GROUND && (attack == 49 || attack == AT_DTILT || attack == AT_TAUNT_2)) {
@@ -331,14 +331,23 @@ switch gh_state {
 	//#region Grappling to enemy player
 	case GRAPPLE_PLAYER_MOUNTED:
 		
+		if (gh_timer == 1) {
+			if (free) {
+	    		var grapple_burst_obj = spawn_base_dust(x-(20*spr_dir), y-20, "djump");
+				grapple_burst_obj.draw_angle = -90*spr_dir;
+			}
+    		else spawn_base_dust(x-(10*spr_dir), y, "dash_start");
+    	}
+		
 		gh_x = gh_target.x + gh_target_x_offset;
 		gh_y = gh_target.y + gh_target_y_offset;
 		
-		var mov_angle = point_direction(x + (gh_x_origin+gh_x_offset)*spr_dir, y + gh_y_origin, gh_x, gh_y);
+		var mov_angle = point_direction(x + (gh_x_origin+gh_x_offset)*spr_dir, y + gh_y_origin, gh_x, free ? gh_y : gh_target.y);
 		var mov_accel = fspec_player_mount_accel;
 		
-		// error state: not in fspecial
+		// Not in fspecial
 		if  ((state != PS_ATTACK_AIR && state != PS_ATTACK_GROUND) || attack != AT_FSPECIAL) {
+			sound_play(sound_get("sfx_per_hookend"));
 			gh_state = GRAPPLE_DISABLED;
 			gh_timer = 0;
 			gh_target = noone;
@@ -358,7 +367,7 @@ switch gh_state {
 		
 		// error state: unmoving
 		if (gh_timer > 6 && abs(point_distance(0, 0, hsp, vsp)) < 2*mov_accel) {
-			// Simply proceeding to the attack followup seems to feel best for now. May revisit
+			sound_play(sound_get("sfx_per_hookend"));
 			gh_state = GRAPPLE_DISABLED;
 			gh_timer = 0;
 			gh_target = noone;
@@ -371,6 +380,7 @@ switch gh_state {
 		vsp = vsp + lengthdir_y(mov_accel, mov_angle);
 		
 		if (abs(gh_x - x  - (gh_x_origin+gh_x_offset)*spr_dir) < abs(hsp)) {
+			sound_play(sound_get("sfx_per_hookend"));
 			gh_state = GRAPPLE_DISABLED;
 			gh_timer = 0;
 			gh_target = noone;
@@ -388,10 +398,19 @@ switch gh_state {
 	case GRAPPLE_WALL_MOUNTED:
 	case GRAPPLE_ARTICLE_MOUNTED:
 	
+		if (gh_timer == 1) {
+			if (free) {
+	    		var grapple_burst_obj = spawn_base_dust(x-(20*spr_dir), y-28, "djump");
+				grapple_burst_obj.draw_angle = -90*spr_dir;
+			}
+    		else spawn_base_dust(x-(10*spr_dir), y, "dash_start");
+    	}
+	
 		// error state: unlinked
 		if (!instance_exists(gh_target)) {
 			if (vsp > -4) vsp = -4;
 			if (attack == AT_FSPECIAL && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
+				sound_play(sound_get("sfx_per_hookend"));
 				set_state(PS_IDLE_AIR);
 				attack_end();
 				gh_state = GRAPPLE_DISABLED;
@@ -432,7 +451,7 @@ switch gh_state {
 			|| (point_distance(0, 0, stored_hsp, stored_vsp) < gh_timer * fspec_mount_limit_coefficient && gh_timer > fspec_mount_limit_min_time && !has_rune("G")) // Break if below min speed
 			|| (point_distance(0, 0, stored_hsp, stored_vsp) < fspec_mount_limit_grounded && !free && gh_timer > 3) // failsafe/anti-stall
 		) {
-			
+			sound_play(sound_get("sfx_per_hookend"));
 			gh_state = GRAPPLE_DISABLED;
 			gh_timer = 0;
 		}
@@ -453,7 +472,6 @@ switch gh_state {
 		
 		// venus compat
 		if (gh_versus_venus) {
-			print_debug("me when I check")
 			with (obj_article1) if ("is_venus_rune" in self) {
 				var is_on_team = (get_player_team(player) == get_player_team(other.player));
 				if (place_meeting(x, y, other)) with other {
@@ -474,6 +492,7 @@ switch gh_state {
 					hitstun = (is_on_team) ? 5 : 25;
 					hitstun_full = hitstun;
 					
+					sound_play(sound_get("sfx_per_hookend"));
 					gh_state = GRAPPLE_DISABLED;
 					gh_timer = 0;
 					

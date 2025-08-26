@@ -17,9 +17,9 @@ nspec_max_drones = has_rune("C") ? 3 : 2;
 nspec_drone_cd_max = 180;
 
 fspec_init_hsp = 25;
-fspec_active_decel_factor = 1/12; // grapple hook velocity reduced by this * gh_timer each frame while active
-fspec_return_vel_factor = 2/3;    // grapple hook velocity set to this * gh_timer each frame while returning
-fspec_player_mount_accel = 0.8;   // player velocity increased by this each frame while moving toward a grappled player
+fspec_active_decel_factor = 0.1; // grapple hook velocity reduced by this * gh_timer each frame while active
+fspec_return_vel_factor = 2;    // grapple hook velocity set to this * gh_timer each frame while returning
+fspec_player_mount_accel = 0.6;   // player velocity increased by this each frame while moving toward a grappled player
 fspec_object_mount_accel = 0.6;   // player velocity increased by this each frame while moving toward an article or wall
 
 fspec_mount_limit_grounded = 2; // absolute ninimum sfec speed while grounded and moving towards article or wall. enforced even before min_time has elapsed. More of a failsafe, really.

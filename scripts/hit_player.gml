@@ -22,6 +22,8 @@ if (!hit_player_obj.clone) {
 
 // FSpec grapple
 if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR) && attack == AT_FSPECIAL) {
+	
+	
 	gh_state = GRAPPLE_PLAYER_MOUNTED;
 	gh_timer = 0;
 	gh_target = hit_player_obj;
@@ -39,7 +41,7 @@ if (atk == AT_FSPECIAL && hbox == 1 && (state == PS_ATTACK_GROUND || state == PS
 	vsp = 0;
 	
 	// djumps = 0; // reset djumps //you are fucked up and evil
-	//sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
+	sound_play(sound_get("sfx_per_hookhit_2"), false, noone, 0.9, 1.05);
 }
 
 

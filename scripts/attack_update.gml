@@ -229,6 +229,8 @@ switch(attack) {
     
     case AT_FSPECIAL:
 		
+		move_cooldown[AT_FSPECIAL] = 30;
+		
     	if (window < 4) {
     		can_fast_fall = false;
     		if (vsp > 2.5) vsp = 2.5;
@@ -351,14 +353,41 @@ switch(attack) {
         	case 6:
         		can_move = false;
         		can_fast_fall = false;
+        		
+        		can_attack = true;
+		    	can_special = true;
+		    	can_shield = free; // so as to only permit air dodging
+		    	can_strong = true;
+		    	can_ustrong = true;
+		    	can_jump = true;
+        		
         		if (gh_state == GRAPPLE_DISABLED) {
-        			vsp = 0;
-        			hsp = 2 * spr_dir;
-        			window = 7;
-        			window_timer = 0;
+        			if (vsp > -4 && free) vsp = -4;
+        			set_state(free ? PS_IDLE_AIR : PS_IDLE);
+        			hsp = 3 * spr_dir;
+        			//vsp = 0;
+        			//window = 7;
+        			//window_timer = 0;
         		}
+        		
+        		// slide behavior
+        		else if (!free) {
+        			
+        			// fspec_used will implicitly refresh via update.gml
+        			
+        			if (get_gameplay_time() % 3 == 0) spawn_base_dust(x, y, "dash");
+        			
+        			// grounded air dodge (mainly for wavedashes)
+        			if (shield_pressed) {
+        				clear_button_buffer(PC_SHIELD_PRESSED);
+        				set_state(PS_AIR_DODGE);
+        			}
+        			
+        		}
+        		
         		break;
         	
+        	// NOTE: Player grapple is deprecated
         	// Player grapple: attack startup
         	case 7:
         		if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) vsp = -8;

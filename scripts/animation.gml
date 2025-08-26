@@ -68,7 +68,7 @@ if (state == PS_CROUCH && ccrouch_phase == 1) {
 
 
 // FSpecial
-if (attack == AT_FSPECIAL && window == 5 && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
+if (attack == AT_FSPECIAL && (window == 5 || window == 6) && (state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)) {
 	
 	sprite_index = sprite_get(parachute_active ? "fspec_swing_strap" : "fspec_swing");
 	

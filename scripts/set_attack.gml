@@ -31,7 +31,7 @@ if (attack == AT_NSPECIAL && nspec_drone_cd >= nspec_max_drones*nspec_drone_cd_m
 
 // Air attack limits
 if (attack == AT_USPECIAL && uspec_used) move_cooldown[AT_USPECIAL] = 2;
-if (attack == AT_FSPECIAL && (fspec_used || gh_state != 0)) move_cooldown[AT_FSPECIAL] = 2;
+if (attack == AT_FSPECIAL && (fspec_used || gh_state != 0)) move_cooldown[AT_FSPECIAL] = max(2, move_cooldown[AT_FSPECIAL]);
 if (attack == AT_DSPECIAL_AIR && dspec_used) move_cooldown[AT_DSPECIAL_AIR] = 2;
 
 // Alternate attack handling (Runes I, J)
