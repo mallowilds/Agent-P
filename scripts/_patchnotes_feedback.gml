@@ -29,6 +29,14 @@ Changes (1.1, 3/30/24):
 
 
 v2.0
+
+
+// Fixes to consistency issues.
++ DTilt's main hit now has higher priority
++ FStrong multihits now force flinch
++ FStrong multihit angle 40 -> 30
++ FStrong multihit lerp 0.4 -> 0.5
+
 // FSpecial felt really committal and zoner-ish before, so it's being taken in a new direction.
 - FSpecial no longer places opponents into hitstun
 - FSpecial follow-up hit removed
