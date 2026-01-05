@@ -24,7 +24,7 @@ alt_info[3,0] = get_color_slot_hex(3, 1);
 alt_info[3,1] = "Agent T";
 
 alt_info[4,0] = get_color_slot_hex(4, 1);
-alt_info[4,1] = "Agent N";
+alt_info[4,1] = "Agent D";
 
 alt_info[5,0] = get_color_slot_hex(5, 1);
 alt_info[5,1] = "Agent V";
